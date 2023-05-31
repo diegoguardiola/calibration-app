@@ -2,26 +2,23 @@
 const express = require('express')
 const app = express()
 const { Sequelize } = require('sequelize')
+const calibrationsController = require('./controllers/calibrationdata')
+
 // CONFIGURATION / MIDDLEWARE
 require('dotenv').config()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-// SEQUELIZE CONNECTION
-const sequelize = new Sequelize(process.env.PG_URI)
 
-try {
-    sequelize.authenticate() 
-    console.log(`Connected with Sequelize at ${process.env.PG_URI}`) 
-} catch(err) {
-    console.log(`Unable to connect to PG: ${err}`) 
-}
 
 // ROOT
 app.get('/', (req, res) => {
     res.status(200).json({
-        message: 'Welcome to the Tour API'
+        message: 'Welcome to the calibrations API'
     })
 })
+
+// CONTROLLERS
+app.use('/calibrations', calibrationsController)
 
 // LISTEN
 app.listen(process.env.PORT, () => {
