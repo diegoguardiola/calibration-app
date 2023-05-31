@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      calibration_id: {
-        type: Sequelize.INTEGER
-      },
       clientName: {
         type: Sequelize.STRING,
         allowNull: true

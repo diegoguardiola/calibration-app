@@ -3,8 +3,10 @@ const express = require('express')
 const app = express()
 const { Sequelize } = require('sequelize')
 const calibrationsController = require('./controllers/calibrationdata')
+var cors = require('cors')
 
 // CONFIGURATION / MIDDLEWARE
+app.use(cors())
 require('dotenv').config()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

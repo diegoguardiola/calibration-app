@@ -7,4 +7,9 @@ sequelize db:migrate
 //sql view data
 SELECT * FROM public."CalibrationData"
 LIMIT 100
-
+//changing DB 
+Once you've corrected the migration, you'll need to undo the last migration using Sequelize CLI with sequelize 
+db:migrate:undo
+then re-run the migration with 
+sequelize db:migrate 
+If you have critical data in your database, make sure to back it up before undoing any migrations.

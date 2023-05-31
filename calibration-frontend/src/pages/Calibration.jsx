@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
+
 const Calibration = () => {
+
+
     const [clientInformation, setClientInformation] = useState({
         clientName: '',
         clientAddress: '',
@@ -25,13 +28,17 @@ const Calibration = () => {
     }])
     
     const handleInputChange = (e, index) => {
-        setClientInformation({ ...clientInformation, [e.target.name]: e.target.value });
-        setEquipmentInformation({ ...equipmentInformation, [e.target.name]: e.target.value });
-        const { name, value } = e.target;
-        const updatedInputSets = [...inputSets];
-        updatedInputSets[index][name] = value;
-        setInputSets(updatedInputSets);
-    };
+        const { name, value, id } = e.target;
+        if (id.includes("client") || id.includes("point")) {
+            setClientInformation({ ...clientInformation, [name]: value });
+        } else if (id.includes("equipment") || id.includes("calibration")) {
+            setEquipmentInformation({ ...equipmentInformation, [name]: value });
+        } else {
+            const updatedInputSets = [...inputSets];
+            updatedInputSets[index][name] = value;
+            setInputSets(updatedInputSets);
+        }
+    };    
 
     const handleAddSet = () => {
         setInputSets([...inputSets, { setpoint: '', asLeft: '', asFound: '' }]);
@@ -50,21 +57,21 @@ const Calibration = () => {
               type="text"
               name="setpoint"
               value={inputSet.setpoint}
-              onChange={(event) => handleInputChange(index, event)}
+              onChange={(event) => handleInputChange(event, index)}
               placeholder="Setpoint"
             />
             <input
               type="text"
               name="asLeft"
               value={inputSet.asLeft}
-              onChange={(event) => handleInputChange(index, event)}
+              onChange={(event) => handleInputChange(event, index)}
               placeholder="As Left"
             />
             <input
               type="text"
               name="asFound"
               value={inputSet.asFound}
-              onChange={(event) => handleInputChange(index, event)}
+              onChange={(event) => handleInputChange(event, index)}
               placeholder="As Found"
             />
             {index > 0 && (
@@ -76,10 +83,27 @@ const Calibration = () => {
         ));
     }
     
-      const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Perform any further processing or submit the form Information
-        console.log(clientInformation);
+        // Here we create an object with all the data we want to submit.
+        const data = {
+          ...clientInformation,
+          ...equipmentInformation,
+          ...inputSets[0], // If there are more than one inputSets, you need to loop through them
+        };
+        
+        await fetch('http://localhost:5000/calibrations', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+
+        resetForm();
+    };
+    
+    const resetForm = () => {
         // Reset the form
         setClientInformation({
           clientName: '',
@@ -98,7 +122,13 @@ const Calibration = () => {
         calibrationToolMN: '',
         calibrationToolSN: '',
         });
-      };
+        setInputSets([{ 
+            setpoint: '', 
+            asLeft: '', 
+            asFound: '' 
+        }])
+    }
+    
     
       return (
         <form onSubmit={handleSubmit}>
@@ -128,7 +158,7 @@ const Calibration = () => {
                 <div>
                     <label htmlFor="clientPhone">Client Phone:</label>
                     <input
-                    type="tel"
+                    type="text"
                     id="clientPhone"
                     name="clientPhone"
                     value={clientInformation.clientPhone}
@@ -168,7 +198,7 @@ const Calibration = () => {
                     type="text"
                     id="calibrationType"
                     name="calibrationType"
-                    value={clientInformation.calibrationType}
+                    value={equipmentInformation.calibrationType}
                     onChange={handleInputChange}
                     required
                     />
@@ -179,7 +209,7 @@ const Calibration = () => {
                     type="text"
                     id="equipmentManufacturer"
                     name="equipmentManufacturer"
-                    value={clientInformation.equipmentManufacturer}
+                    value={equipmentInformation.equipmentManufacturer}
                     onChange={handleInputChange}
                     required
                     />
@@ -190,7 +220,7 @@ const Calibration = () => {
                     type="text"
                     id="equipmentModelNumber"
                     name="equipmentModelNumber"
-                    value={clientInformation.equipmentModelNumber}
+                    value={equipmentInformation.equipmentModelNumber}
                     onChange={handleInputChange}
                     required
                     />
@@ -201,7 +231,7 @@ const Calibration = () => {
                     type="text"
                     id="equipmentSerialNumber"
                     name="equipmentSerialNumber"
-                    value={clientInformation.equipmentSerialNumber}
+                    value={equipmentInformation.equipmentSerialNumber}
                     onChange={handleInputChange}
                     required
                     />
@@ -212,7 +242,7 @@ const Calibration = () => {
                     type="text"
                     id="calibrationToolUsed"
                     name="calibrationToolUsed"
-                    value={clientInformation.calibrationToolUsed}
+                    value={equipmentInformation.calibrationToolUsed}
                     onChange={handleInputChange}
                     required
                     />
@@ -223,7 +253,7 @@ const Calibration = () => {
                     type="text"
                     id="calibrationToolManufacturer"
                     name="calibrationToolManufacturer"
-                    value={clientInformation.calibrationToolManufacturer}
+                    value={equipmentInformation.calibrationToolManufacturer}
                     onChange={handleInputChange}
                     required
                     />
@@ -234,7 +264,7 @@ const Calibration = () => {
                     type="text"
                     id="calibrationToolMN"
                     name="calibrationToolMN"
-                    value={clientInformation.calibrationToolMN}
+                    value={equipmentInformation.calibrationToolMN}
                     onChange={handleInputChange}
                     required
                     />
@@ -245,7 +275,7 @@ const Calibration = () => {
                     type="text"
                     id="calibrationbToolSN"
                     name="calibrationbToolSN"
-                    value={clientInformation.calibrationbToolSN}
+                    value={equipmentInformation.calibrationbToolSN}
                     onChange={handleInputChange}
                     required
                     />
