@@ -9,79 +9,43 @@ const Calibration = () => {
         clientAddress: '',
         clientPhone: '',
         clientEmail: '',
-        pointOfContact: '',
     });
     const [equipmentInformation, setEquipmentInformation] = useState({
+        equipmentId: '',
         calibrationType: '',
         equipmentManufacturer: '',
         equipmentModelNumber: '',
         equipmentSerialNumber: '',
-        calibrationToolUsed: '',
+        equipmentTolerance: '',
+        unit: '',
+    });
+    const [calibrationInformation, setCalibrationInformation] = useState({
+        calibrationProcedure: '',
+        calibrationToolId: '',
         calibrationToolManufacturer: '',
         calibrationToolMN: '',
-        calibrationToolSN: ''
+        calibrationToolSN: '',
     });
-    const [inputSets, setInputSets] = useState([{ 
-        setpoint: '', 
-        asLeft: '', 
-        asFound: '' 
+    const [results, setResults] = useState([{ 
+        setpoint1: '',
+        setpoint2: '',
+        setpoint3: '',
+        asLeft1: '',
+        asLeft2: '',
+        asLeft3: '',
+        asFound1: '',
+        asFound2: '',
+        asFound3: '',
     }])
     
-    const handleInputChange = (e, index) => {
-        const { name, value, id } = e.target;
-        if (id.includes("client") || id.includes("point")) {
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
             setClientInformation({ ...clientInformation, [name]: value });
-        } else if (id.includes("equipment") || id.includes("calibration")) {
             setEquipmentInformation({ ...equipmentInformation, [name]: value });
-        } else {
-            const updatedInputSets = [...inputSets];
-            updatedInputSets[index][name] = value;
-            setInputSets(updatedInputSets);
-        }
-    };    
+            setCalibrationInformation({ ...calibrationInformation, [name]: value });
+            setResults({ ...results, [name]: value });  
+        };    
 
-    const handleAddSet = () => {
-        setInputSets([...inputSets, { setpoint: '', asLeft: '', asFound: '' }]);
-    };
-    
-    const handleRemoveSet = (index) => {
-        const updatedInputSets = [...inputSets];
-        updatedInputSets.splice(index, 1);
-        setInputSets(updatedInputSets);
-    };
-
-    const renderInputSets = () => {
-        return inputSets.map((inputSet, index) => (
-          <div key={index}>
-            <input
-              type="text"
-              name="setpoint"
-              value={inputSet.setpoint}
-              onChange={(event) => handleInputChange(event, index)}
-              placeholder="Setpoint"
-            />
-            <input
-              type="text"
-              name="asLeft"
-              value={inputSet.asLeft}
-              onChange={(event) => handleInputChange(event, index)}
-              placeholder="As Left"
-            />
-            <input
-              type="text"
-              name="asFound"
-              value={inputSet.asFound}
-              onChange={(event) => handleInputChange(event, index)}
-              placeholder="As Found"
-            />
-            {index > 0 && (
-              <button type="button" onClick={() => handleRemoveSet(index)}>
-                Remove
-              </button>
-            )}
-          </div>
-        ));
-    }
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -89,7 +53,7 @@ const Calibration = () => {
         const data = {
           ...clientInformation,
           ...equipmentInformation,
-          ...inputSets[0], // If there are more than one inputSets, you need to loop through them
+          ...results
         };
         
         await fetch('http://localhost:5000/calibrations', {
@@ -106,27 +70,37 @@ const Calibration = () => {
     const resetForm = () => {
         // Reset the form
         setClientInformation({
-          clientName: '',
-          clientAddress: '',
-          clientPhone: '',
-          clientEmail: '',
-          pointOfContact: '',
+            clientName: '',
+            clientAddress: '',
+            clientPhone: '',
+            clientEmail: '',
         });
         setEquipmentInformation({
-        calibrationType: '',
-        equipmentManufacturer: '',
-        equipmentModelNumber: '',
-        equipmentSerialNumber: '',
-        calibrationToolUsed: '',
-        calibrationToolManufacturer: '',
-        calibrationToolMN: '',
-        calibrationToolSN: '',
+            equipmentId: '',
+            equipmentManufacturer: '',
+            equipmentModelNumber: '',
+            equipmentSerialNumber: '',
+            equipmentTolerance: '',
+            unit: '',
         });
-        setInputSets([{ 
-            setpoint: '', 
-            asLeft: '', 
-            asFound: '' 
-        }])
+        setCalibrationInformation({
+            calibrationProcedure: '',
+            calibrationToolId: '',
+            calibrationToolManufacturer: '',
+            calibrationToolMN: '',
+            calibrationToolSN: '',
+        });
+        setResults({ 
+            setpoint1: '',
+            setpoint2: '',
+            setpoint3: '',
+            asLeft1: '',
+            asLeft2: '',
+            asLeft3: '',
+            asFound1: '',
+            asFound2: '',
+            asFound3: '',
+        })
     }
     
     
@@ -177,28 +151,17 @@ const Calibration = () => {
                     required
                     />
                 </div>
-                <div>
-                    <label htmlFor="pointOfContact">Point of Contact:</label>
-                    <input
-                    type="text"
-                    id="pointOfContact"
-                    name="pointOfContact"
-                    value={clientInformation.pointOfContact}
-                    onChange={handleInputChange}
-                    required
-                    />
-                </div>
             </div>
             <br />
             <br />
             <div className='Equipment_Information'>
                 <div>
-                    <label htmlFor="calibrationType">Calibration Type:</label>
+                    <label htmlFor="equipmentId">Equipment ID:</label>
                     <input
                     type="text"
-                    id="calibrationType"
-                    name="calibrationType"
-                    value={equipmentInformation.calibrationType}
+                    id="equipmentId"
+                    name="equipmentId"
+                    value={equipmentInformation.equipmentId}
                     onChange={handleInputChange}
                     required
                     />
@@ -237,12 +200,49 @@ const Calibration = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="calibrationToolUsed">Calibration Tool Used:</label>
+                    <label htmlFor="equipmentTolerance">Equipment Tolerance:</label>
                     <input
                     type="text"
-                    id="calibrationToolUsed"
-                    name="calibrationToolUsed"
-                    value={equipmentInformation.calibrationToolUsed}
+                    id="equipmentTolerance"
+                    name="equipmentTolerance"
+                    value={equipmentInformation.equipmentTolerance}
+                    onChange={handleInputChange}
+                    required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="unit">Unit:</label>
+                    <input
+                    type="text"
+                    id="unit"
+                    name="unit"
+                    value={equipmentInformation.unit}
+                    onChange={handleInputChange}
+                    required
+                    />
+                </div>
+            </div>
+            <br />
+            <br />
+            <div className='Calibration_Information'>
+                <div>
+                    <label htmlFor="calibrationProcedure">Calibration Procedure:</label>
+                    <input
+                    type="text"
+                    id="calibrationProcedure"
+                    name="calibrationProcedure"
+                    value={calibrationInformation.calibrationProcedure}
+                    onChange={handleInputChange}
+                    required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="calibrationToolId">Calibration Tool ID:</label>
+                    <input
+                    type="text"
+                    id="calibrationToolId"
+                    name="calibrationToolId"
+                    value={calibrationInformation.calibrationToolId}
                     onChange={handleInputChange}
                     required
                     />
@@ -253,7 +253,7 @@ const Calibration = () => {
                     type="text"
                     id="calibrationToolManufacturer"
                     name="calibrationToolManufacturer"
-                    value={equipmentInformation.calibrationToolManufacturer}
+                    value={calibrationInformation.calibrationToolManufacturer}
                     onChange={handleInputChange}
                     required
                     />
@@ -264,18 +264,18 @@ const Calibration = () => {
                     type="text"
                     id="calibrationToolMN"
                     name="calibrationToolMN"
-                    value={equipmentInformation.calibrationToolMN}
+                    value={calibrationInformation.calibrationToolMN}
                     onChange={handleInputChange}
                     required
                     />
                 </div>
                 <div>
-                    <label htmlFor="calibrationbToolSN">Calibration Tool Serial Number:</label>
+                    <label htmlFor="calibrationToolSN">Calibration Tool Serial Number:</label>
                     <input
                     type="text"
-                    id="calibrationbToolSN"
-                    name="calibrationbToolSN"
-                    value={equipmentInformation.calibrationbToolSN}
+                    id="calibrationToolSN"
+                    name="calibrationToolSN"
+                    value={calibrationInformation.calibrationToolSN}
                     onChange={handleInputChange}
                     required
                     />
@@ -283,11 +283,94 @@ const Calibration = () => {
             </div>
             <br />
             <br />
-            <div className='Calibration_Information'>
-                {renderInputSets()}
-                <button type="button" onClick={handleAddSet}>
-                Add
-                </button>
+            <div className='Result_Information'>
+                <div>
+                    <label htmlFor="setpoint1">Setpoint 1:</label>
+                    <input
+                    type="text"
+                    id="setpoint1"
+                    name="setpoint1"
+                    value={results.setpoint1}
+                    onChange={handleInputChange}
+                    required
+                    />
+                    <label htmlFor="asLeft1">As Left 1:</label>
+                    <input
+                    type="text"
+                    id="asLeft1"
+                    name="asLeft1"
+                    value={results.asLeft1}
+                    onChange={handleInputChange}
+                    required
+                    />
+                    <label htmlFor="asFound1">As Fount 1:</label>
+                    <input
+                    type="text"
+                    id="asFound1"
+                    name="asFound1"
+                    value={results.asFound1}
+                    onChange={handleInputChange}
+                    required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="setpoint2">Setpoint 2:</label>
+                    <input
+                    type="text"
+                    id="setpoint2"
+                    name="setpoint2"
+                    value={results.setpoint2}
+                    onChange={handleInputChange}
+                    required
+                    />
+                    <label htmlFor="asLeft2">As Left 2:</label>
+                    <input
+                    type="text"
+                    id="asLeft2"
+                    name="asLeft2"
+                    value={results.asLeft2}
+                    onChange={handleInputChange}
+                    required
+                    />
+                    <label htmlFor="asFound2">As Fount 2:</label>
+                    <input
+                    type="text"
+                    id="asFound2"
+                    name="asFound2"
+                    value={results.asFound2}
+                    onChange={handleInputChange}
+                    required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="setpoint3">Setpoint 3:</label>
+                    <input
+                    type="text"
+                    id="setpoint3"
+                    name="setpoint3"
+                    value={results.setpoint3}
+                    onChange={handleInputChange}
+                    required
+                    />
+                    <label htmlFor="asLeft3">As Left 3:</label>
+                    <input
+                    type="text"
+                    id="asLeft3"
+                    name="asLeft3"
+                    value={results.asLeft3}
+                    onChange={handleInputChange}
+                    required
+                    />
+                    <label htmlFor="asFound3">As Fount 3:</label>
+                    <input
+                    type="text"
+                    id="asFound3"
+                    name="asFound3"
+                    value={results.asFound3}
+                    onChange={handleInputChange}
+                    required
+                    />
+                </div>
             </div>
             <br />
              <br />
