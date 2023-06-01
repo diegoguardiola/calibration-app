@@ -14,79 +14,35 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   CalibrationData.init({
-    calibration_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    clientName: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    clientAddress: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    clientPhone: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    clientEmail: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    calibrationType: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    equipmentManufacturer: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    equipmentModelNumber: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    equipmentSerialNumber: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    calibrationToolUsed: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    calibrationToolManufacturer: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    calibrationToolMN: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    calibrationToolSN: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    setpoint: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    asLeft: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    },
-    asFound: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
-    }
-}, {
-    
-        sequelize, 
-        modelName: 'CalibrationData',
-        tableName: 'CalibrationData',
-        timestamps: true,     
-})
-
-//Export
-return CalibrationData;
+    calibration_id: DataTypes.INTEGER,
+    clientName: DataTypes.STRING,
+    clientAddress: DataTypes.STRING,
+    clientPhone: DataTypes.STRING,
+    clientEmail: DataTypes.STRING,
+    equipmentId: DataTypes.STRING,
+    equipmentManufacturer: DataTypes.STRING,
+    equipmentModelNumber: DataTypes.STRING,
+    equipmentSerialNumber: DataTypes.STRING,
+    equipmentTolerance: DataTypes.STRING,
+    unit: DataTypes.STRING,
+    calibrationProcedure: DataTypes.STRING,
+    calibrationToolId: DataTypes.STRING,
+    calibrationToolManufacturer: DataTypes.STRING,
+    calibrationToolMN: DataTypes.STRING,
+    calibrationToolSN: DataTypes.STRING,
+    setpoint1: DataTypes.STRING,
+    setpoint2: DataTypes.STRING,
+    setpoint3: DataTypes.STRING,
+    asLeft1: DataTypes.STRING,
+    asLeft2: DataTypes.STRING,
+    asLeft3: DataTypes.STRING,
+    asFound1: DataTypes.STRING,
+    asFound2: DataTypes.STRING,
+    asFound3: DataTypes.STRING,
+    calibrationTech: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'CalibrationData',
+  });
+  return CalibrationData;
 };
