@@ -14,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   CalibrationData.init({
-    calibration_id: DataTypes.INTEGER,
+    calibration_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+    },
     clientName: DataTypes.STRING,
     clientAddress: DataTypes.STRING,
     clientPhone: DataTypes.STRING,
@@ -43,6 +47,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'CalibrationData',
+    tableName: 'calibration_data',
+    timestamps: true
   });
   return CalibrationData;
 };
