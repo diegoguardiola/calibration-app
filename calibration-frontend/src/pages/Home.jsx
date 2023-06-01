@@ -11,34 +11,34 @@ const CalibrationTable = () => {
             .catch(error => console.error('Error:', error));
     }, []);
 
-  return (
-      <table>
-          <thead>
-              <tr>
-                  <th>Export</th>
-                  <th>Calibration ID</th>
-                  <th>Client Name</th>
-                  <th>Client Address</th>
-                  {/* ...other columns as needed... */}
-                  <th>As Found</th>
-              </tr>
-          </thead>
-          <tbody>
-              {calibrations.map(calibration => (
-                  <tr key={calibration.calibration_id}>
-                      <td>
-                          <button onClick={() => exportToPDF(calibration)}>Export</button>
-                      </td>
-                      <td>{calibration.calibration_id}</td>
-                      <td>{calibration.clientName}</td>
-                      <td>{calibration.clientAddress}</td>
-                      {/* ...other fields as needed... */}
-                      <td>{calibration.asFound}</td>
-                  </tr>
-              ))}
-          </tbody>
-      </table>
-  );
+    return (
+        <table className="table">
+            <thead className="thead-dark">
+                <tr>
+                    <th>Export</th>
+                    <th>Calibration ID</th>
+                    <th>Client Name</th>
+                    <th>Client Address</th>
+                    {/* ...other columns as needed... */}
+                    <th>As Found</th>
+                </tr>
+            </thead>
+            <tbody>
+                {calibrations.map(calibration => (
+                    <tr key={calibration.calibration_id}>
+                        <td>
+                            <button className="btn btn-primary" onClick={() => exportToPDF(calibration)}>Export</button>
+                        </td>
+                        <td>{calibration.calibration_id}</td>
+                        <td>{calibration.clientName}</td>
+                        <td>{calibration.clientAddress}</td>
+                        {/* ...other fields as needed... */}
+                        <td>{calibration.asFound}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
 };
 
 export default CalibrationTable;
