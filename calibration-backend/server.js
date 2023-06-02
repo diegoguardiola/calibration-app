@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const { Sequelize } = require('sequelize')
 const calibrationsController = require('./controllers/calibrationdata')
+const usersController = require('./controllers/userdata')
 var cors = require('cors')
 
 // CONFIGURATION / MIDDLEWARE
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 
 // CONTROLLERS
 app.use('/calibrations', calibrationsController)
+app.use('/users', usersController)
 
 // LISTEN
 app.listen(process.env.PORT, () => {
