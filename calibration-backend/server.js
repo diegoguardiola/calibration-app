@@ -1,30 +1,35 @@
-// DEPENDENCIES
-const express = require('express')
-const app = express()
-const { Sequelize } = require('sequelize')
-const calibrationsController = require('./controllers/calibrationdata')
-const usersController = require('./controllers/userdata')
-var cors = require('cors')
-
-// CONFIGURATION / MIDDLEWARE
+const { response, json } = require('express');
+const express = require('express');
+const app = express();
+require('dotenv/config');
+const api = process.env.API_URL;
+const userRouter = require('./routes/user')
+const calibrationRouter = require('./routes/calibration')
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const cors = require('cors')
 app.use(cors())
-require('dotenv').config()
+app.options('*', cors) 
+
+//Middleware
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(morgan('tiny'))             //displays local request
 
+//routers
+//calibrationRouter
+app.use(`${api}/user`, userRouter)
+app.use(`${api}/calibration`, calibrationRouter)
 
-// ROOT
-app.get('/', (req, res) => {
-    res.status(200).json({
-        message: 'Welcome to the calibrations API'
-    })
+mongoose.connect(process.env.PROFILE_CONNECTION)
+.then(() => {
+    console.log('data base connection successful')
 })
+.catch((err) => {
+    console.log(err)
+})
+mongoose.set('strictQuery', false);
 
-// CONTROLLERS
-app.use('/calibrations', calibrationsController)
-app.use('/users', usersController)
-
-// LISTEN
-app.listen(process.env.PORT, () => {
-    console.log(`Running port: ${process.env.PORT}`)
+app.listen(5000, () => {
+    console.log(api);
+    console.log('server running');
 })

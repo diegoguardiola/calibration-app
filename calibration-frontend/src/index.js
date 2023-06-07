@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { CalibrationContextProvider } from './context/CalibrationContext';
+import { AuthContextProvider } from './context/AuthContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthContextProvider>
+      <CalibrationContextProvider>
+        <App />
+      </CalibrationContextProvider>
+    </AuthContextProvider>
   </React.StrictMode>
 );
 

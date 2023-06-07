@@ -1,15 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { exportToPDF } from '../components/ExportToPDF';
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useCalibrationContext } from "../hooks/useCalibrationContext";
 
-const CalibrationTable = () => {
+
+
+const Home = () => {
+
+    const {user} = useAuthContext()
+    const {calibration, dispatch} = useCalibrationContext()
+
     const [calibrations, setCalibrations] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/calibrations')
-            .then(response => response.json())
-            .then(data => setCalibrations(data))
-            .catch(error => console.error('Error:', error));
-    }, []);
+        const fetchCalibrations = async () => {
+            const response = await fetch('http://localhost:5000/c1_1/secrets/',{
+                headers: {'Authorization': `Bearer ${user.token}`},
+      })
+      const json = await response.json()
+
+      if (response.ok) {
+        dispatch({type: 'SET_WORKOUTS', payload: json})
+      }
+    }
+      
+    if (user) {
+        fetchCalibrations()
+      }
+    }, [dispatch, user])
+     
+
+
 
     return (
         <table className="table">
@@ -41,4 +62,4 @@ const CalibrationTable = () => {
     );
 };
 
-export default CalibrationTable;
+export default Home;
