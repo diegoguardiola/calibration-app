@@ -74,7 +74,8 @@ const getCalibrations = async (req, res) => {
         asFound1,
         asFound2,
         asFound3,
-        calibrationTech
+        calibrationTech,
+        user_id
       });
       res.status(200).json(calibrationData);
     } catch (error) {

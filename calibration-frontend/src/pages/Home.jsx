@@ -4,23 +4,20 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useCalibrationContext } from "../hooks/useCalibrationContext";
 
 
-
 const Home = () => {
 
     const {user} = useAuthContext()
-    const {calibration, dispatch} = useCalibrationContext()
-
-    const [calibrations, setCalibrations] = useState([]);
+    const {calibrations, dispatch} = useCalibrationContext()
 
     useEffect(() => {
         const fetchCalibrations = async () => {
-            const response = await fetch('http://localhost:5000/c1_1/secrets/',{
+            const response = await fetch('http://localhost:5000/c1_1/calibration',{
                 headers: {'Authorization': `Bearer ${user.token}`},
       })
       const json = await response.json()
 
       if (response.ok) {
-        dispatch({type: 'SET_WORKOUTS', payload: json})
+        dispatch({type: 'SET_CALIBRATIONS', payload: json})
       }
     }
       
@@ -45,7 +42,7 @@ const Home = () => {
                 </tr>
             </thead>
             <tbody>
-                {calibrations.map(calibration => (
+                {calibrations?.map(calibration => (
                     <tr key={calibration.calibration_id}>
                         <td>
                             <button className="btn btn-primary" onClick={() => exportToPDF(calibration)}>Export</button>

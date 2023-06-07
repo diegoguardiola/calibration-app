@@ -27,7 +27,11 @@ const CalibrationDataSchema = new mongoose.Schema({
   asFound1: String,
   asFound2: String,
   asFound3: String,
-  calibrationTech: String
+  calibrationTech: String,
+  user_id: {
+    type: String,
+    required: true
+  }
 }, { timestamps: true })
 
 const CalibrationData = mongoose.model('CalibrationData', CalibrationDataSchema);

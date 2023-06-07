@@ -3,8 +3,8 @@ import { useAuthContext } from '../hooks/useAuthContext'
 
 // date fns
 
-const CalibrationDetails = ({ workout }) => {
-  const { dispatch } = useWorkoutsContext()
+const CalibrationDetails = ({ calibration  }) => {
+  const { dispatch } = useCalibrationContext()
   const { user } = useAuthContext()
 
   const handleClick = async () => {
@@ -12,7 +12,7 @@ const CalibrationDetails = ({ workout }) => {
       return
     }
 
-    const response = await fetch('http://localhost:5000/c1_1/calibration' + workout._id, {
+    const response = await fetch('http://localhost:5000/c1_1/calibration' + calibration._id, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${user.token}`
@@ -21,16 +21,15 @@ const CalibrationDetails = ({ workout }) => {
     const json = await response.json()
 
     if (response.ok) {
-      dispatch({type: 'DELETE_WORKOUT', payload: json})
+      dispatch({type: 'DELETE_CALIBRATION', payload: json})
     }
   }
 
   return (
-    <div className="workout-details">
-      <h4>{workout.title}</h4>
-      <p><strong>Load (kg): </strong>{workout.load}</p>
-      <p><strong>Reps: </strong>{workout.reps}</p>
-      <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
+    <div className="calibration-details">
+      <h4>{calibration.title}</h4>
+      <p><strong>Load (kg): </strong>{calibration .load}</p>
+      <p><strong>Reps: </strong>{calibration .reps}</p>
       <span className="material-symbols-outlined" onClick={handleClick}>delete</span>
     </div>
   )
