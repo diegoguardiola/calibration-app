@@ -36,9 +36,10 @@ const Home = () => {
                     <th>Export</th>
                     <th>Calibration ID</th>
                     <th>Client Name</th>
-                    <th>Client Address</th>
-                    {/* ...other columns as needed... */}
-                    <th>As Found</th>
+                    <th>Calibration Procedure</th>
+                    <th>Calibration Created At</th>
+
+                    
                 </tr>
             </thead>
             <tbody>
@@ -49,9 +50,8 @@ const Home = () => {
                         </td>
                         <td>{calibration.calibration_id}</td>
                         <td>{calibration.clientName}</td>
-                        <td>{calibration.clientAddress}</td>
-                        {/* ...other fields as needed... */}
-                        <td>{calibration.asFound}</td>
+                        <td>{calibration.calibrationProcedure}</td>
+                        <td>{calibration.createdAt}</td>
                     </tr>
                 ))}
             </tbody>

@@ -28,6 +28,7 @@ const getCalibrations = async (req, res) => {
       equipmentSerialNumber,
       equipmentTolerance,
       unit,
+      calibrationMethod,
       calibrationProcedure,
       calibrationToolId,
       calibrationToolManufacturer,
@@ -42,6 +43,9 @@ const getCalibrations = async (req, res) => {
       asFound1,
       asFound2,
       asFound3,
+      comments,
+      dateOfCalibration,
+      calibrationDueDate,
       calibrationTech
     } = req.body;
     
@@ -60,6 +64,7 @@ const getCalibrations = async (req, res) => {
         equipmentSerialNumber,
         equipmentTolerance,
         unit,
+        calibrationMethod,
         calibrationProcedure,
         calibrationToolId,
         calibrationToolManufacturer,
@@ -74,6 +79,9 @@ const getCalibrations = async (req, res) => {
         asFound1,
         asFound2,
         asFound3,
+        comments,
+        dateOfCalibration,
+        calibrationDueDate,
         calibrationTech,
         user_id
       });

@@ -13,6 +13,7 @@ const CalibrationDataSchema = new mongoose.Schema({
   equipmentSerialNumber: String,
   equipmentTolerance: String,
   unit: String,
+  calibrationMethod: String,
   calibrationProcedure: String,
   calibrationToolId: String,
   calibrationToolManufacturer: String,
@@ -27,6 +28,9 @@ const CalibrationDataSchema = new mongoose.Schema({
   asFound1: String,
   asFound2: String,
   asFound3: String,
+  comments: String,
+  dateOfCalibration: Date,
+  calibrationDueDate: Date,
   calibrationTech: String,
   user_id: {
     type: String,

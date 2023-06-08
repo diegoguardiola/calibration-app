@@ -91,6 +91,7 @@ export const exportToPDF = (calibration) => {
             ['Model Number', calibration.equipmentModelNumber],
             ['Serial Number', calibration.equipmentSerialNumber],
             ['Tolerance', calibration.equipmentTolerance],
+            ['Unit', calibration.unit],
         ],
         headStyles: {
             fontSize: 10,
@@ -113,6 +114,7 @@ export const exportToPDF = (calibration) => {
         margin: { left: 125 },
         head: [[{ content: "Equipment Information", colSpan: 2 }]],
         body: [
+            ['Calibration Method', calibration.calibrationMethod],
             ['Calibration Procedure', calibration.calibrationProcedure],
             ['Calibration Tool Id', calibration.calibrationToolId],
             ['Manufacturer', calibration.calibrationToolManufacturer],
@@ -167,30 +169,30 @@ export const exportToPDF = (calibration) => {
         });
 
         // Calibration Results
-     doc.autoTable({
-        startY: 94,
-        head: [[{ content: "{Procedure} – (Method}", colSpan: 3 }]],
-        body: [
-            ['Setpoint', 'As Found', 'As Left'],
-            [calibration.setpoint1, calibration.asFound1, calibration.asLeft1],
-            [calibration.setpoint2, calibration.asFound2, calibration.asLeft2],
-            [calibration.setpoint3, calibration.asFound3, calibration.asLeft3],
-        ],
-        headStyles: {
-            fontSize: 10,
-            cellPadding: 0.3,
-            fillColor: [255, 255, 255], 
-            textColor: [0, 0, 0],
-            halign: 'center',
-        },
-        bodyStyles: {
-            fontSize: 8, 
-            cellPadding: 0.2,
-            halign: 'center',
-        },
-        
-        tableWidth: 170,
-    });
+        doc.autoTable({
+            startY: 94,
+            head: [['Setpoint', 'As Found', 'As Left']],
+            body: [
+                
+                [calibration.setpoint1, calibration.asFound1, calibration.asLeft1],
+                [calibration.setpoint2, calibration.asFound2, calibration.asLeft2],
+                [calibration.setpoint3, calibration.asFound3, calibration.asLeft3],
+            ],
+            headStyles: {
+                fontSize: 9,
+                cellPadding: 0.3,
+                fillColor: [255, 255, 255], 
+                textColor: [0, 0, 0],
+                halign: 'center',
+            },
+            bodyStyles: {
+                fontSize: 8, 
+                cellPadding: 0.2,
+                halign: 'center',
+            },
+            
+            tableWidth: 170,
+        });
 
     //Pass/Fail Statements
     const textWidth = 365; // Desired width for text wrapping
@@ -224,7 +226,7 @@ export const exportToPDF = (calibration) => {
         startY: 140,
         head: [["Comments"]],
         body: [
-            [''],
+            [calibration.comments],
         ].map(item => [item]), // Wrapping each item in another array
         headStyles: {
             fontSize: 9,
@@ -234,6 +236,7 @@ export const exportToPDF = (calibration) => {
             textColor: [0, 0, 0] 
         },
         bodyStyles: {
+            fontSize: 8,
             cellPadding: 0.2,
             lineWidth: 0.5, // specify the line width for the table body
             lineColor: [0, 0, 225],
@@ -258,10 +261,9 @@ export const exportToPDF = (calibration) => {
         startY: 175,
         head: [[{ content: "", colSpan: 6 }]],
         body: [
-            ['Calibration Technician', calibration.calibrationTech, 'Technician Signature', '___________________', 'Date of Calibration', calibration.createdAt],
-            ['', '', '', '', 'Calibration Interval', '-------'],
-            ['Reviewed By', '', 'Reviewer Signature', '___________________', 'Calibration Due Date', '-------'],
-            ['', '', '', '', 'Date Cert Issued', '-------'],
+            ['Calibration Technician', calibration.calibrationTech, 'Technician Signature', '___________________', 'Date of Calibration', calibration.dateOfCalibration],
+            ['Reviewed By', '', 'Reviewer Signature', '___________________', 'Calibration Due Date', calibration.calibrationDueDate],
+            ['', '', '', '', 'Date Cert Issued',  calibration.createdAt],
         ],
         headStyles: {
             fontSize: 10,
