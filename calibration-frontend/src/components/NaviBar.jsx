@@ -17,9 +17,6 @@ function Navigation() {
                 <Link className="navbar-brand" to="/">
                     Home
                 </Link>
-                <Link className="navbar-brand" to="/po">
-                    PO
-                </Link>
                 <Link className="navbar-brand" to="/calibration">
                     Calibration
                 </Link>

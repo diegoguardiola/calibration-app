@@ -4,7 +4,6 @@ import { useAuthContext } from './hooks/useAuthContext'
 // pages & components
 import Navibar from './components/NaviBar';
 import Home from './pages/Home';
-import PO from './pages/PO';
 import Calibration from './pages/Calibration';
 import SignUpForm from './pages/SignUpForm';
 import LoginForm from './pages/LoginForm';
@@ -24,8 +23,10 @@ const App = () => {
               path="/" 
               element={user ? <Home /> : <Navigate to="/login" />}
             />
-            <Route path="/po" element={<PO />} />
-            <Route path="/calibration" element={<Calibration />} />
+            <Route 
+              path="/calibration" 
+              element={user ? <Calibration /> : <Navigate to="/login" />}
+            />
             <Route
               path="/login" 
               element={!user ? <LoginForm /> : <Navigate to="/" />} 
