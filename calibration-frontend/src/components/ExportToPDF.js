@@ -256,14 +256,21 @@ export const exportToPDF = (calibration) => {
         tableWidth: 180,
     });
 
+    // Convert the date format
+    const dateParts = calibration.dateOfCalibration.split("T")[0].split("-");
+    const formattedDateofCalibration = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
+    const dateParts2 = calibration.calibrationDueDate.split("T")[0].split("-");
+    const formattedCalibrationDueDate = `${dateParts2[0]}-${dateParts2[1]}-${dateParts2[2]}`;
+    const dateParts3 = calibration.createdAt.split("T")[0].split("-");
+    const formattedCalibrationCreatedAt = `${dateParts3[0]}-${dateParts3[1]}-${dateParts3[2]}`;
      // Sign Off
      doc.autoTable({
         startY: 175,
         head: [[{ content: "", colSpan: 6 }]],
         body: [
-            ['Calibration Technician', calibration.calibrationTech, 'Technician Signature', '___________________', 'Date of Calibration', calibration.dateOfCalibration],
-            ['Reviewed By', '', 'Reviewer Signature', '___________________', 'Calibration Due Date', calibration.calibrationDueDate],
-            ['', '', '', '', 'Date Cert Issued',  calibration.createdAt],
+            ['Calibration Technician', calibration.calibrationTech, 'Technician Signature', '___________________', 'Date of Calibration', formattedDateofCalibration],
+            ['', '', '', '', 'Calibration Due Date', formattedCalibrationDueDate],
+            ['Reviewed By', '', 'Reviewer Signature', '___________________', 'Date Cert Issued',   formattedCalibrationCreatedAt],
         ],
         headStyles: {
             fontSize: 10,
