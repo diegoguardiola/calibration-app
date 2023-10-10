@@ -25,7 +25,7 @@ const userSchema = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ['engineer', 'admin', 'customer'],  // Enum ensures the role must be one of the predefined values
+    enum: ['engineer', 'admin', 'client'],  // Enum ensures the role must be one of the predefined values
     default: 'user'  // Most users will have the default 'user' role
 }
 })
@@ -34,7 +34,7 @@ const userSchema = new Schema({
 userSchema.statics.signup = async function(firstName, lastName, email, password) {
 
   // validation
-  if (!firstName || !lastName || !email || !password) {
+  if (!firstName || !lastName || !email || !password || !role) {
     throw Error('All fields must be filled')
   }
   if (!validator.isEmail(email)) {
@@ -53,7 +53,7 @@ userSchema.statics.signup = async function(firstName, lastName, email, password)
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt)
 
-  const user = await this.create({ firstName, lastName, email, password: hash })
+  const user = await this.create({ firstName, lastName, email, password: hash, role })
 
   return user
 }
