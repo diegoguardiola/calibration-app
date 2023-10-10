@@ -69,12 +69,34 @@ const assignRole = async (req, res) => {
   }
 };
 
-module.exports = { signupUser, loginUser, assignRole };
+// createUser function
+const createUser = async (req, res) => {
+  const { firstName, lastName, email, password, role } = req.body;
+
+  try {
+    // Validate role
+    if (!['admin', 'user', 'otherRole'].includes(role)) {
+      throw new Error('Invalid role provided');
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+
+    // Create new user
+    const user = await User.create({ firstName, lastName, email, password, role });
+
+    // create a token
+    const token = createToken(user._id);
+
+    res.status(201).json({firstName: user.firstName, lastName: user.lastName, email, role, token});
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 
+module.exports = { signupUser, loginUser, assignRole, createUser };
 
-
-
-
-
-module.exports = { signupUser, loginUser }
