@@ -25,19 +25,55 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body
+  const { firstName, lastName, email, password, role } = req.body;
 
   try {
-    const user = await User.signup(firstName, lastName, email, password)
+    // Validate role
+    if (!['admin', 'user', 'otherRole'].includes(role)) {
+      throw new Error('Invalid role provided');
+    }
+
+    const user = await User.signup(firstName, lastName, email, password, role);
 
     // create a token
-    const token = createToken(user._id)
+    const token = createToken(user._id);
 
-    res.status(200).json({firstName: user.firstName, lastName: user.lastName, email, token}) // include firstName and lastName
+    res.status(200).json({firstName: user.firstName, lastName: user.lastName, email, role, token});
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
-}
+};
+
+// assign a role to a user
+const assignRole = async (req, res) => {
+  const { userId, newRole } = req.body;
+
+  try {
+    // Validate role
+    if (!['admin', 'user', 'otherRole'].includes(newRole)) {
+      throw new Error('Invalid role provided');
+    }
+
+    // Find user and update role
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    user.role = newRole;
+    await user.save();
+
+    res.status(200).json({ message: 'Role updated successfully', userId: user._id, newRole });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { signupUser, loginUser, assignRole };
+
+
+
+
 
 
 

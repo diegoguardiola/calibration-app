@@ -20,6 +20,8 @@ function Navigation() {
                 <Link className="navbar-brand" to="/calibration">
                     Calibration
                 </Link>
+                <Link className="navbar-brand" to="/signup">Admin</Link>
+                <button onClick={console.log(user)}>Check</button>
                 <nav>
                     {user && (
                         <div>

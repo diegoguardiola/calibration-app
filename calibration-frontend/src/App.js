@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Calibration from './pages/Calibration';
 import SignUpForm from './pages/SignUpForm';
 import LoginForm from './pages/LoginForm';
+import PrivateRoute from './routes/adminRoute';
 import 'bootstrap/dist/css/bootstrap.css';
 
 
@@ -31,10 +32,20 @@ const App = () => {
               path="/login" 
               element={!user ? <LoginForm /> : <Navigate to="/" />} 
             />
-            <Route
+            {/*<Route
               path="/signup" 
               element={!user ? <SignUpForm /> : <Navigate to="/" />}
+            />*/}
+            <Route 
+                path="/signup" 
+                element={
+                    <PrivateRoute requiredRole="admin">
+                        <SignUpForm />
+                    </PrivateRoute>
+                } 
             />
+
+
           </Routes>
         </div>
       </Router>

@@ -24,4 +24,17 @@ const requireAuth = async (req, res, next) => {
   }
 }
 
-module.exports = requireAuth
+const requireAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (user.role !== 'admin') {
+      throw new Error('Not authorized as an admin.');
+    }
+    next();
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+};
+
+
+module.exports = {requireAuth, requireAdmin}

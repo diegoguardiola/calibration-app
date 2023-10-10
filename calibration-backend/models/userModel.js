@@ -32,7 +32,7 @@ const userSchema = new Schema({
 })
 
 // static signup method
-userSchema.statics.signup = async function(firstName, lastName, email, password) {
+userSchema.statics.signup = async function(firstName, lastName, email, password, role) {
 
   // validation
   if (!firstName || !lastName || !email || !password || !role) {
