@@ -10,11 +10,10 @@ const getCalibrations = async (req, res) => {
     res.status(200).json(calibrations)
   }
   
-  // get a single workout
 
   
   
-  // create new workout
+  // create new calibration
   const createCalibrationData = async (req, res) => {
     const {
       calibration_id,
