@@ -9,7 +9,7 @@ const PrivateRoute = ({ children, requiredRole }) => {
         user && user.role === requiredRole ? (
             children
         ) : (
-            <Navigate to="/login" replace />
+            <Navigate to="/" replace />
         )
     );
 };

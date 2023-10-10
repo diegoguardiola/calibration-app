@@ -97,6 +97,32 @@ const createUser = async (req, res) => {
   }
 };
 
+// updateUserRole function
+const updateUserRole = async (req, res) => {
+  const { userId, newRole } = req.body;
 
-module.exports = { signupUser, loginUser, assignRole, createUser };
+  try {
+    // Validate role
+    if (!['admin', 'user', 'otherRole'].includes(newRole)) {
+      throw new Error('Invalid role provided');
+    }
+
+    // Find user and update role
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    user.role = newRole;
+    await user.save();
+
+    res.status(200).json({ message: 'Role updated successfully', userId: user._id, newRole });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+
+module.exports = { signupUser, loginUser, assignRole, createUser, updateUserRole };
 
