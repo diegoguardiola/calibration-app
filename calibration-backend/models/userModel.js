@@ -18,10 +18,18 @@ const userSchema = new Schema({
     required: true,
     unique: true
   },
+
   password: {
     type: String,
     required: true
-  }
+  },
+  role: {
+    type: String,
+    required: true,
+    enum: ['engineer', 'admin', 'customer'],  // Enum ensures the role must be one of the predefined values
+    default: 'user'  // Most users will have the default 'user' role
+}
+
 })
 
 // static signup method
