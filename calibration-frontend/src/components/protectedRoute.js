@@ -4,7 +4,9 @@ import { useAuthContext } from '../hooks/useAuthContext'; // Import your auth co
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuthContext(); // Access user from context
-  console.log('User Role:', user?.role);
+
+  console.log(user);
+
   if (!user || user.role !== 'admin') {
     // If user is not admin, navigate to the "not-authorized" page
     return <Navigate to="/calibration" replace />;
