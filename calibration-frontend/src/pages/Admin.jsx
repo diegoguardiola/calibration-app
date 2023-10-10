@@ -42,7 +42,7 @@ function Admin() {
             <input 
                 type="password" 
                 onChange={(e) => setPassword(e.target.value)} 
-                value={role} 
+                value={password} 
             />
             <select 
                 type="text" 

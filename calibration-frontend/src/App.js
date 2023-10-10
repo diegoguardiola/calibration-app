@@ -6,6 +6,7 @@ import Navibar from './components/NaviBar';
 import Home from './pages/Home';
 import Calibration from './pages/Calibration';
 import Admin from './pages/Admin';
+import ProtectedRoute from './components/protectedRoute';
 import SignUpForm from './pages/SignUpForm';
 import LoginForm from './pages/LoginForm';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -28,10 +29,11 @@ const App = () => {
               path="/calibration" 
               element={user ? <Calibration /> : <Navigate to="/login" />}
             />
-            <Route 
-              path="/admin" 
-              element={user ? <Admin /> : <Navigate to="/login" />}
-            />
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            } />
             <Route
               path="/login" 
               element={!user ? <LoginForm /> : <Navigate to="/" />} 

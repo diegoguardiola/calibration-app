@@ -7,7 +7,7 @@ const {requireAuth} = require('../middleware/requireAuth')
 
 const router = express.Router()
 
-// require auth for all workout routes
+// require auth for all calibration routes
 router.use(requireAuth)
 
 // GET all calibrations
