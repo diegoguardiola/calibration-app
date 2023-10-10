@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom';
-import { useLogout } from '../hooks/useLogout';
-import { useAuthContext } from '../hooks/useAuthContext';
-import UpdateUserRoleButton from './UpdateRoleButton';
+import { Link } from 'react-router-dom'
+import { useLogout } from '../hooks/useLogout'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 function Navigation() {
-    const { logout } = useLogout();
-    const { user } = useAuthContext();
+    const { logout } = useLogout()
+    const { user } = useAuthContext()
 
     const handleClick = () => {
-        logout();
-    };
+        logout()
+      }
+    
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -20,27 +20,25 @@ function Navigation() {
                 <Link className="navbar-brand" to="/calibration">
                     Calibration
                 </Link>
-                {/* Conditionally render Admin link */}
-                {user && user.role === 'admin' && (
-                    <Link className="navbar-brand" to="/signup">
-                        Admin
-                    </Link>
-                )}
-                <UpdateUserRoleButton/>
+                <Link className="navbar-brand" to="/admin">
+                    Admin
+                </Link>
                 <nav>
-                    {user ? (
+                    {user && (
                         <div>
-                            <span>{user.email}</span>
-                            <button onClick={handleClick}>Log out</button>
-                        </div>
-                    ) : (
-                        <div>
-                            <Link to="/login">Login</Link>
+                        <span>{user.email}</span>
+                        <button onClick={handleClick}>Log out</button>
                         </div>
                     )}
+                    {!user && (
+                        <div>
+                        <Link to="/login">Login</Link>
+                        <Link to="/signup">Signup</Link>
+                        </div>
+                    )}
+                    </nav>
+                        </div>
                 </nav>
-            </div>
-        </nav>
     );
 }
 

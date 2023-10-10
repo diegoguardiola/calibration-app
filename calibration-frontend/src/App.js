@@ -5,9 +5,9 @@ import { useAuthContext } from './hooks/useAuthContext'
 import Navibar from './components/NaviBar';
 import Home from './pages/Home';
 import Calibration from './pages/Calibration';
+import Admin from './pages/Admin';
 import SignUpForm from './pages/SignUpForm';
 import LoginForm from './pages/LoginForm';
-import PrivateRoute from './routes/adminRoute';
 import 'bootstrap/dist/css/bootstrap.css';
 
 
@@ -28,24 +28,18 @@ const App = () => {
               path="/calibration" 
               element={user ? <Calibration /> : <Navigate to="/login" />}
             />
+            <Route 
+              path="/admin" 
+              element={user ? <Admin /> : <Navigate to="/login" />}
+            />
             <Route
               path="/login" 
               element={!user ? <LoginForm /> : <Navigate to="/" />} 
             />
-            {/*<Route
+            <Route
               path="/signup" 
               element={!user ? <SignUpForm /> : <Navigate to="/" />}
-            />*/}
-            <Route 
-                path="/signup" 
-                element={
-                    <PrivateRoute requiredRole="admin">
-                        <SignUpForm />
-                    </PrivateRoute>
-                } 
             />
-
-
           </Routes>
         </div>
       </Router>
