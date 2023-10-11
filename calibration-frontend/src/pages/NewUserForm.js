@@ -4,6 +4,9 @@ import { useNewUser } from "../hooks/useNewUser"
 const NewUser = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [company, setCompany] = useState('')
+  const [address, setAddress] = useState('')
+  const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [role, setRole] = useState('')
@@ -12,7 +15,7 @@ const NewUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    await newUser(firstName, lastName, email, password, role)
+    await newUser(firstName, lastName, company, address, phone, email, password, role)
   }
 
   return (
@@ -31,6 +34,30 @@ const NewUser = () => {
             onChange={(e) => setLastName(e.target.value)} 
             value={lastName} 
         />
+        <label>Comnpany:</label>
+        <input 
+            type="text" 
+            onChange={(e) => setCompany(e.target.value)} 
+            value={company} 
+        />
+        {role === 'client' && (
+          <div>
+            <label>Address:</label>
+            <input 
+                type="text" 
+                onChange={(e) => setAddress(e.target.value)} 
+                value={address} 
+                required='false'
+            />
+            <label>Phone:</label>
+            <input 
+                type="text" 
+                onChange={(e) => setPhone(e.target.value)} 
+                value={phone} 
+                required='false'
+            />
+          </div>
+        )}
         <label>Email address:</label>
         <input 
             type="email" 

@@ -20,6 +20,7 @@ const loginUser = async (req, res) => {
     res.status(200).json({
       firstName: user.firstName, 
       lastName: user.lastName, 
+      company: user.company,
       email, 
       token,
       role: user.role  // Add this line to include the role in the response
@@ -32,13 +33,13 @@ const loginUser = async (req, res) => {
 // signup a user
 
   const signupUser = async (req, res) => {
-    const { firstName, lastName, email, password, role } = req.body;
+    const { firstName, lastName, company, address, phone,  email, password, role } = req.body;
 
     try {
-      const user = await User.signup(firstName, lastName, email, password, role);
+      const user = await User.signup(firstName, lastName, company, address, phone, email, password, role);
       const token = createToken(user._id);
 
-      res.status(200).json({firstName, lastName, email, role, token});
+      res.status(200).json({firstName, lastName, company, address, phone, email, role, token});
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -49,7 +50,14 @@ const loginUser = async (req, res) => {
 
     try {
       const user = await User.findByIdAndUpdate(userId, { role: newRole }, { new: true });
-      res.status(200).json({firstName: user.firstName, lastName: user.lastName, email: user.email, role: user.role});
+      res.status(200).json({
+        firstName: user.firstName, 
+        lastName: user.lastName, 
+        company: user.company,
+        address: user.address,
+        phone: user.phone,
+        email: user.email, 
+        role: user.role});
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
