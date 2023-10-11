@@ -23,6 +23,9 @@ function Navigation() {
                 <Link className="navbar-brand" to="/admin">
                     Admin
                 </Link>
+                <Link className="navbar-brand" to="/instrument-regisrty">
+                    Instrument Registry
+                </Link>
                 <nav>
                     {user && (
                         <div>

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import NewUser from "./NewUserForm"
+import NewUser from "../components/Forms/NewUserForm"
 
 function Admin() {
 

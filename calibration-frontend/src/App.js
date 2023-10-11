@@ -6,9 +6,10 @@ import Navibar from './components/NaviBar';
 import Home from './pages/Home';
 import Calibration from './pages/Calibration';
 import Admin from './pages/Admin';
+import InstrumentRegistery from './pages/InstrumentRegistery';
 import ProtectedRoute from './components/protectedRoute';
-import SignUpForm from './pages/SignUpForm';
-import LoginForm from './pages/LoginForm';
+import SignUpForm from './components/Forms/SignUpForm';
+import LoginForm from './components/Forms/LoginForm';
 import 'bootstrap/dist/css/bootstrap.css';
 
 
@@ -29,6 +30,11 @@ const App = () => {
               path="/calibration" 
               element={user ? <Calibration /> : <Navigate to="/login" />}
             />
+            <Route path="/instrument-regisrty" element={
+              <ProtectedRoute>
+                <InstrumentRegistery />
+              </ProtectedRoute>
+            } />
             <Route path="/admin" element={
               <ProtectedRoute>
                 <Admin />

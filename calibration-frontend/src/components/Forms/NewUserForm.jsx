@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNewUser } from "../hooks/useNewUser"
+import { useNewUser } from "../../hooks/useNewUser"
 
 const NewUser = () => {
   const [firstName, setFirstName] = useState('')
