@@ -62,10 +62,20 @@ const loginUser = async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   };
+
+  const getClient = async (req, res) => {
+    try {
+      const clients = await InstrumentID.find().distinct('client');
+      res.json(clients);
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+      res.status(500).send("Internal Server Error");
+  }
+  };  
  
 
 
 
 
 
-module.exports = { signupUser, loginUser, updateUserRole }
+module.exports = { signupUser, loginUser, updateUserRole, getClient }
