@@ -1,16 +1,15 @@
-import { useState, useEffect } from "react"
-//import { useNewUser } from "../../hooks/useNewUser"
+import { useState, useEffect } from "react";
 
 const InstrumentRegistryForm = () => {
-    const [company, setCompany] = useState('')
-    const [equpmentID, setEqupmentID] = useState('')
-    const [equpmentManufacturer, setEqupmentManufacturer] = useState('')
+    const [company, setCompany] = useState('');
+    const [equipmentID, setEquipmentID] = useState('');
+    const [equipmentManufacturer, setEquipmentManufacturer] = useState('');
 
     const handleSubmit = async (e) => {
-        //e.preventDefault()
-        console.log()
-        //await newUser(company, equpmentID)
-    }
+        e.preventDefault();
+        console.log("Form submitted");
+        // Your form submission logic here
+    };
 
     const [clients, setClients] = useState([]);
 
@@ -22,39 +21,45 @@ const InstrumentRegistryForm = () => {
             .catch((error) => console.error("Error fetching clients:", error));
     }, []);
 
-  return (
-    <form className="" onSubmit={handleSubmit}>
-        <h3>Create New User</h3>
-        <label>Company</label>
+    const handleCompanyChange = (e) => {
+        const selectedCompany = e.target.value;
+        console.log("Selected Company:", selectedCompany);  // Log the selected company
+        setCompany(selectedCompany);
+    };
+
+    return (
+        <form className="" onSubmit={handleSubmit}>
+            <h3>Create New User</h3>
+            <label>Company</label>
             <select 
                 value={company} 
-                onChange={(e) => setCompany(e.target.value)}
+                onChange={handleCompanyChange}  // Use the new handler here
             >
-                {clients.map((client) => (
-                    <option key={client._id} value={client.name}>
-                        {client.name}
+                {clients.map((client, index) => (
+                    <option key={index} value={client}>
+                        {client}
                     </option>
                 ))}
             </select>
-        <input 
-            type="text" 
-            onChange={(e) => setCompany(e.target.value)} 
-            value={company} 
-        />
-        <label>Equipment ID</label>
-        <input 
-            type="text" 
-            onChange={(e) => setEqupmentID(e.target.value)} 
-            value={equpmentID} 
-        />
-        <label>Equipment Manufacturer</label>
-        <input 
-            type="text" 
-            onChange={(e) => setEqupmentManufacturer(e.target.value)} 
-            value={equpmentManufacturer} 
-        />
-    </form>
-  )
-}
+            <input 
+                type="text" 
+                onChange={(e) => setCompany(e.target.value)} 
+                value={company} 
+            />
+            <label>Equipment ID</label>
+            <input 
+                type="text" 
+                onChange={(e) => setEquipmentID(e.target.value)} 
+                value={equipmentID} 
+            />
+            <label>Equipment Manufacturer</label>
+            <input 
+                type="text" 
+                onChange={(e) => setEquipmentManufacturer(e.target.value)} 
+                value={equipmentManufacturer} 
+            />
+        </form>
+    );
+};
 
-export default InstrumentRegistryForm
+export default InstrumentRegistryForm;

@@ -1,4 +1,5 @@
 const User = require('../models/userModel')
+const InstrumentID = require('../models/instrumentIDModel')
 const jwt = require('jsonwebtoken')
 require('dotenv/config');
 const secret = process.env.SECRET
@@ -65,16 +66,13 @@ const loginUser = async (req, res) => {
 
   const getClient = async (req, res) => {
     try {
-      const clients = await InstrumentID.find().distinct('client');
-      res.json(clients);
+        const clients = await User.find().distinct('company');
+        res.json(clients);
     } catch (error) {
-      console.error("Error fetching clients:", error);
-      res.status(500).send("Internal Server Error");
-  }
-  };  
- 
-
-
+        console.error("Error fetching clients:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
 
 
 
