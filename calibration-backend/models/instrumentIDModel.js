@@ -3,27 +3,26 @@ const Schema = mongoose.Schema;
 
 const instrumentIDSchema = new Schema({
     client: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    EquipmentName: {
         type: String,
         required: true
     },
-    EquipmentID: {
+    equipmentName: {
         type: String,
         required: true
     },
-    EquipmentManufacturer: {
+    equipmentID: {
         type: String,
         required: true
     },
-    EquipmentModelNumber: {
+    equipmentManufacturer: {
         type: String,
         required: true
     },
-    EquipmentSerialNumber: {
+    equipmentModelNumber: {
+        type: String,
+        required: true
+    },
+    equipmentSerialNumber: {
         type: String,
         required: true
     },

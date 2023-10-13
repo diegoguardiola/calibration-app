@@ -5,9 +5,11 @@ require('dotenv/config');
 const api = process.env.API_URL;
 const userRouter = require('./routes/user')
 const calibrationRouter = require('./routes/calibration')
+const instrumentRouter = require('./routes/instruments')
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const cors = require('cors')
+const cors = require('cors');
+const { addInstrumentID } = require('./controllers/instrumentIDController');
 app.use(cors())
 app.options('*', cors) 
 
@@ -19,6 +21,7 @@ app.use(morgan('tiny'))             //displays local request
 //calibrationRouter
 app.use(`${api}/user`, userRouter)
 app.use(`${api}/calibration`, calibrationRouter)
+app.use(`${api}/instruments`, instrumentRouter)
 
 mongoose.connect(process.env.PROFILE_CONNECTION)
 .then(() => {
