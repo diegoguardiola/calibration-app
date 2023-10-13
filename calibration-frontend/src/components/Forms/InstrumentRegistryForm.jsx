@@ -34,6 +34,7 @@ const InstrumentRegistryForm = () => {
             <select 
                 value={company} 
                 onChange={handleCompanyChange}  // Use the new handler here
+                style={{ width: '300px' }}
             >
                 {clients.map((client, index) => (
                     <option key={index} value={client}>
@@ -41,11 +42,6 @@ const InstrumentRegistryForm = () => {
                     </option>
                 ))}
             </select>
-            <input 
-                type="text" 
-                onChange={(e) => setCompany(e.target.value)} 
-                value={company} 
-            />
             <label>Equipment ID</label>
             <input 
                 type="text" 
