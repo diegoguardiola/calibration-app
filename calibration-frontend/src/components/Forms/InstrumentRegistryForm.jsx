@@ -4,6 +4,7 @@ import { useState } from "react"
 const InstrumentRegistryForm = () => {
     const [company, setCompany] = useState('')
     const [equpmentID, setEqupmentID] = useState('')
+    const [equpmentManufacturer, setEqupmentManufacturer] = useState('')
 
     const handleSubmit = async (e) => {
         //e.preventDefault()
@@ -14,23 +15,24 @@ const InstrumentRegistryForm = () => {
   return (
     <form className="" onSubmit={handleSubmit}>
         <h3>Create New User</h3>
-        
-        <select 
+        <label>Company</label>
+        <input 
             type="text" 
-            value={company} 
             onChange={(e) => setCompany(e.target.value)} 
-        >
-                <option value="admin">Admin</option>
-                <option value="engineer">Engineer</option>
-                <option value="client">Client</option>
-        </select>
+            value={company} 
+        />
         <label>Equipment ID</label>
         <input 
             type="text" 
             onChange={(e) => setEqupmentID(e.target.value)} 
             value={equpmentID} 
         />
-        
+        <label>Equipment Manufacturer</label>
+        <input 
+            type="text" 
+            onChange={(e) => setEqupmentManufacturer(e.target.value)} 
+            value={equpmentManufacturer} 
+        />
     </form>
   )
 }
