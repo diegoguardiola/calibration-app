@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const instrumentIDSchema = new Schema({
-    client: {
+    company: {
         type: String,
         required: true
     },

@@ -21,7 +21,7 @@ const InstrumentRegistryForm = () => {
             const url = 'http://localhost:5000/c1_1/instruments/add'; // Replace with your actual API endpoint
 
             const data = {
-                client: selectedClient, 
+                company: selectedClient, 
                 equipmentName, 
                 equipmentID, 
                 equipmentManufacturer, 

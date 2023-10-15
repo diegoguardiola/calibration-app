@@ -3,7 +3,7 @@ const InstrumentID = require('../models/instrumentIDModel')
 
 const addInstrumentID = async (req, res) => {
     const {
-        client, 
+        company, 
         equipmentName, 
         equipmentID, 
         equipmentManufacturer, 
@@ -13,7 +13,7 @@ const addInstrumentID = async (req, res) => {
 
     try{
         const instrumentData = await InstrumentID.create({
-            client, 
+            company, 
             equipmentName, 
             equipmentID, 
             equipmentManufacturer, 
