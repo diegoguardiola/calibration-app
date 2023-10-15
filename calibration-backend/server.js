@@ -9,7 +9,6 @@ const instrumentRouter = require('./routes/instruments')
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { addInstrumentID } = require('./controllers/instrumentIDController');
 app.use(cors())
 app.options('*', cors) 
 

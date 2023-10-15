@@ -40,9 +40,9 @@ const userSchema = new Schema({
     enum: ['admin', 'client', 'engineer'], // Define possible roles
     default: 'client' // Set default role
   },
-  instruments: [{
+  equipment: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'InstrumentID'
+    ref: 'equipmentName'
   }]
 })
 

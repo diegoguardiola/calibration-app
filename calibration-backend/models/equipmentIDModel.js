@@ -40,4 +40,4 @@ const equipmentIDSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('InstrumentID', equipmentIDSchema);
+module.exports = mongoose.model('EquipmentID', equipmentIDSchema);

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const User = require('../models/userModel'); 
-const InstrumentID = require('../models/instrumentIDModel')
+const EquipmentID = require('../models/equipmentIDModel')
 
-const addInstrumentID = async (req, res) => {
+const addEquipmentID = async (req, res) => {
     const {
         equipmentName, 
         equipmentID, 
@@ -17,8 +17,7 @@ const addInstrumentID = async (req, res) => {
     } = req.body;
 
     try{
-        const instrumentData = await InstrumentID.create({
-            company, 
+        const instrumentData = await EquipmentID.create({
             equipmentName, 
             equipmentID, 
             equipmentManufacturer, 
@@ -27,7 +26,8 @@ const addInstrumentID = async (req, res) => {
             equipmentRange,
             equipmentUnits,
             equipmentDescription,
-            equipmentLocation
+            equipmentLocation,
+            userId 
         });
 
         // Find the user and update their instruments array
@@ -41,4 +41,4 @@ const addInstrumentID = async (req, res) => {
     }
 }
 
-module.exports = { addInstrumentID }
+module.exports = { addEquipmentID }
