@@ -39,7 +39,11 @@ const userSchema = new Schema({
     required: true,
     enum: ['admin', 'client', 'engineer'], // Define possible roles
     default: 'client' // Set default role
-}
+  },
+  instruments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'InstrumentID'
+  }]
 })
 
 // static signup method

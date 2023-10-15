@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const instrumentIDSchema = new Schema({
-    company: {
-        type: String,
-        required: true
-    },
+const equipmentIDSchema = new Schema({
     equipmentName: {
         type: String,
         required: true
@@ -26,6 +22,22 @@ const instrumentIDSchema = new Schema({
         type: String,
         required: true
     },
+    equipmentRange: {
+        type: String,
+        required: true
+    },
+    equipmentUnits: {
+        type: String,
+        required: true
+    },
+    equipmentDescription: {
+        type: String,
+        required: true
+    },
+    equipmentLocation: {
+        type: String,
+        required: true
+    },
 });
 
-module.exports = mongoose.model('InstrumentID', instrumentIDSchema);
+module.exports = mongoose.model('InstrumentID', equipmentIDSchema);

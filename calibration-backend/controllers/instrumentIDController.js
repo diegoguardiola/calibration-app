@@ -1,14 +1,18 @@
 const mongoose = require('mongoose')
+const User = require('../models/userModel'); 
 const InstrumentID = require('../models/instrumentIDModel')
 
 const addInstrumentID = async (req, res) => {
     const {
-        company, 
         equipmentName, 
         equipmentID, 
         equipmentManufacturer, 
         equipmentModelNumber,
         equipmentSerialNumber,
+        equipmentRange,
+        equipmentUnits,
+        equipmentDescription,
+        equipmentLocation,
         userId  // Assume userId is passed in request to know which user to update
     } = req.body;
 
@@ -19,7 +23,11 @@ const addInstrumentID = async (req, res) => {
             equipmentID, 
             equipmentManufacturer, 
             equipmentModelNumber,
-            equipmentSerialNumber
+            equipmentSerialNumber,
+            equipmentRange,
+            equipmentUnits,
+            equipmentDescription,
+            equipmentLocation
         });
 
         // Find the user and update their instruments array
