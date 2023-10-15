@@ -8,62 +8,43 @@ const InstrumentRegistryForm = () => {
     const [equipmentManufacturer, setEquipmentManufacturer] = useState('');
     const [equipmentModel, setEquipmentModel] = useState('');
     const [equipmentSerial, setEquipmentSerial] = useState('');
+    const [userId, setUserId] = useState(''); // Add a state for userId
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(selectedClient, 
+
+        const url = 'http://localhost:5000/c1_1/instruments/add'; 
+
+        const data = {
+            company: selectedClient, 
             equipmentName, 
             equipmentID, 
             equipmentManufacturer, 
-            equipmentModel,
-            equipmentSerial )
-
-            const url = 'http://localhost:5000/c1_1/instruments/add'; // Replace with your actual API endpoint
-
-            const data = {
-                company: selectedClient, 
-                equipmentName, 
-                equipmentID, 
-                equipmentManufacturer, 
-                equipmentModelNumber: equipmentModel,
-                equipmentSerialNumber: equipmentSerial 
-            };
-            
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // other headers
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(err => { throw err; });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-            
-
-
-        /*await fetch('http://localhost:5000/c1_1/instruments/add', {
+            equipmentModelNumber: equipmentModel,
+            equipmentSerialNumber: equipmentSerial,
+            userId  // Include userId in the data sent to the backend
+        };
+        
+        fetch(url, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                client: selectedClient, 
-                equipmentName, 
-                equipmentID, 
-                equipmentManufacturer, 
-                equipmentModelNumber: equipmentModel,
-                equipmentSerialNumber: equipmentSerial 
-            })
-        });*/
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     };
 
     useEffect(() => {

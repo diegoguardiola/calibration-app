@@ -8,8 +8,9 @@ const addInstrumentID = async (req, res) => {
         equipmentID, 
         equipmentManufacturer, 
         equipmentModelNumber,
-        equipmentSerialNumber
-    } = req.body
+        equipmentSerialNumber,
+        userId  // Assume userId is passed in request to know which user to update
+    } = req.body;
 
     try{
         const instrumentData = await InstrumentID.create({
@@ -19,10 +20,16 @@ const addInstrumentID = async (req, res) => {
             equipmentManufacturer, 
             equipmentModelNumber,
             equipmentSerialNumber
-        })
-        res.status(200).json(instrumentData)
+        });
+
+        // Find the user and update their instruments array
+        await User.findByIdAndUpdate(userId, {
+            $push: { instruments: instrumentData._id }
+        });
+
+        res.status(200).json(instrumentData);
     } catch(error) {
-        res.status(400).json({error: error.message})
+        res.status(400).json({error: error.message});
     }
 }
 
