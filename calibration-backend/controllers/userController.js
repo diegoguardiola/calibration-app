@@ -63,10 +63,10 @@ const loginUser = async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   };
-
+  //select client by name and return client name and user_id
   const getClient = async (req, res) => {
     try {
-        const clients = await User.find().distinct('company');
+        const clients = await User.find({}, 'company _id'); // Fetch company and _id fields
         res.json(clients);
     } catch (error) {
         console.error("Error fetching clients:", error);
@@ -74,6 +74,21 @@ const loginUser = async (req, res) => {
     }
 };
 
+  //get list of userID by clientName
+  const getUserIdByClientName = async (req, res) => {
+    const clientName = req.query.clientName;
+
+    try {
+        const user = await User.findOne({ company: clientName });
+        if (!user) {
+            return res.status(404).json({ error: "Client not found" });
+        }
+        res.json({ userId: user._id });
+    } catch (error) {
+        console.error("Error fetching userId:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
 
 
-module.exports = { signupUser, loginUser, updateUserRole, getClient }
+module.exports = { signupUser, loginUser, updateUserRole, getClient, getUserIdByClientName };

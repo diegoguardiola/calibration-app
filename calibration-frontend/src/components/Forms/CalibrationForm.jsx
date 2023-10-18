@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useCalibrationContext } from "../hooks/useCalibrationContext";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useCalibrationContext } from "../../hooks/useCalibrationContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 
 export const CalibrationForm = () => {
@@ -8,21 +8,28 @@ export const CalibrationForm = () => {
     console.log(dispatch);
     const {user} = useAuthContext()
 
-    const [clientInformation, setClientInformation] = useState({
-        clientName: '',
-        clientAddress: '',
-        clientPhone: '',
-        clientEmail: '',
-    });
+    const [clientInformation, setCLientInformation] = useState
+    ({
+        firstName: '',
+        lastName: '',
+        company: '',
+        address: '',
+        phone: '',
+        email: '',
+    })
+
     const [equipmentInformation, setEquipmentInformation] = useState({
-        equipmentId: '',
-        calibrationType: '',
-        equipmentManufacturer: '',
+        equipmentName: '', 
+        equipmentID: '', 
+        equipmentManufacturer: '', 
         equipmentModelNumber: '',
         equipmentSerialNumber: '',
-        equipmentTolerance: '',
-        unit: '',
-    });
+        equipmentRange: '',
+        equipmentUnits: '',
+        equipmentDescription: '', 
+        equipmentLocation: '',
+    })
+
     const [calibrationInformation, setCalibrationInformation] = useState({
         calibrationMethod: '',
         calibrationProcedure: '',
@@ -85,8 +92,6 @@ export const CalibrationForm = () => {
         }
     
         const data = {
-            ...clientInformation,
-            ...equipmentInformation,
             ...calibrationInformation,
             ...results
           };
@@ -109,20 +114,7 @@ export const CalibrationForm = () => {
           }
         // Reset the form
         if (response.ok) {
-        setClientInformation({
-            clientName: '',
-            clientAddress: '',
-            clientPhone: '',
-            clientEmail: '',
-        });
-        setEquipmentInformation({
-            equipmentId: '',
-            equipmentManufacturer: '',
-            equipmentModelNumber: '',
-            equipmentSerialNumber: '',
-            equipmentTolerance: '',
-            unit: '',
-        });
+
         setCalibrationInformation({
             calibrationMethod: '',
             calibrationProcedure: '',
@@ -157,109 +149,9 @@ export const CalibrationForm = () => {
     return (
             <form className="container" onSubmit={handleSubmit}>
                 <div className="row">    
-                    <div className="col-md-8">            
-                        <div className='Client_Information'>
-                            <div className="form-group">
-                                <label>Client Name:</label>
-                                <input
-                                type="text"
-                                value={clientInformation.clientName}
-                                onChange={(e) => setClientInformation({ ...clientInformation, clientName: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Client Address:</label>
-                                <input
-                                type="text"
-                                value={clientInformation.clientAddress}
-                                onChange={(e) => setClientInformation({ ...clientInformation, clientAddress: e.target.value })}
-                                className="form-control"      
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Client Phone:</label>
-                                <input
-                                type="text"
-                                value={clientInformation.clientPhone}
-                                onChange={(e) => setClientInformation({ ...clientInformation, clientPhone: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Client Email:</label>
-                                <input
-                                type="email"
-                                value={clientInformation.clientEmail}
-                                onChange={(e) => setClientInformation({ ...clientInformation, clientEmail: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-                <div className="row"> 
-                    <div className="col-md-4">
-                        <div className='Equipment_Information'>
-                            <div className="form-group">
-                                <label>Equipment ID:</label>
-                                <input
-                                type="text"
-                                value={equipmentInformation.equipmentId}
-                                onChange={(e) => setEquipmentInformation({ ...equipmentInformation, equipmentId: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Equipment Manufacturer:</label>
-                                <input
-                                type="text"
-                                value={equipmentInformation.equipmentManufacturer}
-                                onChange={(e) => setEquipmentInformation({ ...equipmentInformation, equipmentManufacturer: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Equipment Model Number:</label>
-                                <input
-                                type="text"
-                                value={equipmentInformation.equipmentModelNumber}
-                                onChange={(e) => setEquipmentInformation({ ...equipmentInformation, equipmentModelNumber: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Equipment Serial Number:</label>
-                                <input
-                                type="text"
-                                value={equipmentInformation.equipmentSerialNumber}
-                                onChange={(e) => setEquipmentInformation({ ...equipmentInformation, equipmentSerialNumber: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Equipment Tolerance:</label>
-                                <input
-                                type="text"
-                                value={equipmentInformation.equipmentTolerance}
-                                onChange={(e) => setEquipmentInformation({ ...equipmentInformation, equipmentTolerance: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Unit:</label>
-                                <input
-                                type="text"
-                                value={equipmentInformation.unit}
-                                onChange={(e) => setEquipmentInformation({ ...equipmentInformation, unit: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                        </div>                
-                    </div>
                     <div className="col-md-4">
                         <div className='Calibration_Information'>
-                        <div className="form-group">
+                            <div className="form-group">
                                 <label>Calibration Method:</label>
                                 <input
                                 type="text"

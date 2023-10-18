@@ -17,7 +17,7 @@ const addEquipmentID = async (req, res) => {
     } = req.body;
 
     try{
-        const instrumentData = await EquipmentID.create({
+        const equipmentData = await EquipmentID.create({
             equipmentName, 
             equipmentID, 
             equipmentManufacturer, 
@@ -27,18 +27,17 @@ const addEquipmentID = async (req, res) => {
             equipmentUnits,
             equipmentDescription,
             equipmentLocation,
-            userId 
         });
 
         // Find the user and update their instruments array
         await User.findByIdAndUpdate(userId, {
-            $push: { instruments: instrumentData._id }
+            $push: { equipment: equipmentData._id }  // Correcting the field name
         });
 
-        res.status(200).json(instrumentData);
-    } catch(error) {
-        res.status(400).json({error: error.message});
-    }
-}
+                res.status(200).json(equipmentData);
+            } catch(error) {
+                res.status(400).json({error: error.message});
+            }
+        }
 
 module.exports = { addEquipmentID }

@@ -1,0 +1,7 @@
+- [ ] Fix dropdown in customer registry to that it only displays customers who are clients
+- [ ] Add a message on the browser so that when a instrument is successfully registered, is displays on the screen
+- [ ] Add a message on the browser so that when a user is successfully registered, is displays on the screen
+- [ ] look to create an automated testing program
+- [ ] assign authcontext to pages
+	- [ ] instrument registry
+	- [ ] calibration

@@ -38,6 +38,10 @@ const equipmentIDSchema = new Schema({
         type: String,
         required: true
     },
+    cali: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CalibrationData'  // Correcting the reference
+      }]
 });
 
 module.exports = mongoose.model('EquipmentID', equipmentIDSchema);

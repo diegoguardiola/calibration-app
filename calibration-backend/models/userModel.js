@@ -42,7 +42,7 @@ const userSchema = new Schema({
   },
   equipment: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'equipmentName'
+    ref: 'EquipmentID'  // Correcting the reference
   }]
 })
 
