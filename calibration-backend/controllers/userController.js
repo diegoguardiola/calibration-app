@@ -71,7 +71,29 @@ const loginUser = async (req, res) => {
         console.error("Error fetching clients:", error);
         res.status(500).send("Internal Server Error");
     }
-};
+  };
+  //select client by name and return list of client equipment
+  const getUserEquipmentByClientName = async (req, res) => {
+    try {
+      // Take the company name from the request
+      const { companyName } = req.params;  // Assuming you're passing company name as a URL parameter
+      
+      // Fetch user(s) by company name and populate equipment details
+      const client = await User.findOne({ company: companyName })
+        .populate('equipment')  // This will replace ObjectIds in the equipment array with the actual equipment documents
+        .select('company equipment');  // Only select company and equipment fields
+  
+      if (!client) {
+        return res.status(404).send("Client not found");
+      }
+  
+      res.json(client.equipment);  // Send the populated equipment details in response
+    } catch (error) {
+      console.error("Error fetching client equipment:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  };
+  
 
   //get list of userID by clientName
   const getUserIdByClientName = async (req, res) => {
@@ -90,4 +112,4 @@ const loginUser = async (req, res) => {
 };
 
 
-module.exports = { signupUser, loginUser, updateUserRole, getClient, getUserIdByClientName };
+module.exports = { signupUser, loginUser, updateUserRole, getClient, getUserIdByClientName, getUserEquipmentByClientName };

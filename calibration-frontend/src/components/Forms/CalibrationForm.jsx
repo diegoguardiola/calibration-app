@@ -8,6 +8,10 @@ export const CalibrationForm = () => {
     console.log(dispatch);
     const {user} = useAuthContext()
 
+    const [companies, setCompanies] = useState([]);
+    const [selectedCompany, setSelectedCompany] = useState(null);
+    const [companyEquipment, setCompanyEquipment] = useState([]);
+
     const [clientInformation, setCLientInformation] = useState
     ({
         firstName: '',
@@ -57,6 +61,36 @@ export const CalibrationForm = () => {
     const [months, setMonths] = useState('');
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
+
+    //Fetch a list of company names
+    useEffect(() => {
+        // Fetch companies from your API
+        fetch('http://localhost:5000/c1_1/user/get-client-equipment') // adjust the endpoint accordingly
+        .then(res => res.json())
+        .then(data => {
+            setCompanies(data);
+        })
+        .catch(error => {
+            console.error("Error fetching companies:", error);
+        });
+    }, []);
+    // state to track the selected company
+    useEffect(() => {
+        if (selectedCompany) {
+            // Fetch equipment for the selected company from your API
+            fetch(`http://localhost:5000/api/equipment?company=${selectedCompany}`) // adjust the endpoint and parameter accordingly
+            .then(res => res.json())
+            .then(data => {
+                setCompanyEquipment(data);
+            })
+            .catch(error => {
+                console.error("Error fetching equipment:", error);
+            });
+        } else {
+            setCompanyEquipment([]);
+        }
+    }, [selectedCompany]);
+    
 
     useEffect(() => {
         let newResults = {};
@@ -151,6 +185,28 @@ export const CalibrationForm = () => {
                 <div className="row">    
                     <div className="col-md-4">
                         <div className='Calibration_Information'>
+                        <div className="col-md-4">
+                            <label>Company:</label>
+                            <select
+                                value={selectedCompany}
+                                onChange={(e) => setSelectedCompany(e.target.value)}
+                                className="form-control"
+                            >
+                                <option value="">Select a company</option>
+                                {companies.map(company => (
+                                    <option key={company._id} value={company._id}>
+                                        {company.company}
+                                    </option>
+                                ))}
+                            </select>
+                            {
+                                companyEquipment.map(equipment => (
+                                    <div key={equipment._id}>
+                                        {equipment.equipmentName} {/* and other properties as needed */}
+                                    </div>
+                                ))
+                            }
+                        </div>
                             <div className="form-group">
                                 <label>Calibration Method:</label>
                                 <input

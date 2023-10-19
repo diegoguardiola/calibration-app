@@ -30,9 +30,33 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "8ed4485754c6cd68",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "AWS Amplify Cost Breakdown.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "2926104db37cbe7f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Adjacent Services.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -98,7 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TO DO.md",
+                "file": "Adjacent Services.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TO DO.md",
+                "file": "Adjacent Services.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +162,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TO DO.md"
+                "file": "Adjacent Services.md"
               }
             }
           }
@@ -159,8 +183,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "40a8b64cdda31e8b",
+  "active": "2926104db37cbe7f",
   "lastOpenFiles": [
+    "AWS Amplify Cost Breakdown.md",
+    "Adjacent Services.md",
+    "TO DO.md",
     "calibration-backend/controllers/instrumentIDController.js",
     "calibration-backend/routes/instrument.js",
     "calibration-backend/controllers/instrumentController.js",
@@ -171,8 +198,6 @@
     "calibration-frontend/src/pages/EquipmentRegistery.jsx",
     "calibration-frontend/src/components/Forms/EquipmentRegistryForm.jsx",
     "calibration-frontend/src/components/Forms/CalibrationInstrumentRegistry.jsx",
-    "calibration-frontend/src/components/Forms/CalibrationForm.jsx",
-    "README.md",
-    "TO DO.md"
+    "README.md"
   ]
 }
