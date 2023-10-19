@@ -90,24 +90,22 @@ const loginUser = async (req, res) => {
     }
 };
 
-const getCompaniesAndEquipment = async (req, res) => {
-  try {
-    // Fetch all users (or companies) and populate their equipment
-    const companies = await User.find({}).populate('equipment').exec();
+  const getEquipmentByUserId = async (req, res) => {
+    const userId = req.params.userId;
 
-    // Extract only the company names and their equipment for the response
-    const response = companies.map(company => ({
-        id: company._id,
-        name: company.company,
-        equipment: company.equipment
-    }));
+    try {
+      const user = await User.findById(userId).populate('equipment').exec();
 
-    res.json(response);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.json({ equipment: user.equipment });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch companies' });
+      console.error("Error fetching equipment:", error);
+      res.status(500).send("Internal Server Error");
     }
-};
-
+  };
 
 
 module.exports = { 
@@ -116,5 +114,5 @@ module.exports = {
   updateUserRole, 
   getClient, 
   getUserIdByClientName,
-  getCompaniesAndEquipment
+  getEquipmentByUserId
  };

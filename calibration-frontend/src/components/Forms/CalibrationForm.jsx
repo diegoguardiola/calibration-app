@@ -5,11 +5,12 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 export const CalibrationForm = () => {
     const {dispatch} = useCalibrationContext()
-    console.log(dispatch);
     const {user} = useAuthContext()
 
-    const [companies, setCompanies] = useState([]);
-    const [selectedEquipment, setSelectedEquipment] = useState([]);
+    const [clients, setClients] = useState([]);
+    const [selectedClient, setSelectedClient] = useState('');
+    const [userEquipment, setUserEquipment] = useState([]);
+    const [userId, setUserId] = useState(''); // Add a state for userId
 
 
     const [calibrationInformation, setCalibrationInformation] = useState({
@@ -41,25 +42,48 @@ export const CalibrationForm = () => {
     const [emptyFields, setEmptyFields] = useState([])  
     //fetch the list of companies when the CalibrationForm component mounts and set it to the companies state, 
     useEffect(() => {
-        // Fetch companies and their equipment from the backend
-        const fetchCompanies = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/c1_1/user/companies-equipment'); // Adjust the URL based on your backend setup
-                const data = await response.json();
-                setCompanies(data);
-            } catch (error) {
-                console.error("Failed to fetch companies:", error);
-            }
-        };
-
-        fetchCompanies();
-    }, []); // Empty dependency array ensures this useEffect runs once when the component mounts
-
+        fetch('http://localhost:5000/c1_1/user/get-client')
+            .then((res) => res.json())
+            .then((data) => {
+                setClients(data);
+                if (data.length > 0) {
+                    setSelectedClient(data[0].company); // Set the initial selected client to the company name of the first client
+                    setUserId(data[0]._id); // Set the initial userId to the _id of the first client
+                    console.log(userId)
+                }
+            })
+            .catch((error) => console.error("Error fetching clients:", error));
+    }, []);;
 
     const handleCompanyChange = (e) => {
-        const selectedCompany = companies.find(company => company._id === e.target.value);
-        setSelectedEquipment(selectedCompany.equipment);
-      };
+        const selected = clients.find(client => client.company === e.target.value);
+        setSelectedClient(selected.company);
+        setUserId(selected._id); // Set the userId when a client is selected
+        console.log(userId)
+        if (userId.length > 0) {
+            fetchUserEquipment(userId);
+        }
+        
+    };
+
+    const fetchUserEquipment = async (userId) => {
+        try {
+            const response = await fetch(`http://localhost:5000/c1_1/user/${userId}/get-equipmentlist`);
+            const data = await response.json();
+            setUserEquipment(data.equipment);
+        } catch (error) {
+            console.error("Failed to fetch user equipment:", error);
+        }
+    };
+    
+    useEffect(() => {
+        if (user && user._id) {
+            fetchUserEquipment(user._id);
+        }
+    }, [user]);
+    
+    
+    
 
     useEffect(() => {
         let newResults = {};
@@ -76,7 +100,6 @@ export const CalibrationForm = () => {
         // Calibration Technician Assignment
         if(user && user.firstName && user.lastName){
             newResults.calibrationTech = `${user.firstName} ${user.lastName}`;
-            console.log('User exists:', newResults.calibrationTech);  // Log here
         }
     
         // Update results
@@ -99,7 +122,6 @@ export const CalibrationForm = () => {
             ...results
           };
     
-        console.log('Before sending:', data);  // Log here
     
         const response = await fetch('http://localhost:5000/c1_1/calibration', {
           method: 'POST',
@@ -144,7 +166,6 @@ export const CalibrationForm = () => {
 
         setError(null)
         setEmptyFields([])
-        console.log('new calibration added', json)
         dispatch({type: 'CREATE_CALIBRATION', payload: json})
         }
   }
@@ -156,16 +177,23 @@ export const CalibrationForm = () => {
                         <div className='Calibration_Information'>
                             <div className="form-group">
                                 
-                                <select onChange={handleCompanyChange}>
-                                {companies.map(company => (
-                                    <option value={company._id}>{company.name}</option>
+                            <select 
+                                value={selectedClient} 
+                                style={{ width: '300px' }}
+                                onChange={handleCompanyChange}
+                            >
+                                {clients.map((client, index) => (
+                                    <option key={index} value={client.company}>
+                                        {client.company}
+                                    </option>
                                 ))}
-                                </select>
-                                <ul>
-                                {selectedEquipment.map(equipment => (
-                                    <li>{equipment.name}</li>
+                            </select>
+                            <ul>
+                                {userEquipment.map(equipment => (
+                                    <li key={equipment._id}>{equipment.name}</li>
                                 ))}
-                                </ul>
+                            </ul>
+
 
                                 <label>Calibration Method:</label>
                                 <input
