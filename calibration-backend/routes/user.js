@@ -15,7 +15,8 @@ router.post('/signup', signupUser); // Protect signup route
 router.post('/update-role', updateUserRole); // Protect update role route
 router.get('/get-client', getClient)
 router.get('/get-userId', getUserIdByClientName);
-router.get('/get-equipmentlist', getEquipmentByUserId)
+router.get('/user/:userId/get-equipmentlist', getEquipmentByUserId);
+
 
 
 module.exports = router;
