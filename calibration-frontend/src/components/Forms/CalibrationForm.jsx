@@ -8,27 +8,9 @@ export const CalibrationForm = () => {
     console.log(dispatch);
     const {user} = useAuthContext()
 
-    const [clientInformation, setCLientInformation] = useState
-    ({
-        firstName: '',
-        lastName: '',
-        company: '',
-        address: '',
-        phone: '',
-        email: '',
-    })
+    const [companies, setCompanies] = useState([]);
+    const [selectedEquipment, setSelectedEquipment] = useState([]);
 
-    const [equipmentInformation, setEquipmentInformation] = useState({
-        equipmentName: '', 
-        equipmentID: '', 
-        equipmentManufacturer: '', 
-        equipmentModelNumber: '',
-        equipmentSerialNumber: '',
-        equipmentRange: '',
-        equipmentUnits: '',
-        equipmentDescription: '', 
-        equipmentLocation: '',
-    })
 
     const [calibrationInformation, setCalibrationInformation] = useState({
         calibrationMethod: '',
@@ -57,7 +39,26 @@ export const CalibrationForm = () => {
     const [months, setMonths] = useState('');
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])  
-    
+    //fetch the list of companies when the CalibrationForm component mounts and set it to the companies state, 
+    useEffect(() => {
+        // Fetch companies and their equipment from the backend
+        const fetchCompanies = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/user/companies-equipment'); // Adjust the URL based on your backend setup
+                const data = await response.json();
+                setCompanies(data);
+            } catch (error) {
+                console.error("Failed to fetch companies:", error);
+            }
+        };
+
+        fetchCompanies();
+    }, []); // Empty dependency array ensures this useEffect runs once when the component mounts
+
+    const handleCompanyChange = (e) => {
+        const selectedCompany = companies.find(company => company._id === e.target.value);
+        setSelectedEquipment(selectedCompany.equipment);
+      };
 
     useEffect(() => {
         let newResults = {};
@@ -153,6 +154,18 @@ export const CalibrationForm = () => {
                     <div className="col-md-4">
                         <div className='Calibration_Information'>
                             <div className="form-group">
+
+                                <select onChange={handleCompanyChange}>
+                                {companies.map(company => (
+                                    <option value={company._id}>{company.name}</option>
+                                ))}
+                                </select>
+                                <ul>
+                                {selectedEquipment.map(equipment => (
+                                    <li>{equipment.name}</li>
+                                ))}
+                                </ul>
+
                                 <label>Calibration Method:</label>
                                 <input
                                 type="text"

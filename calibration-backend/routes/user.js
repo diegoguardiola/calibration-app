@@ -4,6 +4,7 @@ const { loginUser,
     updateUserRole, 
     getClient, 
     getUserIdByClientName,
+    getCompaniesAndEquipment
 } = require('../controllers/userController');
 const { requireAdmin } = require('../middleware/requireAuth');
 
@@ -14,5 +15,7 @@ router.post('/signup', signupUser); // Protect signup route
 router.post('/update-role', updateUserRole); // Protect update role route
 router.get('/get-client', getClient)
 router.get('/get-userId', getUserIdByClientName);
+router.get('/companies-equipment', getCompaniesAndEquipment);
+
 
 module.exports = router;

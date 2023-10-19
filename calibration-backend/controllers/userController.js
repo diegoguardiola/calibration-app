@@ -90,11 +90,31 @@ const loginUser = async (req, res) => {
     }
 };
 
+const getCompaniesAndEquipment = async (req, res) => {
+  try {
+    // Fetch all users (or companies) and populate their equipment
+    const companies = await User.find({}).populate('equipment').exec();
+
+    // Extract only the company names and their equipment for the response
+    const response = companies.map(company => ({
+        id: company._id,
+        name: company.company,
+        equipment: company.equipment
+    }));
+
+    res.json(response);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch companies' });
+    }
+};
+
+
 
 module.exports = { 
   signupUser, 
   loginUser, 
   updateUserRole, 
   getClient, 
-  getUserIdByClientName
+  getUserIdByClientName,
+  getCompaniesAndEquipment
  };
