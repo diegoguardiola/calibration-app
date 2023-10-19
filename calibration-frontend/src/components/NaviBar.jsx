@@ -23,8 +23,8 @@ function Navigation() {
                 <Link className="navbar-brand" to="/admin">
                     Admin
                 </Link>
-                <Link className="navbar-brand" to="/instrument-regisrty">
-                    Instrument Registry
+                <Link className="navbar-brand" to="/equipment-regisrty">
+                    Equipment Registry
                 </Link>
                 <nav>
                     {user && (

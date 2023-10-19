@@ -6,7 +6,7 @@ import Navibar from './components/NaviBar';
 import Home from './pages/Home';
 import Calibration from './pages/Calibration';
 import Admin from './pages/Admin';
-import InstrumentRegistery from './pages/InstrumentRegistery';
+import EquipmentRegistery from './pages/EquipmentRegistery';
 import ProtectedRoute from './components/protectedRoute';
 import SignUpForm from './components/Forms/SignUpForm';
 import LoginForm from './components/Forms/LoginForm';
@@ -30,9 +30,9 @@ const App = () => {
               path="/calibration" 
               element={user ? <Calibration /> : <Navigate to="/login" />}
             />
-            <Route path="/instrument-regisrty" element={
+            <Route path="/equipment-regisrty" element={
               <ProtectedRoute>
-                <InstrumentRegistery />
+                <EquipmentRegistery />
               </ProtectedRoute>
             } />
             <Route path="/admin" element={

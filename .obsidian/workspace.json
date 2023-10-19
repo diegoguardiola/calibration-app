@@ -161,10 +161,18 @@
   },
   "active": "40a8b64cdda31e8b",
   "lastOpenFiles": [
+    "calibration-backend/controllers/instrumentIDController.js",
+    "calibration-backend/routes/instrument.js",
+    "calibration-backend/controllers/instrumentController.js",
+    "calibration-backend/controllers/instrumentController",
+    "calibration-backend/models/instrumentIDModel.js",
+    "calibration-backend/models/instrumentModel.js",
+    "calibration-frontend/src/components/Forms/InstrumentRegistryFrom.jsx",
+    "calibration-frontend/src/pages/EquipmentRegistery.jsx",
+    "calibration-frontend/src/components/Forms/EquipmentRegistryForm.jsx",
+    "calibration-frontend/src/components/Forms/CalibrationInstrumentRegistry.jsx",
     "calibration-frontend/src/components/Forms/CalibrationForm.jsx",
-    "calibration-frontend/src/components/CalibrationForm.jsx",
     "README.md",
-    "TO DO.md",
-    "Untitled"
+    "TO DO.md"
   ]
 }

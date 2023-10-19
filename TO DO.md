@@ -5,3 +5,13 @@
 - [ ] assign authcontext to pages
 	- [ ] instrument registry
 	- [ ] calibration
+- [ ] Create get requests to view list of
+	- [ ] Equipment Registry
+	- [ ] User List
+	- [ ] Instrument Registry
+- [ ] Create Update Forms for 
+	- [ ] instrument registry
+	- [ ] calibrations
+	- [ ] equipment registry
+	- [ ] user registry
+- [ ] Add Manufacturer to instrumentID (backend + frontend)

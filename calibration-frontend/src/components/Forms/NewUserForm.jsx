@@ -19,7 +19,8 @@ const NewUser = () => {
   }
 
   return (
-    <form className="new-user" onSubmit={handleSubmit}>
+    <form className="container" onSubmit={handleSubmit}>
+      <div className="row">
         <h3>Create New User</h3>
         
         <label>First Name:</label>
@@ -81,6 +82,7 @@ const NewUser = () => {
         </select>
         <button disabled={isLoading}>Create User</button>
         {error && <div className="error">{error}</div>}
+      </div>
     </form>
   )
 }

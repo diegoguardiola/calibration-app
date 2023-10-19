@@ -38,7 +38,7 @@ const equipmentIDSchema = new Schema({
         type: String,
         required: true
     },
-    cali: [{
+    calibrations: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'CalibrationData'  // Correcting the reference
       }]

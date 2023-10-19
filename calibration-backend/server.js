@@ -6,6 +6,7 @@ const api = process.env.API_URL;
 const userRouter = require('./routes/user')
 const calibrationRouter = require('./routes/calibration')
 const equiupmentRouter = require('./routes/equipment')
+const instrumentRouter = require('./routes/instrument')
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -21,6 +22,7 @@ app.use(morgan('tiny'))             //displays local request
 app.use(`${api}/user`, userRouter)
 app.use(`${api}/calibration`, calibrationRouter)
 app.use(`${api}/equipment`, equiupmentRouter)
+app.use(`${api}/instrument`, instrumentRouter)
 
 mongoose.connect(process.env.PROFILE_CONNECTION)
 .then(() => {

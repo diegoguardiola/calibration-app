@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const InstrumentRegistryForm = () => {
+const EquipmentRegistryForm = () => {
     const [clients, setClients] = useState([]);
     const [selectedClient, setSelectedClient] = useState('');
     const [equipmentName, setEquipmentName] = useState('');
@@ -72,16 +72,16 @@ const InstrumentRegistryForm = () => {
     return (
         <form className="container" onSubmit={handleSubmit}>
             <div className="row">
-                <h3>Register New Instrument</h3>
+                <h3>Register New Equipment</h3>
                 <label>Company</label>
                 <select 
-                value={selectedClient} 
-                style={{ width: '300px' }}
-                onChange={(e) => {
-                    const selected = clients.find(client => client.company === e.target.value);
-                    setSelectedClient(selected.company);
-                    setUserId(selected._id); // Set the userId when a client is selected
-                }}
+                    value={selectedClient} 
+                    style={{ width: '300px' }}
+                    onChange={(e) => {
+                        const selected = clients.find(client => client.company === e.target.value);
+                        setSelectedClient(selected.company);
+                        setUserId(selected._id); // Set the userId when a client is selected
+                    }}
                 >
                     {clients.map((client, index) => (
                         <option key={index} value={client.company}>
@@ -144,10 +144,10 @@ const InstrumentRegistryForm = () => {
                     onChange={(e) => setEquipmentLocation(e.target.value)} 
                     value={equipmentLocation} 
                 />
-                <button type="submit">Register Instrument</button>
+                <button type="submit">Register Equipment</button>
             </div>
         </form>
     );
 };
 
-export default InstrumentRegistryForm;
+export default EquipmentRegistryForm ;

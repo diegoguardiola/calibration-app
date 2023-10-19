@@ -1,5 +1,4 @@
 const User = require('../models/userModel')
-const EquipmentID = require('../models/equipmentIDModel')
 const jwt = require('jsonwebtoken')
 require('dotenv/config');
 const secret = process.env.SECRET
