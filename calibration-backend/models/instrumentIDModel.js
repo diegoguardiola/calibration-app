@@ -14,11 +14,11 @@ const instrumentIDSchema = new Schema({
         type: String,
         required: true
     },
-    instruemntManufacturer: {
+    instrumentManufacturer: {
         type: String,
         required: true
     },
-    instruemntModelNumber: {
+    instrumentModelNumber: {
         type: String,
         required: true
     },
@@ -30,11 +30,11 @@ const instrumentIDSchema = new Schema({
         type: String,
         required: true
     },
-    instruemntIntervalYears: {
+    instrumentIntervalYears: {
         type: Number,
         required: true
     },
-    instruemntIntervalMonths: {
+    instrumentIntervalMonths: {
         type: Number,
         required: true
     },
