@@ -54,7 +54,7 @@ const EquipmentRegistryForm = () => {
             console.error('Error:', error);
         });
     };
-    //Retrieves all clients by name 
+    //Retrieves all clients by name and shows id
     useEffect(() => {
         fetch('http://localhost:5000/c1_1/user/get-client')
             .then((res) => res.json())

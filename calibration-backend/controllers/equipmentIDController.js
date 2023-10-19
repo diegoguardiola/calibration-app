@@ -40,4 +40,5 @@ const addEquipmentID = async (req, res) => {
             }
         }
 
+
 module.exports = { addEquipmentID }
