@@ -44,7 +44,7 @@ export const CalibrationForm = () => {
         // Fetch companies and their equipment from the backend
         const fetchCompanies = async () => {
             try {
-                const response = await fetch('http://localhost:5000/user/companies-equipment'); // Adjust the URL based on your backend setup
+                const response = await fetch('http://localhost:5000/c1_1/user/companies-equipment'); // Adjust the URL based on your backend setup
                 const data = await response.json();
                 setCompanies(data);
             } catch (error) {
@@ -54,6 +54,7 @@ export const CalibrationForm = () => {
 
         fetchCompanies();
     }, []); // Empty dependency array ensures this useEffect runs once when the component mounts
+
 
     const handleCompanyChange = (e) => {
         const selectedCompany = companies.find(company => company._id === e.target.value);
@@ -154,7 +155,7 @@ export const CalibrationForm = () => {
                     <div className="col-md-4">
                         <div className='Calibration_Information'>
                             <div className="form-group">
-
+                                
                                 <select onChange={handleCompanyChange}>
                                 {companies.map(company => (
                                     <option value={company._id}>{company.name}</option>
