@@ -17,7 +17,7 @@ router.post('/update-role', updateUserRole); // Protect update role route
 router.get('/get-client', getClient)
 router.get('/get-userId', getUserIdByClientName);
 router.get('/get-user-company-id', getUsersObjectIdAndCompany);
-router.get('/user/:userId/equipment', getEquipmentByUserId);
+router.get('/:userId/equipment', getEquipmentByUserId);
 
 
 

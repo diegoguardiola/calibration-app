@@ -9,6 +9,7 @@ export const CalibrationForm = () => {
 
     const [companies, setCompanies] = useState([]);
     const [userID, setUserID] = useState(null);
+    const [fetchedData, setFetchedData] = useState([]);
 
     useEffect(() => {
         // Fetch the data from the endpoint
@@ -20,9 +21,15 @@ export const CalibrationForm = () => {
 
     const handleChange = (event) => {
         const selectedUserID = event.target.value;
-        console.log(userID)
         setUserID(selectedUserID);
-        console.log(userID)
+        fetch(`http://localhost:5000/c1_1/user/${userID}/equipment`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            //setFetchedData(data);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
     };
 
     
@@ -158,7 +165,11 @@ export const CalibrationForm = () => {
                                     ))}
                                 </select>
                                 {userID && <p>Selected User ID: {userID}</p>}
-                                {companies && <p>Selected User ID: {companies}</p>}
+                                <ul>
+                                    {fetchedData.map(item => (
+                                        <li key={item.id}>{item.name}</li> // Modify based on your data structure
+                                    ))}
+                                </ul>
                             </div>
 
                                 <label>Calibration Method:</label>
