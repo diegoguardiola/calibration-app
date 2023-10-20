@@ -7,11 +7,25 @@ export const CalibrationForm = () => {
     const {dispatch} = useCalibrationContext()
     const {user} = useAuthContext()
 
-    const [clients, setClients] = useState([]);
-    const [selectedClient, setSelectedClient] = useState('');
-    const [userEquipment, setUserEquipment] = useState([]);
-    const [userId, setUserId] = useState(''); // Add a state for userId
+    const [companies, setCompanies] = useState([]);
+    const [userID, setUserID] = useState(null);
 
+    useEffect(() => {
+        // Fetch the data from the endpoint
+        fetch('http://localhost:5000/c1_1/user/get-user-company-id') // Replace with the actual endpoint path
+        .then(response => response.json())
+        .then(data => setCompanies(data))
+        .catch(error => console.error('Error fetching companies:', error));
+    }, []);
+
+    const handleChange = (event) => {
+        const selectedUserID = event.target.value;
+        console.log(userID)
+        setUserID(selectedUserID);
+        console.log(userID)
+    };
+
+    
 
     const [calibrationInformation, setCalibrationInformation] = useState({
         calibrationMethod: '',
@@ -40,29 +54,6 @@ export const CalibrationForm = () => {
     const [months, setMonths] = useState('');
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])  
-    //fetch the list of companies when the CalibrationForm component mounts and set it to the companies state, 
-
-
-    
-
-    const fetchUserEquipment = async (userId) => {
-        try {
-            const response = await fetch(`http://localhost:5000/c1_1/user/${userId}/get-equipmentlist`);
-            const data = await response.json();
-            setUserEquipment(data.equipment);
-        } catch (error) {
-            console.error("Failed to fetch user equipment:", error);
-        }
-    };
-    
-    
-    useEffect(() => {
-        if (user && user._id) {
-            fetchUserEquipment(user._id);
-        }
-    }, [user]);
-    
-    
     
 
     useEffect(() => {
@@ -157,24 +148,18 @@ export const CalibrationForm = () => {
                         <div className='Calibration_Information'>
                             <div className="form-group">
                                 
-                            <select 
-                                value={selectedClient} 
-                                style={{ width: '300px' }}
-                                onChange={(e) => {
-                                    const selected = clients.find(client => client.company === e.target.value);
-                                    setSelectedClient(selected.company);
-                                    setUserId(selected._id); // Set the userId when a client is selected
-                                    fetchUserEquipment(userId)
-                                }}
-                            >
-                                
-                            </select>
-                            <ul>
-                                {userEquipment.map(equipment => (
-                                    <li key={equipment._id}>{equipment.name}</li>
-                                ))}
-                            </ul>
-
+                            <div>
+                                <select onChange={handleChange}>
+                                    <option value="" disabled selected>Select a company</option>
+                                    {companies.map(company => (
+                                    <option key={company._id} value={company._id}>
+                                        {company.company}
+                                    </option>
+                                    ))}
+                                </select>
+                                {userID && <p>Selected User ID: {userID}</p>}
+                                {companies && <p>Selected User ID: {companies}</p>}
+                            </div>
 
                                 <label>Calibration Method:</label>
                                 <input
@@ -370,4 +355,3 @@ export const CalibrationForm = () => {
             </form>
       );
     };
-

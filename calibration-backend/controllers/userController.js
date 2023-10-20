@@ -90,20 +90,43 @@ const loginUser = async (req, res) => {
     }
 };
 
-  const getEquipmentByUserId = async (req, res) => {
-    const userId = req.params.userId;
-    try {
-        const user = await User.findById(userId).populate('equipment').exec();
-        if (!user) {
-            return res.status(404).json({ error: "User not found" });
-        }
-        res.json({ equipment: user.equipment });
-    } catch (error) {
-        console.error("Error fetching equipment:", error);
-        res.status(500).send("Internal Server Error");
-    }
-  };
 
+
+//controller function getting id and company for CalibrationForm
+  const getUsersObjectIdAndCompany = async (req, res) => {
+    try {
+        // Find all users and select only their ObjectID and company name
+        const users = await User.find({}, '_id company');
+
+        // Send the result as a response
+        res.status(200).json(users);
+    } catch (error) {
+        // Handle any errors that might occur
+        res.status(500).json({ message: 'Error fetching users', error: error.message });
+    }
+};
+
+
+const getEquipmentByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id; // Assuming the user's ID is passed as a route parameter
+
+    // Find the user by ID and populate the 'equipment' field
+    const user = await User.findById(userId).populate('equipment');
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Extract the equipment array from the user object
+    const equipment = user.equipment;
+
+    res.status(200).json({ equipment });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 
 module.exports = { 
@@ -112,5 +135,6 @@ module.exports = {
   updateUserRole, 
   getClient, 
   getUserIdByClientName,
-  getEquipmentByUserId
+  getEquipmentByUserId,
+  getUsersObjectIdAndCompany
  };
