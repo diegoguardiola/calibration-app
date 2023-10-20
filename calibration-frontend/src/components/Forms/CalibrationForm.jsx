@@ -41,30 +41,9 @@ export const CalibrationForm = () => {
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])  
     //fetch the list of companies when the CalibrationForm component mounts and set it to the companies state, 
-    useEffect(() => {
-        fetch('http://localhost:5000/c1_1/user/get-client')
-            .then((res) => res.json())
-            .then((data) => {
-                setClients(data);
-                if (data.length > 0) {
-                    setSelectedClient(data[0].company); // Set the initial selected client to the company name of the first client
-                    setUserId(data[0]._id); // Set the initial userId to the _id of the first client
-                    console.log(userId)
-                }
-            })
-            .catch((error) => console.error("Error fetching clients:", error));
-    }, []);;
 
-    const handleCompanyChange = (e) => {
-        const selected = clients.find(client => client.company === e.target.value);
-        setSelectedClient(selected.company);
-        setUserId(selected._id); // Set the userId when a client is selected
-        console.log(userId)
-        if (userId.length > 0) {
-            fetchUserEquipment(userId);
-        }
-        
-    };
+
+    
 
     const fetchUserEquipment = async (userId) => {
         try {
@@ -75,6 +54,7 @@ export const CalibrationForm = () => {
             console.error("Failed to fetch user equipment:", error);
         }
     };
+    
     
     useEffect(() => {
         if (user && user._id) {
@@ -180,13 +160,14 @@ export const CalibrationForm = () => {
                             <select 
                                 value={selectedClient} 
                                 style={{ width: '300px' }}
-                                onChange={handleCompanyChange}
+                                onChange={(e) => {
+                                    const selected = clients.find(client => client.company === e.target.value);
+                                    setSelectedClient(selected.company);
+                                    setUserId(selected._id); // Set the userId when a client is selected
+                                    fetchUserEquipment(userId)
+                                }}
                             >
-                                {clients.map((client, index) => (
-                                    <option key={index} value={client.company}>
-                                        {client.company}
-                                    </option>
-                                ))}
+                                
                             </select>
                             <ul>
                                 {userEquipment.map(equipment => (

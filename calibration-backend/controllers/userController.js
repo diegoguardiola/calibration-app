@@ -92,20 +92,18 @@ const loginUser = async (req, res) => {
 
   const getEquipmentByUserId = async (req, res) => {
     const userId = req.params.userId;
-
     try {
-      const user = await User.findById(userId).populate('equipment').exec();
-
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-
-      res.json({ equipment: user.equipment });
+        const user = await User.findById(userId).populate('equipment').exec();
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.json({ equipment: user.equipment });
     } catch (error) {
-      console.error("Error fetching equipment:", error);
-      res.status(500).send("Internal Server Error");
+        console.error("Error fetching equipment:", error);
+        res.status(500).send("Internal Server Error");
     }
   };
+
 
 
 module.exports = { 

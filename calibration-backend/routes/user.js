@@ -19,4 +19,5 @@ router.get('/user/:userId/get-equipmentlist', getEquipmentByUserId);
 
 
 
+
 module.exports = router;
