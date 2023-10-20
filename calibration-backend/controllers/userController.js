@@ -109,24 +109,24 @@ const loginUser = async (req, res) => {
 
 const getEquipmentByUserId = async (req, res) => {
   try {
-    const userId = req.params.id; // Assuming the user's ID is passed as a route parameter
+    const userId = req.params.userId; // Assuming the user ObjectId is passed as a route parameter
 
-    // Find the user by ID and populate the 'equipment' field
+    // Find the user by ObjectId and populate the 'equipment' field
     const user = await User.findById(userId).populate('equipment');
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Extract the equipment array from the user object
-    const equipment = user.equipment;
+    // Extract the equipment list from the user object
+    const equipmentList = user.equipment;
 
-    res.status(200).json({ equipment });
+    return res.status(200).json({ equipmentList });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 };
+
 
 
 module.exports = { 
