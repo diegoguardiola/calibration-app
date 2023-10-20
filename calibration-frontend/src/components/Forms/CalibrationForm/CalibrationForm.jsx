@@ -1,50 +1,13 @@
 import { useState, useEffect } from "react";
-import { useCalibrationContext } from "../../hooks/useCalibrationContext";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useCalibrationContext } from "../../../hooks/useCalibrationContext";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import SelectEquipment from "./SelectEquipment";
 
 
 export const CalibrationForm = () => {
     const {dispatch} = useCalibrationContext()
     const {user} = useAuthContext()
-
-// Display Equipment Based Information Based Off What  COmpany Is Selected
-    const [companies, setCompanies] = useState([]);
-    const [userID, setUserID] = useState(null);
-    const [fetchedData, setFetchedData] = useState([]);
-
-    useEffect(() => {
-        // Fetch the data from the endpoint
-        fetch('http://localhost:5000/c1_1/user/get-user-company-id') // Replace with the actual endpoint path
-        .then(response => response.json())
-        .then(data => setCompanies(data))
-        .catch(error => console.error('Error fetching companies:', error));
-    }, []);
-
-    const handleChange = (event) => {
-        const selectedUserID = event.target.value;
-        setUserID(selectedUserID);
-        fetch(`http://localhost:5000/c1_1/user/${selectedUserID}/equipment`)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            setFetchedData(data);
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    };
-
-//Set Equipment Information Based Off What Is Selected From The List
-    const [equipmentInformation, setEquipmentInformation] = useState({
-        equipmentName: '', 
-        equipmentID: '',
-        equipmentManufacturer: '',
-        equipmentModelNumber: '',
-        equipmentSerialNumber:'',
-        equipmentRange: '',
-        equipmentUnits: '',
-        equipmentDescription: '',
-        equipmentLocation: '',
-    });   
-
+    
     const [calibrationInformation, setCalibrationInformation] = useState({
         calibrationMethod: '',
         calibrationProcedure: '',
@@ -165,24 +128,7 @@ export const CalibrationForm = () => {
                     <div className="col-md-4">
                         <div className='Calibration_Information'>
                             <div className="form-group">
-                                
-                            <div>
-                                <select onChange={handleChange}>
-                                    <option value="" disabled selected>Select a company</option>
-                                    {companies.map(company => (
-                                    <option key={company._id} value={company._id}>
-                                        {company.company}
-                                    </option>
-                                    ))}
-                                </select>
-                                {userID && <p>Selected User ID: {userID}</p>}
-                                <ul>
-                                {fetchedData.equipmentList && fetchedData.equipmentList.map(item => (
-                                    <li key={item._id}>{item.equipmentName}</li>
-                                ))}
-                                </ul>
-                            </div>
-
+                                <SelectEquipment />
                                 <label>Calibration Method:</label>
                                 <input
                                 type="text"

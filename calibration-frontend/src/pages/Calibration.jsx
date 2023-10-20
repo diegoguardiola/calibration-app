@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { CalibrationForm } from '../components/Forms/CalibrationForm';
+import { CalibrationForm } from '../components/Forms/CalibrationForm/CalibrationForm';
 
 const Calibration = () => {
 
