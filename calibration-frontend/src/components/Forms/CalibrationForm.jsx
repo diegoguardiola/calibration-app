@@ -7,6 +7,7 @@ export const CalibrationForm = () => {
     const {dispatch} = useCalibrationContext()
     const {user} = useAuthContext()
 
+// Display Equipment Based Information Based Off What  COmpany Is Selected
     const [companies, setCompanies] = useState([]);
     const [userID, setUserID] = useState(null);
     const [fetchedData, setFetchedData] = useState([]);
@@ -22,17 +23,27 @@ export const CalibrationForm = () => {
     const handleChange = (event) => {
         const selectedUserID = event.target.value;
         setUserID(selectedUserID);
-        fetch(`http://localhost:5000/c1_1/user/${userID}/equipment`)
+        fetch(`http://localhost:5000/c1_1/user/${selectedUserID}/equipment`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            //setFetchedData(data);
+            setFetchedData(data);
         })
         .catch(error => console.error('Error fetching data:', error));
-
     };
 
-    
+//Set Equipment Information Based Off What Is Selected From The List
+    const [equipmentInformation, setEquipmentInformation] = useState({
+        equipmentName: '', 
+        equipmentID: '',
+        equipmentManufacturer: '',
+        equipmentModelNumber: '',
+        equipmentSerialNumber:'',
+        equipmentRange: '',
+        equipmentUnits: '',
+        equipmentDescription: '',
+        equipmentLocation: '',
+    });   
 
     const [calibrationInformation, setCalibrationInformation] = useState({
         calibrationMethod: '',
@@ -166,9 +177,9 @@ export const CalibrationForm = () => {
                                 </select>
                                 {userID && <p>Selected User ID: {userID}</p>}
                                 <ul>
-                                    {fetchedData.map(item => (
-                                        <li key={item.id}>{item.name}</li> // Modify based on your data structure
-                                    ))}
+                                {fetchedData.equipmentList && fetchedData.equipmentList.map(item => (
+                                    <li key={item._id}>{item.equipmentName}</li>
+                                ))}
                                 </ul>
                             </div>
 
