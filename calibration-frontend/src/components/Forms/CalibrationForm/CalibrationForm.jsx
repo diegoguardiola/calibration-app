@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { useCalibrationContext } from "../../../hooks/useCalibrationContext";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import SelectEquipment from "./SelectEquipment";
+import SelectInstrument from "./SelectInstrument";
 
 
 export const CalibrationForm = () => {
     const {dispatch} = useCalibrationContext()
     const {user} = useAuthContext()
-    
+
     const [calibrationInformation, setCalibrationInformation] = useState({
         calibrationMethod: '',
         calibrationProcedure: '',
@@ -129,6 +130,7 @@ export const CalibrationForm = () => {
                         <div className='Calibration_Information'>
                             <div className="form-group">
                                 <SelectEquipment />
+                                <SelectInstrument />
                                 <label>Calibration Method:</label>
                                 <input
                                 type="text"

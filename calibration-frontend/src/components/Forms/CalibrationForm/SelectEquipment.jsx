@@ -58,33 +58,38 @@ function SelectEquipment() {
     };
 
   return (
-    <div>
-        <select onChange={handleChange}>
-            <option value="" disabled selected>Select a company</option>
-            {companies.map(company => (
-            <option key={company._id} value={company._id}>
-                {company.company}
-            </option>
-            ))}
-        </select>
-        {userID && <p>Selected User ID: {userID}</p>}
-        <select onChange={handleEquipmentChange}>
-            <option value="" disabled selected>Select equipment</option>
-            {fetchedData.equipmentList && fetchedData.equipmentList.map(item => (
-                <option key={item._id} value={item._id}>
-                    {item.equipmentName}
+    <div className="container">
+        <div className="row">
+            <h2>Select Company</h2>
+            <select onChange={handleChange}>
+                <option value="" disabled selected>Select a company</option>
+                {companies.map(company => (
+                <option key={company._id} value={company._id}>
+                    {company.company}
                 </option>
-            ))}
-        </select>
-        <p>{equipmentInformation.equipmentName}</p>
-        <p>{equipmentInformation.equipmentID}</p>
-        <p>{equipmentInformation.equipmentManufacturer}</p>
-        <p>{equipmentInformation.equipmentModelNumber}</p>
-        <p>{equipmentInformation.equipmentSerialNumber}</p>
-        <p>{equipmentInformation.equipmentRange}</p>
-        <p>{equipmentInformation.equipmentUnits}</p>
-        <p>{equipmentInformation.equipmentDescription}</p>
-        <p>{equipmentInformation.equipmentLocation}</p>
+                ))}
+            </select>
+            {userID && <p>Selected User ID: {userID}</p>}
+            <br></br>
+            <h2>Select Equipment</h2>
+            <select onChange={handleEquipmentChange}>
+                <option value="" disabled selected>Select equipment</option>
+                {fetchedData.equipmentList && fetchedData.equipmentList.map(item => (
+                    <option key={item._id} value={item._id}>
+                        {item.equipmentName}
+                    </option>
+                ))}
+            </select>
+            <p>{equipmentInformation.equipmentName}</p>
+            <p>{equipmentInformation.equipmentID}</p>
+            <p>{equipmentInformation.equipmentManufacturer}</p>
+            <p>{equipmentInformation.equipmentModelNumber}</p>
+            <p>{equipmentInformation.equipmentSerialNumber}</p>
+            <p>{equipmentInformation.equipmentRange}</p>
+            <p>{equipmentInformation.equipmentUnits}</p>
+            <p>{equipmentInformation.equipmentDescription}</p>
+            <p>{equipmentInformation.equipmentLocation}</p>
+        </div>
     </div>
   )
 }
