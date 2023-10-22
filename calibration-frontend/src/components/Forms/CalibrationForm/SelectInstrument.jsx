@@ -27,33 +27,33 @@ function SelectInstrument() {
   });
   
 
-    const handleChange = (event) => {
-        const selectedInstrumentID = event.target.values;
-        setInstrumentID(selectedInstrumentID)
+  const handleChange = (event) => {
+    const selectedInstrumentID = event.target.value;
+    setInstrumentID(selectedInstrumentID);
+    
+    fetch(`http://localhost:5000/c1_1/instrument/${selectedInstrumentID}/get-info`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        setFetchedData(data);
         
-        fetch(`http://localhost:5000/c1_1/instrument/${selectedInstrumentID}/get-info`)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            setFetchedData(data);const selectedInstrument = fetchedData.instrument.List.find(item => item._id === event.target.value);
-            if (selectedInstrument) {
-              setInstrumentInformation({
-                instrumentDescription: selectedInstrumentID.instrumentDescription,
-                instrumentID: selectedInstrumentID.instrumentID, 
-                NISTnum: selectedInstrumentID.NISTnum, 
-                instrumentManufacturer: selectedInstrumentID.instrumentManufacturer,
-                instrumentModelNumber: selectedInstrumentID.instrumentModelNumber,
-                instrumentSerialNumber: selectedInstrumentID.instrumentSerialNumber,
-                instrumentCalDate: selectedInstrumentID.instrumentCalDate,
-                instrumentIntervalYears: selectedInstrumentID.instrumentIntervalYears,
-                instrumentIntervalMonths: selectedInstrumentID.instrumentIntervalMonths,
-              })
-            }
-        })
-        .catch(error => console.error('Error fetching data:', error));
+        // Assuming 'data' is an object with the instrument's details
+        setInstrumentInformation({
+            instrumentDescription: data.instrumentDescription,
+            instrumentID: data.instrumentID, 
+            NISTnum: data.NISTnum, 
+            instrumentManufacturer: data.instrumentManufacturer,
+            instrumentModelNumber: data.instrumentModelNumber,
+            instrumentSerialNumber: data.instrumentSerialNumber,
+            instrumentCalDate: data.instrumentCalDate,
+            instrumentIntervalYears: data.instrumentIntervalYears,
+            instrumentIntervalMonths: data.instrumentIntervalMonths,
+        });
         
-        
-      };
+    })
+    .catch(error => console.error('Error fetching data:', error));
+  };
+
 
 
 

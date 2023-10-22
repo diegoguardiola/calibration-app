@@ -12,10 +12,6 @@ export const CalibrationForm = () => {
     const [calibrationInformation, setCalibrationInformation] = useState({
         calibrationMethod: '',
         calibrationProcedure: '',
-        calibrationToolId: '',
-        calibrationToolManufacturer: '',
-        calibrationToolMN: '',
-        calibrationToolSN: '',
     });
     const [results, setResults] = useState({ 
         setpoint1: '',
@@ -128,9 +124,9 @@ export const CalibrationForm = () => {
                 <div className="row">    
                     <div className="col-md-4">
                         <div className='Calibration_Information'>
+                            <SelectEquipment />
+                            <SelectInstrument />
                             <div className="form-group">
-                                <SelectEquipment />
-                                <SelectInstrument />
                                 <label>Calibration Method:</label>
                                 <input
                                 type="text"
@@ -145,42 +141,6 @@ export const CalibrationForm = () => {
                                 type="text"
                                 value={calibrationInformation.calibrationProcedure}
                                 onChange={(e) => setCalibrationInformation({ ...calibrationInformation, calibrationProcedure: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Calibration Tool ID:</label>
-                                <input
-                                type="text"
-                                value={calibrationInformation.calibrationToolId}
-                                onChange={(e) => setCalibrationInformation({ ...calibrationInformation, calibrationToolId: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Calibration Tool Manufacturer:</label>
-                                <input
-                                type="text"
-                                value={calibrationInformation.calibrationToolManufacturer}
-                                onChange={(e) => setCalibrationInformation({ ...calibrationInformation, calibrationToolManufacturer: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Calibration Tool Model Number:</label>
-                                <input
-                                type="text"
-                                value={calibrationInformation.calibrationToolMN}
-                                onChange={(e) => setCalibrationInformation({ ...calibrationInformation, calibrationToolMN: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Calibration Tool Serial Number:</label>
-                                <input
-                                type="text"
-                                value={calibrationInformation.calibrationToolSN}
-                                onChange={(e) => setCalibrationInformation({ ...calibrationInformation, calibrationToolSN: e.target.value })}
                                 className="form-control"
                                 />
                             </div>
