@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 function Results() {
 
-    const [selectedType, setSelectedType] = useState('');
+    const [serviceReason, setServiceReason] = useState('');
 
     const handleTypeChange = (event) => {
         setSelectedType(event.target.value);
@@ -18,6 +18,15 @@ function Results() {
     <div>
         <br></br>
         <h4>Reason For Service</h4>
+        <div className="col-md-2">
+            <label>Setpoint 3:</label>
+            <input
+            type="text"
+            value={results.setpoint3}
+            onChange={(e) => setResults({ ...results, setpoint3: e.target.value })}
+            className="form-control"
+            />
+        </div>
         <select value={selectedType} onChange={handleTypeChange}>
             <option value="" disabled>Select a Calibration Type</option>
             <option value="type1">Type 1</option>
