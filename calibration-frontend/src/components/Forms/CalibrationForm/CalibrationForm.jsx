@@ -3,16 +3,13 @@ import { useCalibrationContext } from "../../../hooks/useCalibrationContext";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import SelectEquipment from "./SelectEquipment";
 import SelectInstrument from "./SelectInstrument";
-
+import Results from "./Results";
 
 export const CalibrationForm = () => {
     const {dispatch} = useCalibrationContext()
     const {user} = useAuthContext()
 
-    const [calibrationInformation, setCalibrationInformation] = useState({
-        calibrationMethod: '',
-        calibrationProcedure: '',
-    });
+
     const [results, setResults] = useState({ 
         setpoint1: '',
         setpoint2: '',
@@ -67,7 +64,6 @@ export const CalibrationForm = () => {
         }
     
         const data = {
-            ...calibrationInformation,
             ...results
           };
     
@@ -88,15 +84,6 @@ export const CalibrationForm = () => {
           }
         // Reset the form
         if (response.ok) {
-
-        setCalibrationInformation({
-            calibrationMethod: '',
-            calibrationProcedure: '',
-            calibrationToolId: '',
-            calibrationToolManufacturer: '',
-            calibrationToolMN: '',
-            calibrationToolSN: '',
-        });
         setResults({ 
             setpoint1: '',
             setpoint2: '',
@@ -126,24 +113,7 @@ export const CalibrationForm = () => {
                         <div className='Calibration_Information'>
                             <SelectEquipment />
                             <SelectInstrument />
-                            <div className="form-group">
-                                <label>Calibration Method:</label>
-                                <input
-                                type="text"
-                                value={calibrationInformation.calibrationMethod}
-                                onChange={(e) => setCalibrationInformation({ ...calibrationInformation, calibrationMethod: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Calibration Procedure:</label>
-                                <input
-                                type="text"
-                                value={calibrationInformation.calibrationProcedure}
-                                onChange={(e) => setCalibrationInformation({ ...calibrationInformation, calibrationProcedure: e.target.value })}
-                                className="form-control"
-                                />
-                            </div>
+                            <Results />
                         </div>
                     </div>
                 </div>

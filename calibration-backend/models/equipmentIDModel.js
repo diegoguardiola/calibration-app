@@ -19,7 +19,7 @@ const equipmentIDSchema = new Schema({
         required: true
     },
     equipmentSerialNumber: {
-        type: String,
+        type: String,       
         required: true
     },
     equipmentRange: {
