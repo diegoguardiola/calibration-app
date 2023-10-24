@@ -66,7 +66,7 @@ const calibrationDataSchema = new Schema({
     },
     Humidity: {
         type: Number
-    }
+    },
 });
 
-module.exports = mongoose.model('CalibrationData', calibrationDataSchema);
+module.exports = mongoose.model('AddCalibrationData', calibrationDataSchema);
