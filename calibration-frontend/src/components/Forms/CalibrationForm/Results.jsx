@@ -129,6 +129,8 @@ function Results() {
             temp,
             humidity
         };
+
+        console.log(data)
     
         try {
             const response = await fetch('http://localhost:5000/c1_1/cal/add-calibration', {
