@@ -7,6 +7,7 @@ const userRouter = require('./routes/user')
 const calibrationRouter = require('./routes/calibration')
 const equiupmentRouter = require('./routes/equipment')
 const instrumentRouter = require('./routes/instrument')
+const calRouter  =require('./routes/cal')
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -23,6 +24,7 @@ app.use(`${api}/user`, userRouter)
 app.use(`${api}/calibration`, calibrationRouter)
 app.use(`${api}/equipment`, equiupmentRouter)
 app.use(`${api}/instrument`, instrumentRouter)
+app.use(`${api}/cal`, calRouter)
 
 mongoose.connect(process.env.PROFILE_CONNECTION)
 .then(() => {

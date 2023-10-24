@@ -131,7 +131,7 @@ function Results() {
         };
     
         try {
-            const response = await fetch('http://localhost:5000/c1_1/calibration/add-calibration', {
+            const response = await fetch('http://localhost:5000/c1_1/cal/add-calibration', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
