@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 
-function Results(props) {
+function Results({equipmentID, resultInformation, setResultInformation}) {
     const {user} = useAuthContext()
 
-    const equipmentID = props.equipmentID;
-
-    const [serviceReason, setServiceReason] = useState('');
-    const [asFound, setAsFound] = useState('');
-    const [asLeft, setAsLeft] = useState('');
-    const [comments, setComments] = useState('');
-    const [calibrationTech, setCalibrationTech] = useState('');
-    const [calDate, setCalDate] = useState('');
-    const [intervalYear, setIntervalYear] = useState('');
-    const [intervalMonth, setIntervalMonth] = useState('');
-    const [temp, setTemp] = useState('');
-    const [humidity, setHumidity] = useState('');
+    const [resultInformation, setResultInformation] = useState({
+        serviceReason: '',
+        tests: [], 
+        asFound: '',
+        asLeft: '',
+        comments: '',
+        calibrationTech: '',
+        calDate: '',
+        intervalYear: '',
+        intervalMonth: '',
+        temp: '',
+        humidity: ''
+    })
 
     const TestPoint = ({ point, updateTestPoint }) => (
         <div className="form-row">
@@ -91,21 +92,22 @@ function Results(props) {
                     <input type="text" className="form-control" required value={test.unit} onChange={e => updateTest(index, 'unit', e.target.value)} />
                 </div>
             </div>
-            {test.testPoints.map((point, pIndex) => (
-                <TestPoint
-                    key={pIndex}
-                    point={point}
-                    updateTestPoint={(field, value) => updateTest(index, 'testPoints', pIndex, field, value)}
+            {test.testPoints && test.testPoints.map((point, pIndex) => (
+                <TestPoint 
+                    key={pIndex} 
+                    point={point} 
+                    updateTestPoint={(field, value) => updateTest(index, 'testPoints', pIndex, field, value)} 
                 />
             ))}
             <button className="btn btn-primary mt-2" onClick={() => updateTest(index, 'addTestPoint')}>Add Test Point</button>
         </div>
     );
+    
+    
 
-    const [tests, setTests] = useState([]);
 
     const updateTest = (index, field, ...rest) => {
-        const updatedTests = [...tests];
+        const updatedTests = [...resultInformation.tests];
         if (field === 'addTestPoint') {
             updatedTests[index].testPoints.push({ nominal: 0, asFound: 0, asLeft: 0, result: '', min: 0, max: 0 });
         } else if (field === 'testPoints') {
@@ -114,32 +116,25 @@ function Results(props) {
         } else {
             updatedTests[index][field] = rest[0];
         }
-        setTests(updatedTests);
+        setResultInformation(prevState => ({ ...prevState, tests: updatedTests }));
     };
+    
 
     useEffect(() => {
         if (user && user.firstName && user.lastName) {
-          setCalibrationTech(`${user.firstName} ${user.lastName}`);
+            setResultInformation(prevState => ({
+                ...prevState,
+                calibrationTech: `${user.firstName} ${user.lastName}`
+            }));
         }
-      });
+    }, [user]);
+    
       
 
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        const data = {
-            serviceReason,
-            tests, 
-            asFound,
-            asLeft,
-            comments,
-            calibrationTech,
-            calDate,
-            intervalYear,
-            intervalMonth,
-            temp,
-            humidity
-        };
+        const data = resultInformation
         console.log(equipmentID)
     
         try {
@@ -171,84 +166,127 @@ function Results(props) {
                 <label>Reason For Service</label>
                 <input 
                     type="text" 
-                    onChange={(e) => setServiceReason(e.target.value)} 
-                    value={serviceReason} 
+                    onChange={(e) => setResultInformation({ 
+                        ...resultInformation, 
+                        serviceReason: 
+                        e.target.value})} 
+                    value={resultInformation.serviceReason} 
+                    className="form-control"
                 />
             </div>
             <div className="row">
                 <label>As Found</label>
                 <input 
                     type="text" 
-                    onChange={(e) => setAsFound(e.target.value)} 
-                    value={asFound} 
+                    onChange={(e) => setResultInformation({ 
+                        ...resultInformation, 
+                        asFound: 
+                        e.target.value})} 
+                    value={resultInformation.asFound} 
+                    className="form-control"
                 />
             </div>
             <div className="row">
                 <label>As Left</label>
                 <input 
                     type="text" 
-                    onChange={(e) => setAsLeft(e.target.value)} 
-                    value={asLeft} 
+                    onChange={(e) => setResultInformation({ 
+                        ...resultInformation, 
+                        asLeft: 
+                        e.target.value})} 
+                    value={resultInformation.asLeft} 
+                    className="form-control"
                 />
             </div>
             <div className="row">
                 <label>Comments</label>
                 <input 
                     type="text" 
-                    onChange={(e) => setComments(e.target.value)} 
-                    value={comments} 
+                    onChange={(e) => setResultInformation({ 
+                        ...resultInformation, 
+                        comments: 
+                        e.target.value})} 
+                    value={resultInformation.comments} 
+                    className="form-control"
                 />
             </div>
             <div className="row">
                 <label>Calibration Tech</label>
-                <p>{calibrationTech}</p>
+                <p>{resultInformation.calibrationTech}</p>
             </div>
             <div className="row">
                 <label>Calibration Date</label>
                 <input 
                     type="text" 
-                    onChange={(e) => setCalDate(e.target.value)} 
-                    value={calDate} 
+                    onChange={(e) => setResultInformation({ 
+                        ...resultInformation, 
+                        calDate: 
+                        e.target.value})} 
+                    value={resultInformation.calDate} 
+                    className="form-control"
                 />
             </div>
             <div className="row">
                 <label>Interval Year</label>
                 <input 
                     type="text" 
-                    onChange={(e) => setIntervalYear(e.target.value)} 
-                    value={intervalYear} 
+                    onChange={(e) => setResultInformation({ 
+                        ...resultInformation, 
+                        intervalYear: 
+                        e.target.value})} 
+                    value={resultInformation.intervalYear} 
+                    className="form-control"
                 />
             </div>
             <div className="row">
                 <label>Interval Month</label>
                 <input 
                     type="text" 
-                    onChange={(e) => setIntervalMonth(e.target.value)} 
-                    value={intervalMonth} 
+                    onChange={(e) => setResultInformation({ 
+                        ...resultInformation, 
+                        intervalMonth: 
+                        e.target.value})} 
+                    value={resultInformation.intervalMonth} 
+                    className="form-control"
                 />
             </div>
             <div className="row">
-                <label>Temp</label>
+                <label>Temperature</label>
                 <input 
                     type="text" 
-                    onChange={(e) => setTemp(e.target.value)} 
-                    value={temp} 
+                    onChange={(e) => setResultInformation({ 
+                        ...resultInformation, 
+                        temp: 
+                        e.target.value})} 
+                    value={resultInformation.temp} 
+                    className="form-control"
                 />
             </div>
             <div className="row">
                 <label>Humidity</label>
                 <input 
                     type="text" 
-                    onChange={(e) => setHumidity(e.target.value)} 
-                    value={humidity} 
+                    onChange={(e) => setResultInformation({ 
+                        ...resultInformation, 
+                        humidity: 
+                        e.target.value})} 
+                    value={resultInformation.humidity} 
+                    className="form-control"
                 />
             </div>
             <div className="container mt-3">
-                {tests.map((test, index) => (
+                {resultInformation.tests.map((test, index) => (
                     <Test key={index} test={test} updateTest={updateTest} index={index} />
                 ))}
-                <button className="btn btn-success mt-3" onClick={() => setTests([...tests, { type: '', method: '', unit: '', testPoints: [] }])}>Add Test</button>
+                <button 
+                    className="btn btn-success mt-3" 
+                    onClick={() => setResultInformation(prevState => ({
+                        ...prevState, tests: [...prevState.tests, { type: '', method: '', unit: '', testPoints: [] }] 
+                    }))}>
+                        Add Test
+                </button>
             </div>
+
             <button type="submit" className="btn btn-primary mt-3">Submit</button>
         </form>
     </div>

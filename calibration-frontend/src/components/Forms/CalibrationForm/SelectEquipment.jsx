@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function SelectEquipment(props) {
+function SelectEquipment({ equipmentInformation, setEquipmentInformation, onEquipmentSelect }) {
 
     // Display Equipment Based Information Based Off What  COmpany Is Selected
     const [companies, setCompanies] = useState([]);
@@ -55,7 +55,7 @@ function SelectEquipment(props) {
                 equipmentLocation: selectedEquipment.equipmentLocation,
             });
         }
-        props.onEquipmentSelect(selectedEquipment._id);
+        onEquipmentSelect(selectedEquipment._id);
     };
 
   return (

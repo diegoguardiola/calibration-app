@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function SelectInstrument() {
+function SelectInstrument({ instrumentInformation, setInstrumentInformation }) {
 
     const [instruments, setInstruments] = useState([])
     const [instrumentID, setInstrumentID] = useState(null);
