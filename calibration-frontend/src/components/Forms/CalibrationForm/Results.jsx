@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import {useAuthContext} from '../../../hooks/useAuthContext'
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 function Results(props) {
-    const {user} = useAuthContext
+    const {user} = useAuthContext()
 
     const equipmentID = props.equipmentID;
 
@@ -120,9 +120,8 @@ function Results(props) {
     useEffect(() => {
         if (user && user.firstName && user.lastName) {
           setCalibrationTech(`${user.firstName} ${user.lastName}`);
-          console.log('User exists:', calibrationTech);
         }
-      }, [user]);
+      });
       
 
     const handleSubmit = async (e) => {
