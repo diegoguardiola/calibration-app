@@ -6,6 +6,7 @@ const { loginUser,
     getUserIdByClientName,
     getEquipmentByUserId,
     getUsersObjectIdAndCompany,
+    getInfoByUserId
 } = require('../controllers/userController');
 const { requireAdmin } = require('../middleware/requireAuth');
 
@@ -18,6 +19,7 @@ router.get('/get-client', getClient)
 router.get('/get-userId', getUserIdByClientName);
 router.get('/get-user-company-id', getUsersObjectIdAndCompany);
 router.get('/:userId/equipment', getEquipmentByUserId);
+router.get('/:userId/client-info', getInfoByUserId);
 
 
 

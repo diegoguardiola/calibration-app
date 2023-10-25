@@ -71,15 +71,15 @@ export const CalibrationForm = () => {
         }
     
         const combinedData = {
+            client: clientData,
             equipment: equipmentInformation,
             instrument: instrumentInformation,
             results: resultInformation,
-            client: clientData
         };
 
         console.log(combinedData)
     
-        /*const response = await fetch('http://localhost:5000/c1_1/calibration', {
+        const response = await fetch('http://localhost:5000/c1_1/report/create', {
             method: 'POST',
             body: JSON.stringify(combinedData),
             headers: {
@@ -96,7 +96,7 @@ export const CalibrationForm = () => {
         setError(null);
         setEmptyFields([]);
         console.log('new calibration added', json);
-        dispatch({type: 'CREATE_CALIBRATION', payload: json});*/
+        dispatch({type: 'CREATE_CALIBRATION', payload: json});
     }
     
     

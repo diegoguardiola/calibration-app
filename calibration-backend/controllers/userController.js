@@ -57,7 +57,8 @@ const loginUser = async (req, res) => {
         address: user.address,
         phone: user.phone,
         email: user.email, 
-        role: user.role});
+        role: user.role
+      });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -127,6 +128,10 @@ const getEquipmentByUserId = async (req, res) => {
   }
 };
 
+const getInfoByUserId = async (req, res) => {
+
+};
+
 
 
 module.exports = { 
@@ -136,5 +141,6 @@ module.exports = {
   getClient, 
   getUserIdByClientName,
   getEquipmentByUserId,
-  getUsersObjectIdAndCompany
+  getUsersObjectIdAndCompany,
+  getInfoByUserId
  };

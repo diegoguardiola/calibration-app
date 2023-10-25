@@ -12,22 +12,32 @@ function SelectEquipment({ clientData, setClientData, equipmentInformation, setE
         // Fetch the data from the endpoint
         fetch('http://localhost:5000/c1_1/user/get-user-company-id') // Replace with the actual endpoint path
         .then(response => response.json())
-        .then(data => setCompanies(data))
         .catch(error => console.error('Error fetching companies:', error));
     }, []);
 
     const handleChange = (event) => {
         const selectedUserID = event.target.value;
         setUserID(selectedUserID);
+    
         fetch(`http://localhost:5000/c1_1/user/${selectedUserID}/equipment`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
             setFetchedData(data);
-            setClientData(data);
+            
+    
+            // Make an additional fetch call
+            return fetch(`http://localhost:5000/c1_1/user/${selectedUserID}/client-info`);
+        })
+        .then(response => response.json())
+        .then(additionalData => {
+            console.log(additionalData)
+            setClientData(additionalData);
+            // Do something with the additional data
         })
         .catch(error => console.error('Error fetching data:', error));
     };
+    
 
 
     const handleEquipmentChange = (event) => {
