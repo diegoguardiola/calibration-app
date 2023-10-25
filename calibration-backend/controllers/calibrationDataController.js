@@ -8,6 +8,12 @@ const addCalibrationData = async (req, res) => {
         const newCalibration = new AddCalibrationData(data);
         const savedCalibration = await newCalibration.save();
         
+        const equipmentId = req.params.equipmentId; // Assuming you pass equipmentId in the URL
+        await EquipmentID.findByIdAndUpdate(equipmentId, {
+            $push: { calibrations: savedCalibration._id }
+        });
+
+        
         res.status(201).json(savedCalibration);
     } catch (error) {
         console.error('Error saving calibration data:', error);

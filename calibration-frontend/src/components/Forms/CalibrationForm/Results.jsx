@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 
-function Results() {
+function Results(props) {
+
+    const equipmentID = props.equipmentID;
 
     const [serviceReason, setServiceReason] = useState('');
     const [asFound, setAsFound] = useState('');
@@ -129,11 +131,10 @@ function Results() {
             temp,
             humidity
         };
-
-        console.log(data)
+        console.log(equipmentID)
     
         try {
-            const response = await fetch('http://localhost:5000/c1_1/cal/add-calibration', {
+            const response = await fetch(`http://localhost:5000/c1_1/cal/${equipmentID}/add-calibration`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

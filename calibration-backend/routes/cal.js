@@ -4,6 +4,6 @@ const {addCalibrationData} = require('../controllers/calibrationDataController')
 
 const router = express.Router()
 
-router.post('/add-calibration', addCalibrationData)
+router.post('/:equipmentId/add-calibration', addCalibrationData)
 
 module.exports = router
