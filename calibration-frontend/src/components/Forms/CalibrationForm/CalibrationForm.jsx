@@ -86,6 +86,7 @@ export const CalibrationForm = () => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user.token}`
             }
+            
         });
         const json = await response.json();
     

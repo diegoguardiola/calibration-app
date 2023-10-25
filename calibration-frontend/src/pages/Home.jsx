@@ -11,7 +11,7 @@ const Home = () => {
 
     useEffect(() => {
         const fetchCalibrations = async () => {
-            const response = await fetch('http://localhost:5000/c1_1/calibration',{
+            const response = await fetch('http://localhost:5000/c1_1/cal/get-calibrations',{
                 headers: {'Authorization': `Bearer ${user.token}`},
       })
       const json = await response.json()

@@ -3,7 +3,6 @@ const {
     getCalibrations,
     createCalibrationData,
 } = require('../controllers/calibrationController')
-const {addCalibrationData} = require('../controllers/calibrationDataController')
 const {requireAuth} = require('../middleware/requireAuth')
 
 const router = express.Router()
