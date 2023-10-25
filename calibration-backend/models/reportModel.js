@@ -1,3 +1,4 @@
+'use strict';
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -45,7 +46,11 @@ const ReportSchema = new Schema({
         address: String,
         phone: String,
         email: String
-    }
+    },
+    user_id: {
+        type: String,
+        required: true
+      }
 });
 
 // Create the model

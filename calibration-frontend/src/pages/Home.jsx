@@ -11,7 +11,7 @@ const Home = () => {
 
     useEffect(() => {
         const fetchCalibrations = async () => {
-            const response = await fetch('http://localhost:5000/c1_1/cal/get-calibrations',{
+            const response = await fetch('http://localhost:5000/c1_1/report/find-all',{
                 headers: {'Authorization': `Bearer ${user.token}`},
       })
       const json = await response.json()
@@ -49,7 +49,7 @@ const Home = () => {
                             <button className="btn btn-primary" onClick={() => exportToPDF(calibration)}>Export</button>
                         </td>
                         <td>{calibration.calibration_id}</td>
-                        <td>{calibration.clientName}</td>
+                        <td>{calibration.client.firstName}</td>
                         <td>{calibration.calibrationProcedure}</td>
                         <td>{calibration.createdAt}</td>
                     </tr>

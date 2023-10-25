@@ -10,14 +10,27 @@ const create = async (req, res) => {
         });
     }
 
+    // Extract user token from the request headers
+    const userToken = req.headers.authorization && req.headers.authorization.split(' ')[1];
+
+    if (!userToken) {
+        return res.status(401).send({
+            message: "Authorization token is missing!"
+        });
+    }
+
+    // Note: You might want to validate or use the userToken here as needed
+
     // Create a Report
     const report = new Report({
         equipment: req.body.equipment,
         instrument: req.body.instrument,
         results: req.body.results,
-        client: req.body.client
+        client: req.body.client,
+        // You can also add the userToken to the report if needed
+        // userToken: userToken
     });
-
+    
     // Save Report in the database
     try {
         const data = await report.save();
@@ -29,8 +42,9 @@ const create = async (req, res) => {
     }
 };
 
+
 // Retrieve all Reports from the database
-const findAll = async (req, res) => {
+/*const findAll = async (req, res) => {
     try {
         const reports = await Report.find();
         res.send(reports);
@@ -39,7 +53,15 @@ const findAll = async (req, res) => {
             message: err.message || "Some error occurred while retrieving reports."
         });
     }
-};
+};*/
+
+const findAll = async (req, res) => {
+    const user_id = req.user._id
+
+  const reports = await Report.find({ user_id }).sort({ createdAt: -1 })
+  
+    res.status(200).json(reports)
+  }
 
 // Find a single Report with a reportId
 const findOne = async (req, res) => {
