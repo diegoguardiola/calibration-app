@@ -39,17 +39,12 @@ const ReportSchema = new Schema({
         humidity: String
     },
     client: {
-        equipmentList: [{
-            equipmentName: String,
-            equipmentID: String,
-            equipmentManufacturer: String,
-            equipmentModelNumber: String,
-            equipmentSerialNumber: String,
-            equipmentRange: String,
-            equipmentUnits: String,
-            equipmentDescription: String,
-            equipmentLocation: String
-        }] // Assuming equipmentList is an array of equipment objects
+        firstName: String,
+        lastName: String,
+        company: String,
+        address: String,
+        phone: String,
+        email: String
     }
 });
 

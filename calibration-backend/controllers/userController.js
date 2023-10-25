@@ -136,11 +136,19 @@ const getInfoByUserId = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.status(200).json(user);
+    res.status(200).json({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      company: user.company,
+      address: user.address,
+      phone: user.phone,
+      email: user.email
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
+
 
 
 
