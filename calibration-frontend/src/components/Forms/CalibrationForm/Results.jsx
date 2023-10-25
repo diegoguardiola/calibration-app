@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import {useAuthContext} from '../../../hooks/useAuthContext'
 
 function Results(props) {
+    const {user} = useAuthContext
 
     const equipmentID = props.equipmentID;
 
@@ -115,6 +117,14 @@ function Results(props) {
         setTests(updatedTests);
     };
 
+    useEffect(() => {
+        if (user && user.firstName && user.lastName) {
+          setCalibrationTech(`${user.firstName} ${user.lastName}`);
+          console.log('User exists:', calibrationTech);
+        }
+      }, [user]);
+      
+
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -192,11 +202,7 @@ function Results(props) {
             </div>
             <div className="row">
                 <label>Calibration Tech</label>
-                <input 
-                    type="text" 
-                    onChange={(e) => setCalibrationTech(e.target.value)} 
-                    value={calibrationTech} 
-                />
+                <p>{calibrationTech}</p>
             </div>
             <div className="row">
                 <label>Calibration Date</label>
