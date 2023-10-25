@@ -129,7 +129,7 @@ const getEquipmentByUserId = async (req, res) => {
 };
 
 const getInfoByUserId = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.params.userId;
 
   try {
     const user = await User.findById(userId);
