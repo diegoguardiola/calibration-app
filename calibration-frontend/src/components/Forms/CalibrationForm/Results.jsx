@@ -4,20 +4,6 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 function Results({equipmentID, resultInformation, setResultInformation}) {
     const {user} = useAuthContext()
 
-    const [resultInformation, setResultInformation] = useState({
-        serviceReason: '',
-        tests: [], 
-        asFound: '',
-        asLeft: '',
-        comments: '',
-        calibrationTech: '',
-        calDate: '',
-        intervalYear: '',
-        intervalMonth: '',
-        temp: '',
-        humidity: ''
-    })
-
     const TestPoint = ({ point, updateTestPoint }) => (
         <div className="form-row">
             <div className="col">

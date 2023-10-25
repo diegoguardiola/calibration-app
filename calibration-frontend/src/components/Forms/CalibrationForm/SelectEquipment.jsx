@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 
-function SelectEquipment({ equipmentInformation, setEquipmentInformation, onEquipmentSelect }) {
+function SelectEquipment({ clientData, setClientData, equipmentInformation, setEquipmentInformation, onEquipmentSelect }) {
 
     // Display Equipment Based Information Based Off What  COmpany Is Selected
     const [companies, setCompanies] = useState([]);
     const [userID, setUserID] = useState(null);
     const [fetchedData, setFetchedData] = useState([]);
+
 
     useEffect(() => {
         // Fetch the data from the endpoint
@@ -23,22 +24,11 @@ function SelectEquipment({ equipmentInformation, setEquipmentInformation, onEqui
         .then(data => {
             console.log(data);
             setFetchedData(data);
+            setClientData(data);
         })
         .catch(error => console.error('Error fetching data:', error));
     };
 
-//Set Equipment Information Based Off What Is Selected From The List
-    const [equipmentInformation, setEquipmentInformation] = useState({
-        equipmentName: '', 
-        equipmentID: '',
-        equipmentManufacturer: '',
-        equipmentModelNumber: '',
-        equipmentSerialNumber:'',
-        equipmentRange: '',
-        equipmentUnits: '',
-        equipmentDescription: '',
-        equipmentLocation: '',
-    });   
 
     const handleEquipmentChange = (event) => {
         const selectedEquipment = fetchedData.equipmentList.find(item => item._id === event.target.value);

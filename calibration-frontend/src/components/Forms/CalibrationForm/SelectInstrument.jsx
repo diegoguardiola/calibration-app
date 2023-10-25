@@ -14,18 +14,6 @@ function SelectInstrument({ instrumentInformation, setInstrumentInformation }) {
         console.log(instruments)
     }, []);
 
-    const [instrumentInformation, setInstrumentInformation] = useState({
-      instrumentDescription: '',
-      instrumentID: '', 
-      NISTnum: '', 
-      instrumentManufacturer: '',
-      instrumentModelNumber: '',
-      instrumentSerialNumber: '',
-      instrumentCalDate: '',
-      instrumentIntervalYears: '',
-      instrumentIntervalMonths: '',
-  });
-  
 
   const handleChange = (event) => {
     const selectedInstrumentID = event.target.value;
