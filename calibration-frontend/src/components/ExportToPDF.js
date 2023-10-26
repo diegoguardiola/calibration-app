@@ -228,11 +228,14 @@ export const exportToPDF = (calibration) => {
     // Logo
     doc.addImage(logo, 'PNG', 75, 5, 50, 20);
     // Calibration Table
-    const tableData = [
-        ['Header 1', 'Header 2', 'Header 3'],
-        ['Row 1, Cell 1', 'Row 1, Cell 2', 'Row 1, Cell 3'],
-        ['Row 2, Cell 1', 'Row 2, Cell 2', 'Row 2, Cell 3'],
-    ];
+    const tableData = calibration.tests.testPoints.map((point) => ([
+        calibration.tests[0].testPoints.nominal, // Convert to a number if needed
+        calibration.tests[0].testPoints.asFound, // Convert to a number if needed
+        calibration.tests[0].testPoints.asLeft,   // Convert to a number if needed
+        calibration.tests[0].testPoints.result,
+        calibration.tests[0].testPoints.min,         // Convert to a number if needed
+        calibration.tests[0].testPoints.max
+    ]))
     const tableStyles = {
         borderColor: [0, 0, 0], // Black border color
         fillColor: [255, 255, 255],   // Black fill color
@@ -246,7 +249,7 @@ export const exportToPDF = (calibration) => {
 
     doc.autoTable({
         startY: 35,
-        head: [['Header 1', 'Header 2', 'Header 3']],
+        head: [['Function/Range', 'Nominal Value', 'As Found', 'As Left', 'Result', 'Min', 'Max', 'Units']],
         body: tableData,
         headStyles: {
             fontSize: 9,
