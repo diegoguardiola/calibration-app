@@ -7,7 +7,7 @@ export const exportToPDF = (calibration) => {
     const doc = new jsPDF();
 
     // Logo
-    doc.addImage(logo, 'PNG', 75, 5, 50, 20);
+    doc.addImage(logo, 'PNG', 70, 5, 60, 20);
 
     // Customer Information
     doc.autoTable({
@@ -20,13 +20,13 @@ export const exportToPDF = (calibration) => {
             [calibration.client.phone],
         ].map(item => [item]), // Wrapping each item in another array
         headStyles: {
-            fontSize: 9,
+            fontSize: 11,
             cellPadding: 0.3,
             fillColor: [255, 255, 255], 
             textColor: [0, 0, 0]
         },
         bodyStyles: {
-            fontSize: 8, 
+            fontSize: 10, 
             cellPadding: 0.2,
             lineColor: [0, 0, 153],
         },
@@ -36,6 +36,7 @@ export const exportToPDF = (calibration) => {
                 // The y position just below the cell
                 let y = data.cell.y + data.cell.height;
                 doc.setDrawColor(0, 0, 153);
+                doc.setLineWidth(0.40);
                 // Draw a line from the left edge of the cell to the right
                 doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
             }
@@ -55,14 +56,14 @@ export const exportToPDF = (calibration) => {
             ['www.falcoautomation.com'],
         ].map(item => [item]), // Wrapping each item in another array
         headStyles: {
-            fontSize: 9,
+            fontSize: 11,
             cellPadding: 0.3,
             halign: 'right',
             fillColor: [255, 255, 255], 
             textColor: [0, 0, 0] 
         },
         bodyStyles: {
-            fontSize: 8, 
+            fontSize: 10, 
             cellPadding: 0.2,
             halign: 'right'
         },
@@ -73,6 +74,7 @@ export const exportToPDF = (calibration) => {
                 // The y position just below the cell
                 let y = data.cell.y + data.cell.height;
                 doc.setDrawColor(0, 0, 153);
+                doc.setLineWidth(0.40);
                 // Draw a line from the left edge of the cell to the right
                 doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
             }
@@ -81,10 +83,10 @@ export const exportToPDF = (calibration) => {
     });
      // Certificate Information Header
      doc.autoTable({
-        startY: 60,
+        startY: 65,
         head: [[{ content: "Certificate Information", colSpan: 2 }]],
         headStyles: {
-            fontSize: 10,
+            fontSize: 11,
             cellPadding: 0.3,
             fillColor: [255, 255, 255], 
             textColor: [0, 0, 0],
@@ -97,6 +99,7 @@ export const exportToPDF = (calibration) => {
                 // The y position just below the cell
                 let y = data.cell.y + data.cell.height;
                 doc.setDrawColor(0, 0, 153);
+                doc.setLineWidth(0.40);
                 // Draw a line from the left edge of the cell to the right
                 doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
             }
@@ -105,7 +108,7 @@ export const exportToPDF = (calibration) => {
     });
     // Certificate Information Col 1
     doc.autoTable({
-        startY: 70,
+        startY: 72,
         body: [
             ['Equipment Id:', calibration.equipment.equipmentID],
             ['Equipment Manufacturer:', calibration.equipment.equipmentManufacturer],
@@ -116,7 +119,7 @@ export const exportToPDF = (calibration) => {
             ['Units:', calibration.equipment.equipmentUnits]
         ],
         bodyStyles: {
-            fontSize: 8, 
+            fontSize: 10, 
             cellPadding: 0.2,
             halign: 'left'
         },
@@ -125,7 +128,7 @@ export const exportToPDF = (calibration) => {
     });
     // Certificate Information Col 2
     doc.autoTable({
-        startY: 70,
+        startY: 72,
         margin: { left: 110 },
         body: [
             ['Technician:',calibration.results.calibrationTech],
@@ -136,7 +139,7 @@ export const exportToPDF = (calibration) => {
             ['Humidity:', calibration.results.humidity],
         ],
         bodyStyles: {
-            fontSize: 8, 
+            fontSize: 10, 
             cellPadding: 0.2,
             halign: 'left'
         },
@@ -145,10 +148,10 @@ export const exportToPDF = (calibration) => {
     });    
     // Certificate ISO comments
     doc.autoTable({
-    startY: 100,
+    startY: 105,
     head: [[{ content: "", colSpan: 2 }]],
     headStyles: {
-        fontSize: 10,
+        fontSize: 9,
         cellPadding: 0.3,
         fillColor: [255, 255, 255], 
         textColor: [0, 0, 0],
@@ -156,17 +159,13 @@ export const exportToPDF = (calibration) => {
     },
     body: [
        ['Falco Automation certifies the performance of the above instrument has been verified using test equipment of known accuracy, traceable to the International System of Units (SI) through a National Metrology Institute such as NIST, NPL or PTB. The methods and procedures used comply with ISO/IEC 17025. The reported expanded measurement uncertainty is stated as the standard measurement uncertainty multiplied by the coverage factor k=2 such that the coverage probability corresponds to approximately 95%.'],
-       [''],
        ['Dimensional testing length measurements are performed in accordance with A2LA R205 – Specific Requirements: Calibration Laboratory Accreditation Program and are deemed equivalent to that of a calibration.'],
-       [''],
        ['This certificate and associated attachments relate only to the items calibrated. No representation is made about the long-term stability of this unit. Any number of factors can influence the calibration that may cause the unit to drift out of specification before the calibration interval has expired. Calibration due dates appearing on the certificate or label are determined by the customer for administrative purposes and do not imply continued conformance to specifications.'],
-       [''],
        ['This certificate shall not be reproduced, except in full, without the written approval of the issuing calibration laboratory.'],
-       [''],
        ['Data Report Attached.'], 
     ],
     bodyStyles: {
-        fontSize: 8, 
+        fontSize: 9, 
         cellPadding: 0.2,
         halign: 'left'
     },
@@ -177,15 +176,51 @@ export const exportToPDF = (calibration) => {
             // The y position just below the cell
             let y = data.cell.y + data.cell.height - 3;
             doc.setDrawColor(0, 0, 153);
+            doc.setLineWidth(0.40);
             // Draw a line from the left edge of the cell to the right
             doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
         }
     },
     tableWidth: 180,
     });
-    // Calibration Standards/Instruments
+    // Comments
     doc.autoTable({
         startY: 160,
+        head: [["Comments"]],
+        body: [
+            [calibration.results.comments],
+        ].map(item => [item]), // Wrapping each item in another array
+        headStyles: {
+            fontSize: 11,
+            cellPadding: 0.3,
+            halign: 'center',
+            fillColor: [255, 255, 255], 
+            textColor: [0, 0, 0] 
+        },
+        bodyStyles: {
+            fontSize: 10,
+            cellPadding: 0.4,
+            lineWidth: 0.5, // specify the line width for the table body
+            lineColor: [0, 0, 153],
+            minCellHeight: 30,
+        },
+        theme: 'plain',
+        didDrawCell: (data) => {
+            // If this is a head section cell and it is the last column
+            if (data.section === 'head' ) {
+                // The y position just below the cell
+                let y = data.cell.y + data.cell.height;
+                doc.setDrawColor(0, 0, 255);
+                doc.setLineWidth(0.30);
+                // Draw a line from the left edge of the cell to the right
+                doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
+            }
+        },
+        tableWidth: 180,
+    });
+    // Calibration Standards/Instruments
+    doc.autoTable({
+        startY: 200,
         head: [['Instrument ID', 'Description', 'Manufacturer', 'Model', 'Serial', 'Cal Date', 'Due Date']],
         body: [
             [calibration.instrument.instrumentID, calibration.instrument.instrumentDescription
@@ -194,18 +229,18 @@ export const exportToPDF = (calibration) => {
             ,calibration.instrument.instrumentCalDate]
         ],
         headStyles: {
-            fontSize: 9,
+            fontSize: 11,
             cellPadding: 0.3,
             halign: 'center',
             fillColor: [255, 255, 255], 
             textColor: [0, 0, 0],
-            columnWidth: [50, 60, 40, 60, 60, 60, 60],
+            columnWidth: [50, 60, 50, 50, 50, 50, 50],
         },
         bodyStyles: {
-            fontSize: 8, 
+            fontSize: 9, 
             cellPadding: 0.2,
             halign: 'center',
-            columnWidth: [60, 50, 40, 60, 60, 60, 60],
+            columnWidth: [50, 60, 50, 50, 50, 50, 50],
         },
          // Set specific widths for each column
         theme: 'plain',
@@ -214,7 +249,8 @@ export const exportToPDF = (calibration) => {
             if (data.section === 'head' ) {
                 // The y position just below the cell
                 let y = data.cell.y + data.cell.height;
-                doc.setDrawColor(0, 0, 255);
+                doc.setDrawColor(0, 0, 153);
+                doc.setLineWidth(0.40);
                 // Draw a line from the left edge of the cell to the right
                 doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
             }
@@ -226,12 +262,12 @@ export const exportToPDF = (calibration) => {
         startY: 268,
         head: [[{ content: "", colSpan: 2 }]],
         body: [
-           ['2689 Citrus Rd Suite D, Rancho Cordova, CA 95742']
+           ['2689 Citrus Rd Suite D • Rancho Cordova, CA 95742 • Phaone: (650) 449-9011', 'page 1 of 2']
         ],
         bodyStyles: {
-            fontSize: 8, 
+            fontSize: 7, 
             cellPadding: 0.2,
-            halign: 'left'
+            halign: 'lcenter'
         },
         theme: 'plain',
         didDrawCell: (data) => {
@@ -252,7 +288,21 @@ export const exportToPDF = (calibration) => {
     doc.addPage();
 
     // Logo
-    doc.addImage(logo, 'PNG', 75, 5, 50, 20);
+    doc.addImage(logo, 'PNG', 70, 5, 60, 20);
+    //Table Title
+    doc.autoTable({
+        startY: 35,
+        head: [["Calibration Data"]],
+        headStyles: {
+            fontSize: 12,
+            cellPadding: 0.3,
+            fillColor: [255, 255, 255], 
+            textColor: [0, 0, 0],
+            halign: 'center'
+        },
+        theme: 'plain',
+        tableWidth: 180,
+    });
 
     // Calibration Table
     const tableData = [];
@@ -287,21 +337,21 @@ export const exportToPDF = (calibration) => {
         halign: 'center'
     };
     doc.autoTable({
-        startY: 35,
+        startY: 45,
         head: [['Function/Range', 'Nominal Value', 'As Found', 'As Left', 'Result', 'Min', 'Max', 'Units']],
         body: tableData,
         headStyles: {
-            fontSize: 9,
-            cellPadding: 0.3,
+            fontSize: 10,
+            cellPadding: 0.4,
             textColor: [255, 255, 255],
             borderColor: [0, 0, 0], 
-            fillColor: [4, 31, 132], 
+            fillColor: [0, 0, 153], 
             lineColor: [0, 0, 0],
             halign: 'center'
         },
         bodyStyles: {
-            fontSize: 8, 
-            cellPadding: 0.2,
+            fontSize: 9, 
+            cellPadding: 0.3,
             lineColor: [0, 0, 153],
         },
         styles: tableStyles,
@@ -327,6 +377,31 @@ export const exportToPDF = (calibration) => {
     });
 
     //Footer
+    doc.autoTable({
+        startY: 268,
+        head: [[{ content: "", colSpan: 2 }]],
+        body: [
+           ['2689 Citrus Rd Suite D • Rancho Cordova, CA 95742 • Phaone: (650) 449-9011', 'page 2 of 2']
+        ],
+        bodyStyles: {
+            fontSize: 7, 
+            cellPadding: 0.2,
+            halign: 'lcenter'
+        },
+        theme: 'plain',
+        didDrawCell: (data) => {
+            // If this is a head section cell and it is the last column
+            if (data.section === 'head' ) {
+                // The y position just below the cell
+                let y = data.cell.y + data.cell.height - 3;
+                doc.setDrawColor(0, 0, 153);
+                doc.setLineWidth(0.78); // Set the line thickness to 1 (or any other value you prefer)
+                // Draw a line from the left edge of the cell to the right
+                doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
+            }
+        },
+        tableWidth: 180,
+    });
     
-    doc.save(`Calibration_${calibration.calibration_id}.pdf`);
+    doc.save(`Calibration_${calibration.equipment.equipmentDescription}_${calibration.equipment.equipmentID}.pdf`);
 };

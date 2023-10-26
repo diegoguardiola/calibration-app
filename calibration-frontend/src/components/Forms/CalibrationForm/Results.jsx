@@ -1,92 +1,92 @@
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function Results({equipmentID, resultInformation, setResultInformation}) {
     const {user} = useAuthContext()
 
     const TestPoint = ({ point, updateTestPoint }) => (
-        <div className="form-row">
-            <div className="col">
-                <label>Nominal</label>
-                <input type="number" 
-                    className="form-control" 
-                    value={point.nominal} 
-                    onChange={e => updateTestPoint('nominal', e.target.value)} 
-                />
-            </div>
-            <div className="col">
-                <label>As Found</label>
-                <input 
-                    type="number" 
-                    className="form-control" 
-                    value={point.asFound} 
-                    onChange={e => updateTestPoint('asFound', e.target.value)} 
-                />
-            </div>
-            <div className="col">
-                <label>As Left</label>
-                <input 
-                    type="number" 
-                    className="form-control" 
-                    value={point.asLeft} 
-                    onChange={e => updateTestPoint('asLeft', e.target.value)} 
-                />
-            </div>
-            <div className="col">
-                <label>Result</label>
-                <input 
-                    type="text" 
-                    className="form-control" 
-                    value={point.result} 
-                    onChange={e => updateTestPoint('result', e.target.value)} 
-                />
-            </div>
-            <div className="col">
-                <label>Min</label>
-                <input 
-                    type="number" 
-                    className="form-control" 
-                    value={point.min} 
-                    onChange={e => updateTestPoint('min', e.target.value)} 
-                />
-            </div>
-            <div className="col">
-                <label>Max</label>
-                <input 
-                    type="number" 
-                    className="form-control" 
-                    value={point.max} 
-                    onChange={e => updateTestPoint('max', e.target.value)} 
-                />
-            </div>
-        </div>
+            <Row>
+                <Col>
+                    <label>Nominal</label>
+                    <input type="number" 
+                        value={point.nominal} 
+                        onChange={e => updateTestPoint('nominal', e.target.value)} 
+                    />
+                </Col>
+                <Col>
+                    <label>As Found</label>
+                    <input 
+                        type="number" 
+                        value={point.asFound} 
+                        onChange={e => updateTestPoint('asFound', e.target.value)} 
+                    />
+                </Col>
+                <Col>
+                    <label>As Left</label>
+                    <input 
+                        type="number" 
+                        value={point.asLeft} 
+                        onChange={e => updateTestPoint('asLeft', e.target.value)} 
+                    />
+                </Col>
+                <Col>
+                    <label>Result</label>
+                    <input 
+                        type="text" 
+                        value={point.result} 
+                        onChange={e => updateTestPoint('result', e.target.value)} 
+                    />
+                </Col>
+                <Col>
+                    <label>Min</label>
+                    <input 
+                        type="number" 
+                        value={point.min} 
+                        onChange={e => updateTestPoint('min', e.target.value)} 
+                    />
+                </Col>
+                <Col>
+                    <label>Max</label>
+                    <input 
+                        type="number" 
+                        value={point.max} 
+                        onChange={e => updateTestPoint('max', e.target.value)} 
+                    />
+                </Col>
+            </Row>
     );
     
     const Test = ({ test, updateTest, index }) => (
-        <div className="mb-3">
-            <div className="form-row">
-                <div className="col">
-                    <label>Type</label>
-                    <input type="text" className="form-control" required value={test.type} onChange={e => updateTest(index, 'type', e.target.value)} />
-                </div>
-                <div className="col">
-                    <label>Method</label>
-                    <input type="text" className="form-control" required value={test.method} onChange={e => updateTest(index, 'method', e.target.value)} />
-                </div>
-                <div className="col">
-                    <label>Unit</label>
-                    <input type="text" className="form-control" required value={test.unit} onChange={e => updateTest(index, 'unit', e.target.value)} />
-                </div>
-            </div>
-            {test.testPoints && test.testPoints.map((point, pIndex) => (
-                <TestPoint 
-                    key={pIndex} 
-                    point={point} 
-                    updateTestPoint={(field, value) => updateTest(index, 'testPoints', pIndex, field, value)} 
-                />
-            ))}
-            <button className="btn btn-primary mt-2" onClick={() => updateTest(index, 'addTestPoint')}>Add Test Point</button>
-        </div>
+        <Container fluid>
+            <Col>
+                <Row>
+                    <Col>
+                        <label>Type</label>
+                        <input type="text" className="form-control" required value={test.type} onChange={e => updateTest(index, 'type', e.target.value)} />
+                    </Col>
+                    <Col>
+                        <label>Method</label>
+                        <input type="text" className="form-control" required value={test.method} onChange={e => updateTest(index, 'method', e.target.value)} />
+                    </Col>
+                    <Col>
+                        <label>Unit</label>
+                        <input type="text" className="form-control" required value={test.unit} onChange={e => updateTest(index, 'unit', e.target.value)} />
+                    </Col>
+                </Row>
+            
+                {test.testPoints && test.testPoints.map((point, pIndex) => (
+                    <TestPoint 
+                        key={pIndex} 
+                        point={point} 
+                        updateTestPoint={(field, value) => updateTest(index, 'testPoints', pIndex, field, value)} 
+                    />
+                ))}
+                <button className="btn btn-primary mt-2" onClick={() => updateTest(index, 'addTestPoint')}>Add Test Point</button>
+            </Col>
+        </Container>
     );
     
     
