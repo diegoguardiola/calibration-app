@@ -64,7 +64,6 @@ export const CalibrationForm = () => {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        
         if (!user) {
             setError('You must be logged in');
             return;
@@ -77,7 +76,7 @@ export const CalibrationForm = () => {
             results: resultInformation,
         };
 
-        console.log(combinedData)
+        console.log(user)
     
         const response = await fetch('http://localhost:5000/c1_1/report/create', {
             method: 'POST',

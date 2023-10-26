@@ -3,44 +3,32 @@ const Report = require('../models/reportModel'); // Adjust the path to where you
 
 // Create and Save a new Report
 const create = async (req, res) => {
-    // Validate request
-    if (!req.body) {
-        return res.status(400).send({
-            message: "Report content can't be empty!"
-        });
-    }
 
-    // Extract user token from the request headers
-    const userToken = req.headers.authorization && req.headers.authorization.split(' ')[1];
-
-    if (!userToken) {
-        return res.status(401).send({
-            message: "Authorization token is missing!"
-        });
-    }
-
-    // Note: You might want to validate or use the userToken here as needed
 
     // Create a Report
-    const report = new Report({
-        equipment: req.body.equipment,
-        instrument: req.body.instrument,
-        results: req.body.results,
-        client: req.body.client,
-        // You can also add the userToken to the report if needed
-        // userToken: userToken
-    });
+    const {
+        equipment,
+        instrument,
+        results,
+        client,
+    } = req.body
     
     // Save Report in the database
     try {
-        const data = await report.save();
-        res.send(data);
-    } catch (err) {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the Report."
-        });
+        const user_id = req.user._id
+        const reportData = await Report.create({
+            equipment,
+            instrument,
+            results,
+            client,
+            user_id
+        })
+        res.status(200).json(reportData);
+    } catch (error) {
+      res.status(400).json({error: error.message});
     }
 };
+
 
 
 // Retrieve all Reports from the database

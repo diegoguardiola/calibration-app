@@ -49,7 +49,7 @@ const Home = () => {
                             <button className="btn btn-primary" onClick={() => exportToPDF(calibration)}>Export</button>
                         </td>
                         <td>{calibration.calibration_id}</td>
-                        <td>{calibration.client.firstName}</td>
+                        <td>{calibration.client.company}</td>
                         <td>{calibration.calibrationProcedure}</td>
                         <td>{calibration.createdAt}</td>
                     </tr>

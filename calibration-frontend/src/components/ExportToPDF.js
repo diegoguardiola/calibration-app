@@ -14,10 +14,10 @@ export const exportToPDF = (calibration) => {
         startY: 35,
         head: [["Customer Information"]],
         body: [
-            [calibration.clientName],
-            [calibration.clientAddress],
-            [calibration.clientEmail],
-            [calibration.clientPhone],
+            [calibration.client.company],
+            [calibration.client.firstName, ' ', calibration.client.lastName],
+            [calibration.client.address],
+            [calibration.client.phone],
         ].map(item => [item]), // Wrapping each item in another array
         headStyles: {
             fontSize: 9,
@@ -43,7 +43,6 @@ export const exportToPDF = (calibration) => {
         theme: 'plain',
         tableWidth: 70,
     });
-
     // Falco Information
     doc.autoTable({
         startY: 35,
@@ -51,7 +50,7 @@ export const exportToPDF = (calibration) => {
         head: [["Serviced By"]],
         body: [
             ['Falco Automation, LLC'],
-            ['350 Industrial Rd, San Carlos, CA 94070'],
+            ['2689 Citrus Rd Suite D, Rancho Cordova, CA 95742'],
             ['Tel: (650) 449-9011'],
             ['www.falcoautomation.com'],
         ].map(item => [item]), // Wrapping each item in another array
@@ -80,19 +79,10 @@ export const exportToPDF = (calibration) => {
         },
         tableWidth: 70,
     });
-
-     // Equipment Information
+     // Certificate Information Header
      doc.autoTable({
         startY: 60,
-        head: [[{ content: "Equipment Information", colSpan: 2 }]],
-        body: [
-            ['Equipment Id', calibration.equipmentId],
-            ['Equipment Manufacturer', calibration.equipmentManufacturer],
-            ['Model Number', calibration.equipmentModelNumber],
-            ['Serial Number', calibration.equipmentSerialNumber],
-            ['Tolerance', calibration.equipmentTolerance],
-            ['Unit', calibration.unit],
-        ],
+        head: [[{ content: "Certificate Information", colSpan: 2 }]],
         headStyles: {
             fontSize: 10,
             cellPadding: 0.3,
@@ -100,83 +90,197 @@ export const exportToPDF = (calibration) => {
             textColor: [0, 0, 0],
             halign: 'center',
         },
-        bodyStyles: {
-            fontSize: 8, 
-            cellPadding: 0.2,
-        },
         theme: 'plain',
-        tableWidth: 70,
+        didDrawCell: (data) => {
+            // If this is a head section cell and it is the last column
+            if (data.section === 'head' ) {
+                // The y position just below the cell
+                let y = data.cell.y + data.cell.height;
+                doc.setDrawColor(0, 0, 255);
+                // Draw a line from the left edge of the cell to the right
+                doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
+            }
+        },
+        tableWidth: 180,
     });
-    
-    // Calibration Equipment Information
+    // Certificate Information Col 1
     doc.autoTable({
-        startY: 60,
-        margin: { left: 125 },
-        head: [[{ content: "Equipment Information", colSpan: 2 }]],
+        startY: 70,
         body: [
-            ['Calibration Method', calibration.calibrationMethod],
-            ['Calibration Procedure', calibration.calibrationProcedure],
-            ['Calibration Tool Id', calibration.calibrationToolId],
-            ['Manufacturer', calibration.calibrationToolManufacturer],
-            ['Model Number', calibration.calibrationToolMN],
-            ['Serial Number', calibration.calibrationToolSN],
+            ['Equipment Id:', calibration.equipment.equipmentID],
+            ['Equipment Manufacturer:', calibration.equipment.equipmentManufacturer],
+            ['Description:', calibration.equipment.description],
+            ['Model Number:',calibration.equipment.equipmentModelNumber],
+            ['Serial Number:', calibration.equipment.equipmentSerialNumber],
+            ['Range:', calibration.equipment.equipmentRange,],
+            ['Units:', calibration.equipment.equipmentUnits]
+        ],
+        bodyStyles: {
+            fontSize: 8, 
+            cellPadding: 0.2,
+            halign: 'left'
+        },
+        theme: 'plain',
+        tableWidth: 88,
+    });
+    // Certificate Information Col 2
+    doc.autoTable({
+        startY: 70,
+        margin: { left: 110 },
+        body: [
+            ['Technician:',calibration.results.calibrationTech],
+            ['Cal Date:', calibration.results.calDate],
+            ['Cal Due Date:', calibration.results.calDate],
+            ['Interval:', calibration.results.intervalMonth],
+            ['Temperature:', calibration.results.temp,],
+            ['Humidity:', calibration.results.humidity],
+        ],
+        bodyStyles: {
+            fontSize: 8, 
+            cellPadding: 0.2,
+            halign: 'left'
+        },
+        theme: 'plain',
+        tableWidth: 88,
+    });    
+    // Certificate ISO comments
+    doc.autoTable({
+    startY: 100,
+    head: [[{ content: "", colSpan: 2 }]],
+    headStyles: {
+        fontSize: 10,
+        cellPadding: 0.3,
+        fillColor: [255, 255, 255], 
+        textColor: [0, 0, 0],
+        halign: 'center',
+    },
+    body: [
+       ['Falco Automation certifies the performance of the above instrument has been verified using test equipment of known accuracy, traceable to the International System of Units (SI) through a National Metrology Institute such as NIST, NPL or PTB. The methods and procedures used comply with ISO/IEC 17025. The reported expanded measurement uncertainty is stated as the standard measurement uncertainty multiplied by the coverage factor k=2 such that the coverage probability corresponds to approximately 95%.'],
+       [''],
+       ['Dimensional testing length measurements are performed in accordance with A2LA R205 – Specific Requirements: Calibration Laboratory Accreditation Program and are deemed equivalent to that of a calibration.'],
+       [''],
+       ['This certificate and associated attachments relate only to the items calibrated. No representation is made about the long-term stability of this unit. Any number of factors can influence the calibration that may cause the unit to drift out of specification before the calibration interval has expired. Calibration due dates appearing on the certificate or label are determined by the customer for administrative purposes and do not imply continued conformance to specifications.'],
+       [''],
+       ['This certificate shall not be reproduced, except in full, without the written approval of the issuing calibration laboratory.'],
+       [''],
+       ['Data Report Attached.'], 
+    ],
+    bodyStyles: {
+        fontSize: 8, 
+        cellPadding: 0.2,
+        halign: 'left'
+    },
+    theme: 'plain',
+    didDrawCell: (data) => {
+        // If this is a head section cell and it is the last column
+        if (data.section === 'head' ) {
+            // The y position just below the cell
+            let y = data.cell.y + data.cell.height - 3;
+            doc.setDrawColor(0, 0, 255);
+            // Draw a line from the left edge of the cell to the right
+            doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
+        }
+    },
+    tableWidth: 180,
+    });
+    // Calibration Standards/Instruments
+    doc.autoTable({
+        startY: 160,
+        head: [['Instrument ID', 'Description', 'Manufacturer', 'Model', 'Serial', 'Cal Date', 'Due Date']],
+        body: [
+            [calibration.instrument.instrumentID, calibration.instrument.instrumentDescription
+            ,calibration.instrument.instrumentManufacturer, calibration.instrument.instrumentModelNumber
+            ,calibration.instrument.instrumentSerialNumber,calibration.instrument.instrumentCalDate
+            ,calibration.instrument.instrumentCalDate]
         ],
         headStyles: {
-            fontSize: 10,
+            fontSize: 9,
             cellPadding: 0.3,
+            halign: 'center',
             fillColor: [255, 255, 255], 
             textColor: [0, 0, 0],
-            halign: 'center',
+            columnWidth: [50, 60, 40, 60, 60, 60, 60],
         },
         bodyStyles: {
             fontSize: 8, 
             cellPadding: 0.2,
-            halign: 'right',
+            halign: 'center',
+            columnWidth: [60, 50, 40, 60, 60, 60, 60],
         },
+         // Set specific widths for each column
         theme: 'plain',
-        tableWidth: 70,
+        didDrawCell: (data) => {
+            // If this is a head section cell and it is the last column
+            if (data.section === 'head' ) {
+                // The y position just below the cell
+                let y = data.cell.y + data.cell.height;
+                doc.setDrawColor(0, 0, 255);
+                // Draw a line from the left edge of the cell to the right
+                doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
+            }
+        },
+        tableWidth: 180,
     });
 
-        // Results and Line
-        doc.autoTable({
-            startY: 89,
-            head: [["Calibration Results"]],
-            body: [
-                [''],
-            ].map(item => [item]), // Wrapping each item in another array
-            headStyles: {
-                fontSize: 9,
-                cellPadding: 0.3,
-                halign: 'center',
-                fillColor: [255, 255, 255], 
-                textColor: [0, 0, 0] 
-            },
-            bodyStyles: {
-                cellPadding: 0.2,
-            },
-            theme: 'plain',
-            didDrawCell: (data) => {
-                // If this is a head section cell and it is the last column
-                if (data.section === 'head' ) {
-                    // The y position just below the cell
-                    let y = data.cell.y + data.cell.height;
-                    doc.setDrawColor(0, 0, 255);
-                    // Draw a line from the left edge of the cell to the right
-                    doc.line(data.cell.x, y, data.cell.x + data.cell.width, y);
-                }
-            },
-            tableWidth: 180,
-        });
+    //pagebreak
+    doc.addPage();
+
+    // Logo
+    doc.addImage(logo, 'PNG', 75, 5, 50, 20);
+    // Calibration Table
+    const tableData = [
+        ['Header 1', 'Header 2', 'Header 3'],
+        ['Row 1, Cell 1', 'Row 1, Cell 2', 'Row 1, Cell 3'],
+        ['Row 2, Cell 1', 'Row 2, Cell 2', 'Row 2, Cell 3'],
+    ];
+    const tableStyles = {
+        borderColor: [0, 0, 0], // Black border color
+        fillColor: [255, 255, 255],   // Black fill color
+        textColor: [0, 0, 0], // White text color
+    };
+    // Configure cell styles
+    const cellStyles = {
+        lineWidth: 0.3, // Line width for cell borders
+        lineColor: [0, 0, 0], // Black cell border color
+    };
+
+    doc.autoTable({
+        startY: 35,
+        head: [['Header 1', 'Header 2', 'Header 3']],
+        body: tableData,
+        headStyles: {
+            fontSize: 9,
+            cellPadding: 0.3,
+            fillColor: [255, 255, 255], 
+            textColor: [0, 0, 0]
+        },
+        bodyStyles: {
+            fontSize: 8, 
+            cellPadding: 0.2,
+            lineColor: [0, 0, 225],
+        },
+        styles: tableStyles,
+        columnStyles: {
+            0: cellStyles,
+            1: cellStyles,
+            2: cellStyles,
+        },
+        theme: 'plain',
+        tableWidth: 150,
+    });
+
+
+
 
         // Calibration Results
         doc.autoTable({
-            startY: 94,
+            startY: 470,
             head: [['Setpoint', 'As Found', 'As Left']],
             body: [
                 
-                [calibration.setpoint1, calibration.asFound1, calibration.asLeft1],
-                [calibration.setpoint2, calibration.asFound2, calibration.asLeft2],
-                [calibration.setpoint3, calibration.asFound3, calibration.asLeft3],
+                //[calibration.setpoint1, calibration.asFound1, calibration.asLeft1],
+                //[calibration.setpoint2, calibration.asFound2, calibration.asLeft2],
+                //[calibration.setpoint3, calibration.asFound3, calibration.asLeft3],
             ],
             headStyles: {
                 fontSize: 9,
@@ -191,7 +295,7 @@ export const exportToPDF = (calibration) => {
                 halign: 'center',
             },
             
-            tableWidth: 170,
+            tableWidth: 470,
         });
 
     //Pass/Fail Statements
@@ -226,7 +330,7 @@ export const exportToPDF = (calibration) => {
         startY: 140,
         head: [["Comments"]],
         body: [
-            [calibration.comments],
+            //[calibration.comments],
         ].map(item => [item]), // Wrapping each item in another array
         headStyles: {
             fontSize: 9,
@@ -257,20 +361,20 @@ export const exportToPDF = (calibration) => {
     });
 
     // Convert the date format
-    const dateParts = calibration.dateOfCalibration.split("T")[0].split("-");
-    const formattedDateofCalibration = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
-    const dateParts2 = calibration.calibrationDueDate.split("T")[0].split("-");
-    const formattedCalibrationDueDate = `${dateParts2[0]}-${dateParts2[1]}-${dateParts2[2]}`;
-    const dateParts3 = calibration.createdAt.split("T")[0].split("-");
-    const formattedCalibrationCreatedAt = `${dateParts3[0]}-${dateParts3[1]}-${dateParts3[2]}`;
+    //const dateParts = calibration.dateOfCalibration.split("T")[0].split("-");
+    //const formattedDateofCalibration = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
+    //const dateParts2 = calibration.calibrationDueDate.split("T")[0].split("-");
+    //const formattedCalibrationDueDate = `${dateParts2[0]}-${dateParts2[1]}-${dateParts2[2]}`;
+    //const dateParts3 = calibration.createdAt.split("T")[0].split("-");
+    //const formattedCalibrationCreatedAt = `${dateParts3[0]}-${dateParts3[1]}-${dateParts3[2]}`;
      // Sign Off
      doc.autoTable({
         startY: 175,
         head: [[{ content: "", colSpan: 6 }]],
         body: [
-            ['Calibration Technician', calibration.calibrationTech, 'Technician Signature', '___________________', 'Date of Calibration', formattedDateofCalibration],
-            ['', '', '', '', 'Calibration Due Date', formattedCalibrationDueDate],
-            ['Reviewed By', '', 'Reviewer Signature', '___________________', 'Date Cert Issued',   formattedCalibrationCreatedAt],
+            //['Calibration Technician', calibration.calibrationTech, 'Technician Signature', '___________________', 'Date of Calibration', formattedDateofCalibration],
+            //['', '', '', '', 'Calibration Due Date', formattedCalibrationDueDate],
+            //['Reviewed By', '', 'Reviewer Signature', '___________________', 'Date Cert Issued',   formattedCalibrationCreatedAt],
         ],
         headStyles: {
             fontSize: 10,
