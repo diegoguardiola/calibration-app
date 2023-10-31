@@ -15,3 +15,4 @@
 	- [ ] equipment registry
 	- [ ] user registry
 - [ ] Add Manufacturer to instrumentID (backend + frontend)
+- [ ] Have way to prevent duplicates being entered to DB (all forms)

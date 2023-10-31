@@ -15,7 +15,7 @@ export const exportToPDF = (calibration) => {
         head: [["Customer Information"]],
         body: [
             [calibration.client.company],
-            [calibration.client.firstName, ' ', calibration.client.lastName],
+            [`${calibration.client.firstName} ${calibration.client.lastName}`],
             [calibration.client.address],
             [calibration.client.phone],
         ].map(item => [item]), // Wrapping each item in another array
@@ -111,8 +111,8 @@ export const exportToPDF = (calibration) => {
         startY: 72,
         body: [
             ['Equipment Id:', calibration.equipment.equipmentID],
-            ['Equipment Manufacturer:', calibration.equipment.equipmentManufacturer],
-            ['Description:', calibration.equipment.description],
+            ['Manufacturer:', calibration.equipment.equipmentManufacturer],
+            ['Description:', calibration.equipment.equipmentDescription],
             ['Model Number:',calibration.equipment.equipmentModelNumber],
             ['Serial Number:', calibration.equipment.equipmentSerialNumber],
             ['Range:', calibration.equipment.equipmentRange,],
@@ -127,28 +127,39 @@ export const exportToPDF = (calibration) => {
         tableWidth: 88,
     });
     // Certificate Information Col 2
+        const options = {
+            year: 'numeric',
+            month: 'long', // or 'short', 'numeric', etc.
+            day: 'numeric',
+        };
+        const dateOfCalibration = new Date(calibration.results.calDate);
+        const formattedDateOfCalibration = dateOfCalibration.toLocaleDateString('en-US', options);
+        const dueDate = new Date(dateOfCalibration);
+        dueDate.setMonth(dueDate.getMonth() + parseInt(calibration.results.intervalMonth || 0));
+        const formattedDueDate =  dueDate.toLocaleDateString('en-US', options);
+
     doc.autoTable({
         startY: 72,
         margin: { left: 110 },
         body: [
             ['Technician:',calibration.results.calibrationTech],
-            ['Cal Date:', calibration.results.calDate],
-            ['Cal Due Date:', calibration.results.calDate],
-            ['Interval:', calibration.results.intervalMonth],
-            ['Temperature:', calibration.results.temp,],
-            ['Humidity:', calibration.results.humidity],
+            ['Cal Date:', formattedDateOfCalibration],
+            ['Cal Due Date:',formattedDueDate],
+            ['Calibration Interval(Months):', calibration.results.intervalMonth],
+            ['Temperature (°C):', calibration.results.temp,],
+            ['Humidity (%):', calibration.results.humidity],
         ],
         bodyStyles: {
             fontSize: 10, 
             cellPadding: 0.2,
-            halign: 'left'
+            halign: 'left',
         },
         theme: 'plain',
         tableWidth: 88,
     });    
     // Certificate ISO comments
     doc.autoTable({
-    startY: 105,
+    startY: 110,
     head: [[{ content: "", colSpan: 2 }]],
     headStyles: {
         fontSize: 9,
@@ -185,7 +196,7 @@ export const exportToPDF = (calibration) => {
     });
     // Comments
     doc.autoTable({
-        startY: 160,
+        startY: 165,
         head: [["Comments"]],
         body: [
             [calibration.results.comments],
@@ -219,14 +230,19 @@ export const exportToPDF = (calibration) => {
         tableWidth: 180,
     });
     // Calibration Standards/Instruments
+    const dateOfInstrumnetCalibration = new Date(calibration.instrument.instrumentCalDate);
+    const formattedDateOfInstrumnetCalibration = dateOfInstrumnetCalibration.toLocaleDateString('en-US', options);
+    const dueInstrumnetDate = new Date(dateOfInstrumnetCalibration);
+    dueInstrumnetDate.setMonth(dueInstrumnetDate.getMonth() + parseInt(calibration.instrument.instrumentIntervalMonths || 0));
+    const formattedInstrumnetDueDate =  dueInstrumnetDate.toLocaleDateString('en-US', options);
     doc.autoTable({
-        startY: 200,
+        startY: 205,
         head: [['Instrument ID', 'Description', 'Manufacturer', 'Model', 'Serial', 'Cal Date', 'Due Date']],
         body: [
             [calibration.instrument.instrumentID, calibration.instrument.instrumentDescription
             ,calibration.instrument.instrumentManufacturer, calibration.instrument.instrumentModelNumber
-            ,calibration.instrument.instrumentSerialNumber,calibration.instrument.instrumentCalDate
-            ,calibration.instrument.instrumentCalDate]
+            ,calibration.instrument.instrumentSerialNumber,formattedDateOfInstrumnetCalibration
+            ,formattedInstrumnetDueDate]
         ],
         headStyles: {
             fontSize: 11,
@@ -330,6 +346,7 @@ export const exportToPDF = (calibration) => {
         borderColor: [0, 0, 0], 
         fillColor: [255, 255, 255],   
         textColor: [0, 0, 0], 
+        columnWidth: [60, 60, 50, 50, 50, 50, 50, 50],
     };
     const cellStyles = {
         lineWidth: 0.3, // Line width for cell borders
@@ -347,12 +364,14 @@ export const exportToPDF = (calibration) => {
             borderColor: [0, 0, 0], 
             fillColor: [0, 0, 153], 
             lineColor: [0, 0, 0],
-            halign: 'center'
+            halign: 'center',
+            columnWidth: [60, 60, 50, 50, 50, 50, 50, 50],
         },
         bodyStyles: {
             fontSize: 9, 
             cellPadding: 0.3,
             lineColor: [0, 0, 153],
+            columnWidth: [60, 60, 50, 50, 50, 50, 50, 50],
         },
         styles: tableStyles,
         columnStyles: {

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useCalibrationContext } from "../../../hooks/useCalibrationContext";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import SelectEquipment from "./SelectEquipment";
 import SelectInstrument from "./SelectInstrument";
@@ -102,9 +105,9 @@ export const CalibrationForm = () => {
     
 
     return (
-        <div className="row">    
-            <div className="col-md-4">
-                <div className='Calibration_Information'>
+        <Container>    
+            <Row>
+                <Col>
                     <SelectEquipment 
                         equipmentInformation={equipmentInformation} 
                         setEquipmentInformation={setEquipmentInformation}
@@ -112,20 +115,22 @@ export const CalibrationForm = () => {
                         setClientData={setClientData}
                         clientData={clientData}
                     />
+                </Col>
+                <Col>
                     <SelectInstrument 
                         instrumentInformation={instrumentInformation} 
                         setInstrumentInformation={setInstrumentInformation}
                     />
-                    <Results 
-                        equipmentID={selectedEquipmentID}
-                        resultInformation={resultInformation}
-                        setResultInformation={setResultInformation}
-                    />
-                    {/* Adding the button here */}
-                    <button onClick={handleSubmit}>Submit</button>
-                </div>
-            </div>
-        </div>
+                </Col>
+            </Row>
+            <Results 
+                    equipmentID={selectedEquipmentID}
+                    resultInformation={resultInformation}
+                    setResultInformation={setResultInformation}
+            />
+            {/* Adding the button here */}
+            <button onClick={handleSubmit}>Submit</button>
+        </Container>
     );
     
     }

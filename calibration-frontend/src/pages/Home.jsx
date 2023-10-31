@@ -34,8 +34,8 @@ const Home = () => {
             <thead className="thead-dark">
                 <tr>
                     <th>Export</th>
-                    <th>Calibration ID</th>
-                    <th>Client Name</th>
+                    <th>Equipment ID</th>
+                    <th>Equipment Description</th>
                     <th>Calibration Procedure</th>
                     <th>Calibration Created At</th>
 
@@ -48,8 +48,8 @@ const Home = () => {
                         <td>
                             <button className="btn btn-primary" onClick={() => exportToPDF(calibration)}>Export</button>
                         </td>
-                        <td>{calibration.calibration_id}</td>
-                        <td>{calibration.client.company}</td>
+                        <td>{calibration.equipment.equipmentID}</td>
+                        <td>{calibration.equipment.equipmentDescription}</td>
                         <td>{calibration.calibrationProcedure}</td>
                         <td>{calibration.createdAt}</td>
                     </tr>
