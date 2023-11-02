@@ -23,12 +23,20 @@ const App = () => {
           <Navibar />
           <Routes>
             <Route
-              path="/" 
-              element={user ? <Home /> : <Navigate to="/login" />}
+              path="/home-engineer"
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'engineer']}>
+                  <Home />
+                </ProtectedRoute>
+              }
             />
             <Route 
-              path="/calibration" 
-              element={user ? <Calibration /> : <Navigate to="/login" />}
+              path="/calibration-report-entry" 
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'engineer']}>
+                  <Calibration />
+                </ProtectedRoute>
+              }
             />
             <Route path="/equipment-regisrty" element={
               <ProtectedRoute>
