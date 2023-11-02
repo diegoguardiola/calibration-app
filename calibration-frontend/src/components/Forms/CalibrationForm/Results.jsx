@@ -3,9 +3,11 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import './Calibration.css'
 
-const TestPoint = ({ point, updateTestPoint }) => (
+const TestPoint = ({ point, updateTestPoint, deleteTestPoint }) => (
     <Row>
         <Col>
             <label>Nominal</label>
@@ -61,10 +63,13 @@ const TestPoint = ({ point, updateTestPoint }) => (
                 className="form-control"
             />
         </Col>
+        <Col>
+            <button className="btn btn-danger" onClick={deleteTestPoint}>Delete</button>
+        </Col>
     </Row>
 );
 
-const Test = ({ test, updateTest, index }) => (
+const Test = ({ test, updateTest, deleteTestPoint, index }) => (
 <Container>
     <Col>
         <Row>
@@ -83,11 +88,12 @@ const Test = ({ test, updateTest, index }) => (
         </Row>
     
         {test.testPoints && test.testPoints.map((point, pIndex) => (
-            <TestPoint 
-                key={pIndex} 
-                point={point} 
-                updateTestPoint={(field, value) => updateTest(index, 'testPoints', pIndex, field, value)} 
-            />
+        <TestPoint 
+            key={pIndex} 
+            point={point} 
+            updateTestPoint={(field, value) => updateTest(index, 'testPoints', pIndex, field, value)} 
+            deleteTestPoint={() => deleteTestPoint(index, pIndex)}
+        />
         ))}
         <button className="btn btn-primary mt-2" onClick={() => updateTest(index, 'addTestPoint')}>Add Test Point</button>
     </Col>
@@ -103,12 +109,21 @@ function Results({equipmentID, resultInformation, setResultInformation}) {
             updatedTests[index].testPoints.push({ nominal: 0, asFound: 0, asLeft: 0, result: '', min: 0, max: 0 });
         } else if (field === 'testPoints') {
             const [pIndex, pField, value] = rest;
-            updatedTests[index].testPoints[pIndex][pField] = value;
+            if (pField === 'delete') {
+                updatedTests[index].testPoints.splice(pIndex, 1);
+            } else {
+                updatedTests[index].testPoints[pIndex][pField] = value;
+            }
         } else {
             updatedTests[index][field] = rest[0];
         }
         setResultInformation(prevState => ({ ...prevState, tests: updatedTests }));
     };
+    
+    const deleteTestPoint = (testIndex, pointIndex) => {
+        updateTest(testIndex, 'testPoints', pointIndex, 'delete');
+    };
+    
     
 
     useEffect(() => {
@@ -211,16 +226,17 @@ function Results({equipmentID, resultInformation, setResultInformation}) {
                     </Col>
                     <Col>
                         <label>Calibration Date</label>
-                        <input 
-                            type="text" 
-                            onChange={(e) => setResultInformation({ 
+                        <DatePicker 
+                            selected={resultInformation.calDate ? new Date(resultInformation.calDate) : null}
+                            onChange={(date) => setResultInformation({ 
                                 ...resultInformation, 
-                                calDate: 
-                                e.target.value})} 
-                            value={resultInformation.calDate} 
+                                calDate: date
+                            })}
                             className="form-control"
+                            dateFormat="yyyy-MM-dd"
                         />
                     </Col>
+
                     <Col>
                         <label>Interval Year</label>
                         <input 
@@ -272,7 +288,8 @@ function Results({equipmentID, resultInformation, setResultInformation}) {
                         
                 </Row>
                 {resultInformation.tests.map((test, index) => (
-                            <Test key={index} test={test} updateTest={updateTest} index={index} />
+                            <Test key={index} test={test} updateTest={updateTest} deleteTestPoint={deleteTestPoint} index={index} />
+
                         ))}
                         <button 
                             className="btn btn-success mt-3" 

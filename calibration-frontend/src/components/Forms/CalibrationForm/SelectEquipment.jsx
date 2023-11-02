@@ -84,7 +84,7 @@ function SelectEquipment({ clientData, setClientData, equipmentInformation, setE
                     <option value="" disabled selected>Select equipment</option>
                     {fetchedData.equipmentList && fetchedData.equipmentList.map(item => (
                         <option key={item._id} value={item._id}>
-                            {item.equipmentName}
+                            {`${item.equipmentName}:${item.equipmentID}`}
                         </option>
                     ))}
                 </select>
