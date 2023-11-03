@@ -49,7 +49,19 @@ const findAll = async (req, res) => {
   const reports = await Report.find({ user_id }).sort({ createdAt: -1 })
   
     res.status(200).json(reports)
-  }
+}
+
+const findAllByClient = async (req, res) => {
+    const clientUserId = req.params.user_id; // or req.body.user_id, depending on how you're passing the client's user_id
+
+    try {
+        const reports = await Report.find({ user_id: clientUserId }).sort({ createdAt: -1 });
+        res.status(200).json(reports);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 // Find a single Report with a reportId
 const findOne = async (req, res) => {
@@ -130,4 +142,4 @@ const update = async (req, res) => {
     }
 };*/
 
-module.exports = {create, findAll, findOne, update}
+module.exports = {create, findAll, findOne, update, findAllByClient}

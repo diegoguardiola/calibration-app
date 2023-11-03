@@ -12,20 +12,9 @@ const CalibrationListClient = () => {
 
     useEffect(() => {
         const fetchCalibrations = async () => {
-            const response = await fetch('http://localhost:5000/c1_1/report/find-all-client',{
-                headers: {'Authorization': `Bearer ${user.token}`},
-      })
-      const json = await response.json()
-
-      if (response.ok) {
-        dispatch({type: 'SET_CALIBRATIONS', payload: json})
-      }
-    }
-      
-    if (user) {
-        fetchCalibrations()
-      }
-    }, [dispatch, user])
+         
+    }})
+    
      
     const data = React.useMemo(
         () => calibrations || [],
