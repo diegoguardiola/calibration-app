@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useAuthContext } from './hooks/useAuthContext'
 // pages & components
 import Navibar from './components/NaviBar';
-import Home from './pages/Home';
+import CalibrationListEngineer from './pages/CalibrationListEngineer';
+import CalibrationListClient from './pages/CalibrationListClient';
 import Calibration from './pages/Calibration';
 import Admin from './pages/Admin';
 import EquipmentRegistery from './pages/EquipmentRegistery';
@@ -23,10 +24,18 @@ const App = () => {
           <Navibar />
           <Routes>
             <Route
-              path="/home-engineer"
+              path="/calibration-list-engineer"
               element={
                 <ProtectedRoute allowedRoles={['admin', 'engineer']}>
-                  <Home />
+                  <CalibrationListEngineer />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/calibration-list-engineer"
+              element={
+                <ProtectedRoute allowedRoles={['client']}>
+                  <CalibrationListClient />
                 </ProtectedRoute>
               }
             />

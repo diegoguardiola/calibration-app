@@ -13,14 +13,19 @@ function Navigation() {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
-            {user && (user.role === 'admin' || user.role === 'engineer') && (
-                    <Link className="navbar-brand" to="/home-engineer">
-                        Home
+                {user && (user.role === 'admin' || user.role === 'engineer') && (
+                    <Link className="navbar-brand" to="/calibration-list-engineer">
+                        Calibration List
+                    </Link>
+                )}
+                {user && (user.role === 'client') && (
+                    <Link className="navbar-brand" to="/calibration-list-client">
+                        Calibration List
                     </Link>
                 )}
                 {user && (user.role === 'admin' || user.role === 'engineer') && (
                     <Link className="navbar-brand" to="/calibration-report-entry">
-                        Calibration
+                        Calibration Entry
                     </Link>
                 )}
                 {user && user.role === 'admin' && (

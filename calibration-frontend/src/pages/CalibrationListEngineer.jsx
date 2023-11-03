@@ -5,7 +5,7 @@ import { useCalibrationContext } from "../hooks/useCalibrationContext";
 import { useTable, useSortBy } from 'react-table';
 
 
-const Home = () => {
+const CalibrationListEngineer = () => {
 
     const {user} = useAuthContext()
     const {calibrations, dispatch} = useCalibrationContext()
@@ -107,4 +107,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default CalibrationListEngineer;
