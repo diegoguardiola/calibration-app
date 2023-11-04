@@ -22,6 +22,4 @@ router.get('/:userId/equipment', getEquipmentByUserId);
 router.get('/:userId/client-info', getInfoByUserId);
 
 
-
-
 module.exports = router;
