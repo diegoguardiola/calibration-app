@@ -137,15 +137,12 @@ const CalibrationListEngineer = () => {
             </table>
             {/* Modal for viewing and editing report details */}
             {isModalOpen && (
-                <ReportModal onClose={() => setIsModalOpen(false)}>
-                    {/* Render your report details here using modalContent */}
-                    <div>
-                        {/* Display report details */}
-                        <p>{modalContent.equipment.equipmentName}</p>
-                        {/* ... other details ... */}
-                    </div>
-                    <button className="btn btn-secondary" onClick={() => handleEdit(modalContent)}>Edit</button>
-                </ReportModal>
+                <ReportModal
+                show={isModalOpen}
+                onHide={() => setIsModalOpen(false)}
+                reportDetails={modalContent}
+                onEdit={handleEdit}
+                />
             )}
         </>
     );

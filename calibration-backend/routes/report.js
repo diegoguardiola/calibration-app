@@ -14,7 +14,7 @@ router.use(requireAuth)
 router.post('/create', create)
 router.get('/find-all', findAll)
 router.get('/:companyName/find-all-by-company', findAllByClientCompany);
-router.get(':reportId', findOne)
+router.get('/:reportId', findOne)
 
 
 module.exports = router;
