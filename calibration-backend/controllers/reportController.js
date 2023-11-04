@@ -56,7 +56,7 @@ const findAllByClientCompany = async (req, res) => {
     const companyName = req.query.companyName;
   
     try {
-        const clients = await User.find({ company: companyName });
+        const clients = await Report.find({ company: companyName });
         res.json(clients);
     } catch (error) {
         console.error("Error fetching clients by company:", error);
