@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 function Navigation() {
+    const navigate = useNavigate(); 
     const { logout } = useLogout();
     const { user } = useAuthContext();
 
     const handleClick = () => {
         logout();
+        navigate('/');
     };
 
     return (
@@ -38,6 +40,9 @@ function Navigation() {
                         Equipment Registry
                     </Link>
                 )}
+                <Link className="navbar-brand" to="/profile-info">
+                    My Profile
+                </Link>
                 <nav>
                     {user && (
                         <div>

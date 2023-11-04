@@ -8,6 +8,7 @@ import CalibrationListClient from './pages/CalibrationListClient';
 import Calibration from './pages/Calibration';
 import Admin from './pages/Admin';
 import EquipmentRegistery from './pages/EquipmentRegistery';
+import ProfileInfo from './pages/ProfileInfo';
 import ProtectedRoute from './components/protectedRoute';
 import SignUpForm from './components/Forms/SignUpForm';
 import LoginForm from './components/Forms/LoginForm';
@@ -57,6 +58,10 @@ const App = () => {
                 <Admin />
               </ProtectedRoute>
             } />
+            <Route 
+              path="/profile-info" 
+              element={<ProfileInfo/>}
+            />
             <Route
               path="/login" 
               element={!user ? <LoginForm /> : <Navigate to="/" />} 

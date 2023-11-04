@@ -18,10 +18,12 @@ const loginUser = async (req, res) => {
     const token = createToken(user._id)
 
     res.status(200).json({
+      id: user._id,
       firstName: user.firstName, 
       lastName: user.lastName, 
       company: user.company,
-      email, 
+      email: user.email, 
+      phone: user.phone,
       token,
       role: user.role  // Add this line to include the role in the response
     })// include firstName and lastName
@@ -44,25 +46,42 @@ const loginUser = async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   };
-
-  const updateUserRole = async (req, res) => {
-    const { userId, newRole } = req.body;
+  //update user info
+  const updateUser = async (req, res) => {
+    const { userId } = req.params; // Assuming you're passing the user ID as a URL parameter
+    const { firstName, lastName, email, phone } = req.body; // Assuming these are the fields you want to update
 
     try {
-      const user = await User.findByIdAndUpdate(userId, { role: newRole }, { new: true });
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { firstName, lastName, phone, email },
+        { new: true, runValidators: true } // `new: true` returns the updated object, `runValidators: true` ensures that updates are validated before saving
+      );
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
       res.status(200).json({
-        firstName: user.firstName, 
-        lastName: user.lastName, 
-        company: user.company,
-        address: user.address,
-        phone: user.phone,
-        email: user.email, 
-        role: user.role
+        message: 'User updated successfully',
+        user: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phone: user.phone,
+          email: user.email,
+        }
       });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
   };
+
+module.exports = { 
+  // ... other controller functions,
+  updateUser
+};
+
+  
   //select client by name and return client name and user_id
   const getClient = async (req, res) => {
     try {
@@ -156,7 +175,7 @@ const getInfoByUserId = async (req, res) => {
 module.exports = { 
   signupUser, 
   loginUser, 
-  updateUserRole, 
+  updateUser,
   getClient, 
   getUserIdByClientName,
   getEquipmentByUserId,
