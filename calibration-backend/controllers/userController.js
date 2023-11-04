@@ -1,5 +1,6 @@
-const User = require('../models/userModel')
-const jwt = require('jsonwebtoken')
+const User = require('../models/userModel');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 require('dotenv/config');
 const secret = process.env.SECRET
 
@@ -46,22 +47,29 @@ const loginUser = async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   };
-  //update user info
+  //update user
   const updateUser = async (req, res) => {
     const { userId } = req.params; // Assuming you're passing the user ID as a URL parameter
-    const { firstName, lastName, email, phone } = req.body; // Assuming these are the fields you want to update
-
+    const { firstName, lastName, email, phone, password } = req.body; // Include password in the fields to update
+  
     try {
+      // If a new password is provided, hash it
+      let updateObject = { firstName, lastName, phone, email };
+      if (password) {
+        const salt = await bcrypt.genSalt(10);
+        updateObject.password = await bcrypt.hash(password, salt);
+      }
+  
       const user = await User.findByIdAndUpdate(
         userId,
-        { firstName, lastName, phone, email },
-        { new: true, runValidators: true } // `new: true` returns the updated object, `runValidators: true` ensures that updates are validated before saving
+        updateObject,
+        { new: true, runValidators: true }
       );
-
+  
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
-
+  
       res.status(200).json({
         message: 'User updated successfully',
         user: {
@@ -69,6 +77,7 @@ const loginUser = async (req, res) => {
           lastName: user.lastName,
           phone: user.phone,
           email: user.email,
+          // Do not return the password, even if it's hashed
         }
       });
     } catch (error) {

@@ -12,6 +12,7 @@ function ProfileInfo() {
     lastName: user.lastName,
     email: user.email,
     phone: user.phone,
+    password: '', // Add a new field for the password
   });
 
   // State to control the edit form display
@@ -31,12 +32,17 @@ function ProfileInfo() {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Ensure you remove the password from the payload if it's empty
+    const payload = { ...personInfo };
+    if (!payload.password) {
+      delete payload.password;
+    }
     const response = await fetch(`http://localhost:5000/c1_1/user/update/${user.id}`, { 
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(personInfo),
+      body: JSON.stringify(payload),
     });
 
     if (response.ok) {
@@ -90,6 +96,16 @@ function ProfileInfo() {
                       type="tel"
                       name="phone"
                       value={personInfo.phone}
+                      onChange={handleInputChange}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      name="password"
+                      value={personInfo.password}
+                      placeholder="Enter new password"
                       onChange={handleInputChange}
                     />
                   </Form.Group>
