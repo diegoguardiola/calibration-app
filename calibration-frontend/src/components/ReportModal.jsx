@@ -10,9 +10,32 @@ const ReportModal = ({ show, onHide, reportDetails, onEdit }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {/* Here you would map through reportDetails and display them as needed */}
-        <h4>{reportDetails.equipment.equipmentName}</h4>
-        {/* Display other report details */}
+        <h4>Equipment Details</h4>
+        <p>
+            <span style={{ fontWeight: 'bold' }}>Equipment Name:</span> {reportDetails.equipment.equipmentName}
+        </p>
+        <p>
+            <span style={{ fontWeight: 'bold' }}>Equipment Id:</span> {reportDetails.equipment.equipmentID}
+        </p>
+        <p>
+            <span style={{ fontWeight: 'bold' }}>Equipment Manufacturer:</span> {reportDetails.equipment.equipmentManufacturer}
+        </p>
+        <p>
+            <span style={{ fontWeight: 'bold' }}>Equipment Model Number:</span> {reportDetails.equipment.equipmentModelNumber}
+        </p>
+        <p>
+            <span style={{ fontWeight: 'bold' }}>Equipment Serial Number:</span>{reportDetails.equipment.equipmentSerialNumber}
+        </p>
+        <p>
+            <span style={{ fontWeight: 'bold' }}>Equipment Tange:</span> {reportDetails.equipment.equipmentRange} {reportDetails.equipment.equipmentUnits}
+        </p>
+        <p>
+            <span style={{ fontWeight: 'bold' }}>Equipment Description:</span> {reportDetails.equipment.equipmentDescription}
+        </p>
+        <p>
+            <span style={{ fontWeight: 'bold' }}>Equipment Loaction:</span> {reportDetails.equipment.equipmentLocation}
+        </p>
+        <h4>Instrument Details</h4>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={() => onEdit(reportDetails)}>Edit</Button>
