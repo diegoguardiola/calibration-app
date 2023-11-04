@@ -2,7 +2,7 @@ const express = require('express');
 const {
     create,
     findAll,
-    findAllByClient
+    findAllByClientCompany
 } = require('../controllers/reportController')
 const {requireAuth} = require('../middleware/requireAuth')
 
@@ -12,7 +12,7 @@ router.use(requireAuth)
 
 router.post('/create', create)
 router.get('/find-all', findAll)
-router.get('/find-by-client/:user_id', findAllByClient);
+router.get('/find-all-by-company', findAllByClientCompany);
 
 
 module.exports = router;

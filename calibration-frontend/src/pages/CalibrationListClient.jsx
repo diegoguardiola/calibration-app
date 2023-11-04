@@ -12,8 +12,27 @@ const CalibrationListClient = () => {
 
     useEffect(() => {
         const fetchCalibrations = async () => {
-         
-    }})
+            // Assuming the company name is stored in the user object
+            const companyName = user.company;
+    
+            // Update the request URL with the new endpoint and pass the company name as a query parameter
+            const response = await fetch(`http://localhost:5000/api/calibrations?companyName=${encodeURIComponent(companyName)}`, {
+                headers: {'Authorization': `Bearer ${user.token}`},
+            });
+    
+            const json = await response.json();
+    
+            if (response.ok) {
+                dispatch({type: 'SET_CALIBRATIONS', payload: json});
+            } else {
+                // Handle any errors, such as showing a message to the user
+            }
+        }
+    
+        if (user) {
+            fetchCalibrations();
+        }
+    }, [dispatch, user]);
     
      
     const data = React.useMemo(

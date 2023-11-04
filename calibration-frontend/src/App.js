@@ -32,11 +32,11 @@ const App = () => {
               }
             />
             <Route
-              path="/calibration-list-engineer"
+              path="/calibration-list-client"
               element={
-                <ProtectedRoute allowedRoles={['client']}>
+
                   <CalibrationListClient />
-                </ProtectedRoute>
+
               }
             />
             <Route 

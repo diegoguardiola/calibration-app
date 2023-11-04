@@ -51,16 +51,19 @@ const findAll = async (req, res) => {
     res.status(200).json(reports)
 }
 
-const findAllByClient = async (req, res) => {
-    const clientUserId = req.params.user_id; // or req.body.user_id, depending on how you're passing the client's user_id
-
+// Select client by company name and return all data associated with the client
+const findAllByClientCompany = async (req, res) => {
+    const companyName = req.query.companyName;
+  
     try {
-        const reports = await Report.find({ user_id: clientUserId }).sort({ createdAt: -1 });
-        res.status(200).json(reports);
+        const clients = await User.find({ company: companyName });
+        res.json(clients);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Error fetching clients by company:", error);
+        res.status(500).send("Internal Server Error");
     }
-};
+  };
+  
 
 
 // Find a single Report with a reportId
@@ -142,4 +145,4 @@ const update = async (req, res) => {
     }
 };*/
 
-module.exports = {create, findAll, findOne, update, findAllByClient}
+module.exports = {create, findAll, findOne, update, findAllByClientCompany}
