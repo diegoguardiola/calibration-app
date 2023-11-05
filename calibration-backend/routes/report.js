@@ -4,6 +4,7 @@ const {
     findAll,
     findAllByClientCompany,
     findOne,
+    update
 } = require('../controllers/reportController')
 const {requireAuth} = require('../middleware/requireAuth')
 
@@ -15,6 +16,7 @@ router.post('/create', create)
 router.get('/find-all', findAll)
 router.get('/:companyName/find-all-by-company', findAllByClientCompany);
 router.get('/:reportId', findOne)
+router.patch('/update/:reportId', update)
 
 
 module.exports = router;
