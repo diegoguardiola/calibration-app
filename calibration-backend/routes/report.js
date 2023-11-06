@@ -16,7 +16,7 @@ router.post('/create', create)
 router.get('/find-all', findAll)
 router.get('/:companyName/find-all-by-company', findAllByClientCompany);
 router.get('/:reportId', findOne)
-router.put('/update/:reportId', update)
+router.patch('/update/:reportId', update)
 
 
 module.exports = router;

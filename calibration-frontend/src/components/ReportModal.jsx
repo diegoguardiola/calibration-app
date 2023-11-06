@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useAuthContext } from '../hooks/useAuthContext';
 
+import { Card,  Form, Container, Row, Col } from 'react-bootstrap';
+
 const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
 
     const {user} = useAuthContext()
@@ -28,13 +30,16 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
         // Call the fetch function here with editedResults and update the data
         // Then set isEditing to false
         const updatedReport = { ...editedReport, results: editedResults };
-
+        delete updatedReport._id;
         console.log(updatedReport)
         // Example fetch call:
         const response = await fetch(`http://localhost:5000/c1_1/report/update/${reportId}`, {
-           method: 'PUT',
+            method: 'PATCH',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}` 
+            },
            body: JSON.stringify(updatedReport),
-           headers: { 'Authorization': `Bearer ${user.token}` },
          })
          const json = await response.json();
          if (response.ok) {
@@ -134,136 +139,139 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                         ))}
                     </>
                 ) : (
-                    <>
-                        {/* Render input fields for editing here */}
-                        <p>
-                            <span style={{ fontWeight: 'bold' }}>Service Reason:</span>
-                            <input
-                            type="text"
-                            value={editedResults.serviceReason}
-                            onChange={(e) => setEditedResults({ ...editedResults, serviceReason: e.target.value })}
-                            />
-                        </p>
-                        <p>
-                            <span style={{ fontWeight: 'bold' }}>Calibration Date:</span>
-                            <input
-                            type="date"
-                            value={editedResults.calDate}
-                            onChange={(e) => setEditedResults({ ...editedResults, calDate: e.target.value })}
-                            />
-                        </p>
-                        <p>
-                            <span style={{ fontWeight: 'bold' }}>Interval (months):</span>
-                            <input
-                            type="number"
-                            value={editedResults.intervalMonth}
-                            onChange={(e) => setEditedResults({ ...editedResults, intervalMonth: e.target.value })}
-                            />
-                        </p>
-                        {editedResults.tests.map((test, index) => (
-                            <div key={index}>
-                                <h5>{test.type} - {test.method} in {test.unit}</h5>
-                                <table>
-                                    {/* Render edit fields for test here */}
-                                    <thead>
-                                        <tr>
-                                            <th>Nominal</th>
-                                            <th>As Found</th>
-                                            <th>As Left</th>
-                                            <th>Result</th>
-                                            <th>Min</th>
-                                            <th>Max</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {test.testPoints.map((testPoint, pointIndex) => (
-                                            <tr key={pointIndex}>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                value={testPoint.nominal}
-                                                onChange={(e) => {
-                                                    // create a deep copy of the tests
-                                                    const updatedTests = [...editedResults.tests];
-                                                    // update the specific test point
-                                                    updatedTests[index].testPoints[pointIndex].nominal = e.target.value;
-                                                    // set the new tests array into the edited results
-                                                    setEditedResults({ ...editedResults, tests: updatedTests });
-                                                }}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                value={testPoint.asFound}
-                                                onChange={(e) => {
-                                                    const updatedTests = [...editedResults.tests];
-                                                    updatedTests[index].testPoints[pointIndex].asFound = e.target.value;
-                                                    setEditedResults({ ...editedResults, tests: updatedTests });
-                                                }}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                value={testPoint.asLeft}
-                                                onChange={(e) => {
-                                                    const updatedTests = [...editedResults.tests];
-                                                    updatedTests[index].testPoints[pointIndex].asLeft = e.target.value;
-                                                    setEditedResults({ ...editedResults, tests: updatedTests });
-                                                }}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                value={testPoint.result}
-                                                onChange={(e) => {
-                                                    const updatedTests = [...editedResults.tests];
-                                                    updatedTests[index].testPoints[pointIndex].result = e.target.value;
-                                                    setEditedResults({ ...editedResults, tests: updatedTests });
-                                                }}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                value={testPoint.min}
-                                                onChange={(e) => {
-                                                    const updatedTests = [...editedResults.tests];
-                                                    updatedTests[index].testPoints[pointIndex].min = e.target.value;
-                                                    setEditedResults({ ...editedResults, tests: updatedTests });
-                                                }}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                value={testPoint.max}
-                                                onChange={(e) => {
-                                                    const updatedTests = [...editedResults.tests];
-                                                    updatedTests[index].testPoints[pointIndex].max = e.target.value;
-                                                    setEditedResults({ ...editedResults, tests: updatedTests });
-                                                }}
-                                                />
-                                            </td>
+                    <Container>
+                        <Form>
+                            {/* Render input fields for editing here */}
+                            <Row>
+                                <Form.Group className="mb-3">
+                                    <Col>
+                                        <Form.Label>Service Reason</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            value={editedResults.serviceReason}
+                                            onChange={(e) => setEditedResults({ ...editedResults, serviceReason: e.target.value })}
+                                        />
+                                        <Form.Label>Calibration Date</Form.Label>
+                                        <Form.Control
+                                            type="date"
+                                            value={editedResults.calDate}
+                                            onChange={(e) => setEditedResults({ ...editedResults, calDate: e.target.value })}
+                                        />
+                                        <Form.Label>Interval (months)</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            value={editedResults.intervalMonth}
+                                            onChange={(e) => setEditedResults({ ...editedResults, intervalMonth: e.target.value })}
+                                        />
+                                    </Col>
+                                </Form.Group>
+                            </Row>
+                            
+                            {editedResults.tests.map((test, index) => (
+                                <div key={index}>
+                                    <h5>{test.type} - {test.method} in {test.unit}</h5>
+                                    <table>
+                                        {/* Render edit fields for test here */}
+                                        <thead>
+                                            <tr>
+                                                <th>Nominal</th>
+                                                <th>As Found</th>
+                                                <th>As Left</th>
+                                                <th>Result</th>
+                                                <th>Min</th>
+                                                <th>Max</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ))}
-                         <p>
-                            <span style={{ fontWeight: 'bold' }}>Comments:</span>
-                            <input
-                            type="text"
-                            value={editedResults.comments}
-                            onChange={(e) => setEditedResults({ ...editedResults, comments: e.target.value })}
-                            />
-                        </p>
-                        <Button onClick={() => handleSaveClick(reportDetails._id)}>Save</Button>
-                        <Button onClick={handleCancelEditClick}>Cancel</Button>
-                    </>
+                                        </thead>
+                                        <tbody>
+                                            {test.testPoints.map((testPoint, pointIndex) => (
+                                                <tr key={pointIndex}>
+                                                <td>
+                                                    <input
+                                                    type="text"
+                                                    value={testPoint.nominal}
+                                                    onChange={(e) => {
+                                                        // create a deep copy of the tests
+                                                        const updatedTests = [...editedResults.tests];
+                                                        // update the specific test point
+                                                        updatedTests[index].testPoints[pointIndex].nominal = e.target.value;
+                                                        // set the new tests array into the edited results
+                                                        setEditedResults({ ...editedResults, tests: updatedTests });
+                                                    }}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                    type="text"
+                                                    value={testPoint.asFound}
+                                                    onChange={(e) => {
+                                                        const updatedTests = [...editedResults.tests];
+                                                        updatedTests[index].testPoints[pointIndex].asFound = e.target.value;
+                                                        setEditedResults({ ...editedResults, tests: updatedTests });
+                                                    }}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                    type="text"
+                                                    value={testPoint.asLeft}
+                                                    onChange={(e) => {
+                                                        const updatedTests = [...editedResults.tests];
+                                                        updatedTests[index].testPoints[pointIndex].asLeft = e.target.value;
+                                                        setEditedResults({ ...editedResults, tests: updatedTests });
+                                                    }}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                    type="text"
+                                                    value={testPoint.result}
+                                                    onChange={(e) => {
+                                                        const updatedTests = [...editedResults.tests];
+                                                        updatedTests[index].testPoints[pointIndex].result = e.target.value;
+                                                        setEditedResults({ ...editedResults, tests: updatedTests });
+                                                    }}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                    type="text"
+                                                    value={testPoint.min}
+                                                    onChange={(e) => {
+                                                        const updatedTests = [...editedResults.tests];
+                                                        updatedTests[index].testPoints[pointIndex].min = e.target.value;
+                                                        setEditedResults({ ...editedResults, tests: updatedTests });
+                                                    }}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                    type="text"
+                                                    value={testPoint.max}
+                                                    onChange={(e) => {
+                                                        const updatedTests = [...editedResults.tests];
+                                                        updatedTests[index].testPoints[pointIndex].max = e.target.value;
+                                                        setEditedResults({ ...editedResults, tests: updatedTests });
+                                                    }}
+                                                    />
+                                                </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ))}
+                            <p>
+                                <span style={{ fontWeight: 'bold' }}>Comments:</span>
+                                <input
+                                type="text"
+                                value={editedResults.comments}
+                                onChange={(e) => setEditedResults({ ...editedResults, comments: e.target.value })}
+                                />
+                            </p>
+                            <Button onClick={() => handleSaveClick(reportDetails._id)}>Save</Button>
+                            <Button onClick={handleCancelEditClick}>Cancel</Button>
+                        </Form>
+                    </Container>
                 )}
             </div>
         </Modal.Body>
