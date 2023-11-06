@@ -1,41 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-const ReportModal = ({ show, onHide, reportDetails, onEdit }) => {
+const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
 
     const {user} = useAuthContext()
     const [isEditing, setIsEditing] = useState(false);
+    const [editedReport, settEditedReport] = useState(reportDetails)
     const [editedResults, setEditedResults] = useState(reportDetails.results);
 
     const handleEditClick = () => {
         setIsEditing(true);
     };
 
+    useEffect(() => {
+        setEditedResults(reportDetails.results);
+    }, []);
+
     const handleCancelEditClick = () => {
+        console.log(editedResults)
         setIsEditing(false);
         // Reset the editedResults to the original reportDetails.results
         setEditedResults(reportDetails.results);
     };
 
-    const handleSaveClick = (reportId) => {
+    const handleSaveClick = async (reportId) => {
         // Call the fetch function here with editedResults and update the data
         // Then set isEditing to false
-        console.log(reportId)
+        const updatedReport = { ...editedReport, results: editedResults };
+
+        console.log(updatedReport)
         // Example fetch call:
-         fetch(`http://localhost:5000/c1_1/report/update/${reportId}`, {
-           method: 'PATCH',
-           body: JSON.stringify(editedResults),
+        const response = await fetch(`http://localhost:5000/c1_1/report/update/${reportId}`, {
+           method: 'PUT',
+           body: JSON.stringify(updatedReport),
            headers: { 'Authorization': `Bearer ${user.token}` },
          })
-           .then((response) => response.json())
-           .then((data) => {
-             console.log('Saved:', data);
-           })
-           .catch((error) => {
-             console.error('Error:', error);
-           });
-           setIsEditing(false);
+         const json = await response.json();
+         if (response.ok) {
+            console.log('Saved:', json);
+            setIsEditing(false);
+         }
       };
 
     return (
@@ -270,6 +275,6 @@ const ReportModal = ({ show, onHide, reportDetails, onEdit }) => {
       </Modal.Footer>
         </Modal>
     );
-};
+});
 
 export default ReportModal;
