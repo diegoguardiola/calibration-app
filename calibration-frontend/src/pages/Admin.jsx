@@ -1,17 +1,18 @@
 import { useState } from "react"
 import UserList from "../components/Admin/UserList"
-import NewUser from "../components/Forms/NewUserForm"
 import InstrumentRegistryForm from "../components/Forms/InstrumentRegistryFrom"
+import { Container, Row, Col, Dropdown } from 'react-bootstrap';
 
 function Admin() {
 
     
     return (
-        <div>
+        <Container>
+            <h1>Users</h1>
             <UserList />
-            <NewUser />
+            <h1>Calibration Instruments/Standards</h1>
             <InstrumentRegistryForm />
-        </div>
+        </Container>
     )
 }
 

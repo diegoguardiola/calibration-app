@@ -15,10 +15,12 @@
 	- [x] remove extra submit button
 	- [x]  Fix dropdown in select company that it only displays customers who are clients
 - [ ] Admin Page
-	- [ ] Create GET to display all users
+	- [x] Create GET to display all users
 	- [ ] Create GET to display Falco instruments
 	- [ ] Create Update for instrument
 	- [ ] Create Update for user
+	- [x] Create Delete to delete user
+	- [ ] Create delete to delete instrument
 	- [ ] Create modal to register new user
 	- [ ] Create modal register new instrument
 		**Future Features**

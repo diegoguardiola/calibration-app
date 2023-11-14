@@ -34,7 +34,6 @@ const loginUser = async (req, res) => {
 }
 
 // signup a user
-
   const signupUser = async (req, res) => {
     const { firstName, lastName, company, address, phone,  email, password, role } = req.body;
 
@@ -85,7 +84,6 @@ const loginUser = async (req, res) => {
     }
   };
 
-  
   //select client by name and return client name and user_id
   const getClient = async (req, res) => {
     try {
@@ -96,7 +94,6 @@ const loginUser = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
   };
-  
 
   //get list of userID by clientName
   const getUserIdByClientName = async (req, res) => {
@@ -114,8 +111,6 @@ const loginUser = async (req, res) => {
     }
 };
 
-
-
 //controller function getting id and company for CalibrationForm
 const getUsersObjectIdAndCompany = async (req, res) => {
   try {
@@ -129,7 +124,6 @@ const getUsersObjectIdAndCompany = async (req, res) => {
       res.status(500).json({ message: 'Error fetching users', error: error.message });
   }
 };
-
 
 const getEquipmentByUserId = async (req, res) => {
   try {
@@ -172,6 +166,33 @@ const getInfoByUserId = async (req, res) => {
   }
 }
 
+//retrieve all users
+const getAllUsers = async (req, res) => {
+  try {
+      const users = await User.find({});
+      res.status(200).json(users);
+  } catch (error) {
+      res.status(400).json({ error: error.message });
+  }
+};
+
+//delete user by id
+const deleteUserById = async (req, res) => {
+  try {
+      const { userId } = req.params;
+      const user = await User.findByIdAndDelete(userId);
+
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+};
+
+
 
 
 
@@ -184,5 +205,7 @@ module.exports = {
   getUserIdByClientName,
   getEquipmentByUserId,
   getUsersObjectIdAndCompany,
-  getInfoByUserId
+  getInfoByUserId,
+  getAllUsers,
+  deleteUserById
  };

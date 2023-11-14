@@ -197,6 +197,8 @@
   },
   "active": "918d7dcd762b2fb3",
   "lastOpenFiles": [
+    "calibration-frontend/src/components/Admin/CreateNewUserModal.jsx",
+    "calibration-frontend/src/components/Admin/newUserModal.jsx",
     "falcoautomation.com search.md",
     "calibration-frontend/node_modules/react-bootstrap/CardBody/package.json",
     "calibration-frontend/node_modules/react-bootstrap/CardBody",
@@ -207,7 +209,6 @@
     "calibration-frontend/node_modules/react-bootstrap/esm/SelectableContext.d.ts",
     "calibration-frontend/node_modules/react-bootstrap/cjs/SelectableContext.d.ts",
     "calibration-frontend/node_modules/react-bootstrap/esm/SafeAnchor.d.ts",
-    "calibration-frontend/node_modules/react-bootstrap/esm/PopoverContent.d.ts",
     "Adjacent Services.md",
     "AWS Amplify Cost Breakdown.md",
     "TO DO.md",

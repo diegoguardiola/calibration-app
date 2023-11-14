@@ -6,7 +6,9 @@ const { loginUser,
     getUserIdByClientName,
     getEquipmentByUserId,
     getUsersObjectIdAndCompany,
-    getInfoByUserId
+    getInfoByUserId,
+    getAllUsers,
+    deleteUserById
 } = require('../controllers/userController');
 const { requireAdmin } = require('../middleware/requireAuth');
 
@@ -20,6 +22,8 @@ router.get('/get-userId', getUserIdByClientName);
 router.get('/get-user-company-id', getUsersObjectIdAndCompany);
 router.get('/:userId/equipment', getEquipmentByUserId);
 router.get('/:userId/client-info', getInfoByUserId);
+router.get('/get-all-users', getAllUsers)
+router.delete('/:userId/delete-user', deleteUserById)
 
 
 module.exports = router;
