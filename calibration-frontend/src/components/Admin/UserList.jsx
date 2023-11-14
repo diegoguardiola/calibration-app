@@ -6,17 +6,9 @@ function UserList() {
 
     
 
-    const columns = React.useMemo(
-        () => [
-            {
-                Header: 'Name'
-            }
-        ]
-    )
-
     return (
         <Container>
-        hi
+        
         </Container>
     )
 }
