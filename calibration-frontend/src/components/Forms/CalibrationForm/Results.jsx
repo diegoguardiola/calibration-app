@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import './Calibration.css'
 
 const TestPoint = ({ point, updateTestPoint, deleteTestPoint }) => (
-    <Row>
+    <Row className="test-point-row">
         <Col>
             <label>Nominal</label>
             <input type="number" 
@@ -167,8 +167,9 @@ function Results({equipmentID, resultInformation, setResultInformation}) {
 
   return (
     <div>
-        <form className="container" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <Container>
+            <h2>Calibration Results</h2>
                 <Row>
                     <Col>
                         <label>Reason For Service</label>

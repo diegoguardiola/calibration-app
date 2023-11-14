@@ -9,6 +9,8 @@ import SelectEquipment from "./SelectEquipment";
 import SelectInstrument from "./SelectInstrument";
 import Results from "./Results";
 
+import './Calibration.css'
+
 export const CalibrationForm = () => {
     const {dispatch} = useCalibrationContext()
     const {user} = useAuthContext()
@@ -105,9 +107,9 @@ export const CalibrationForm = () => {
     
 
     return (
-        <Container>    
-            <Row>
-                <Col>
+        <Container >    
+            <Row className="select-row-container">
+                <Col className="select-row-container-instrument">
                     <SelectEquipment 
                         equipmentInformation={equipmentInformation} 
                         setEquipmentInformation={setEquipmentInformation}
@@ -116,7 +118,7 @@ export const CalibrationForm = () => {
                         clientData={clientData}
                     />
                 </Col>
-                <Col>
+                <Col xs={4}>
                     <SelectInstrument 
                         instrumentInformation={instrumentInformation} 
                         setInstrumentInformation={setInstrumentInformation}

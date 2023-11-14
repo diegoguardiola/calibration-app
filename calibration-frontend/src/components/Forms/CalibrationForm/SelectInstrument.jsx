@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import { Container, Row, Col, Dropdown } from 'react-bootstrap';
+import './Calibration.css'
+
+
 
 function SelectInstrument({ instrumentInformation, setInstrumentInformation }) {
 
@@ -15,57 +19,66 @@ function SelectInstrument({ instrumentInformation, setInstrumentInformation }) {
     }, []);
 
 
-  const handleChange = (event) => {
-    const selectedInstrumentID = event.target.value;
-    setInstrumentID(selectedInstrumentID);
+    const handleChange = (eventKey) => {
+      // Use 'eventKey' directly as it's the value passed by the Dropdown onSelect
+      setInstrumentID(eventKey);
+      
+      fetch(`http://localhost:5000/c1_1/instrument/${eventKey}/get-info`)
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          setFetchedData(data);
+          
+          // Assuming 'data' is an object with the instrument's details
+          setInstrumentInformation({
+              instrumentDescription: data.instrumentDescription,
+              instrumentID: data.instrumentID, 
+              NISTnum: data.NISTnum, 
+              instrumentManufacturer: data.instrumentManufacturer,
+              instrumentModelNumber: data.instrumentModelNumber,
+              instrumentSerialNumber: data.instrumentSerialNumber,
+              instrumentCalDate: data.instrumentCalDate,
+              instrumentIntervalYears: data.instrumentIntervalYears,
+              instrumentIntervalMonths: data.instrumentIntervalMonths,
+          });
+          
+      })
+      .catch(error => console.error('Error fetching data:', error));
+    };
+
     
-    fetch(`http://localhost:5000/c1_1/instrument/${selectedInstrumentID}/get-info`)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        setFetchedData(data);
-        
-        // Assuming 'data' is an object with the instrument's details
-        setInstrumentInformation({
-            instrumentDescription: data.instrumentDescription,
-            instrumentID: data.instrumentID, 
-            NISTnum: data.NISTnum, 
-            instrumentManufacturer: data.instrumentManufacturer,
-            instrumentModelNumber: data.instrumentModelNumber,
-            instrumentSerialNumber: data.instrumentSerialNumber,
-            instrumentCalDate: data.instrumentCalDate,
-            instrumentIntervalYears: data.instrumentIntervalYears,
-            instrumentIntervalMonths: data.instrumentIntervalMonths,
-        });
-        
-    })
-    .catch(error => console.error('Error fetching data:', error));
-  };
-
-
-
-
   return (
-    <div className='row'>
-        <h1>Select Instrument</h1>
-        <select onChange={handleChange}>
-          <option value="" disabled selected>Select an Instrument</option>
-          {instruments.map(instrument => (
-              <option key={instrument._id} value={instrument._id}>
-                  {[instrument.instrumentID, ' ',instrument.instrumentDescription,]}
-              </option>
-          ))}
-        </select>
-        <p>{instrumentInformation.instrumentDescription}</p>
-        <p>{instrumentInformation.instrumentID}</p>
-        <p>{instrumentInformation.NISTnum}</p>
-        <p>{instrumentInformation.instrumentManufacturer}</p>
-        <p>{instrumentInformation.instrumentModelNumber}</p>
-        <p>{instrumentInformation.instrumentSerialNumber}</p>
-        <p>{instrumentInformation.instrumentCalDate}</p>
-        <p>{instrumentInformation.instrumentIntervalYears}</p>
-        <p>{instrumentInformation.instrumentIntervalMonths}</p>
-    </div>
+    <Container>
+      <Col>
+        <h2>Select Instrument</h2>
+        <Dropdown onSelect={handleChange}>
+          <Dropdown.Toggle style={{ backgroundColor: '#000099', color: 'white' }} id="dropdown-basic">
+            Select Instrument
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item value="" disabled>Select an Instrument</Dropdown.Item>
+            {instruments.map(instrument => (
+              <Dropdown.Item eventKey={instrument._id}>
+                {instrument.instrumentID + ' ' + instrument.instrumentDescription}
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
+
+        {instrumentID && (
+          <>
+            <p><span style={{ fontWeight: 'bold' }}>Description: </span>{instrumentInformation.instrumentDescription}</p>
+            <p><span style={{ fontWeight: 'bold' }}>ID: </span>{instrumentInformation.instrumentID}</p>
+            <p><span style={{ fontWeight: 'bold' }}>NIST #: </span>{instrumentInformation.NISTnum}</p>
+            <p><span style={{ fontWeight: 'bold' }}>Manufacturer: </span>{instrumentInformation.instrumentManufacturer}</p>
+            <p><span style={{ fontWeight: 'bold' }}>Model Number: </span>{instrumentInformation.instrumentModelNumber}</p>
+            <p><span style={{ fontWeight: 'bold' }}>Serial Number: </span>{instrumentInformation.instrumentSerialNumber}</p>
+            <p><span style={{ fontWeight: 'bold' }}>Calibration Date: </span>{instrumentInformation.instrumentCalDate}</p>
+            <p><span style={{ fontWeight: 'bold' }}>Calibration Interval (mo): </span>{instrumentInformation.instrumentIntervalMonths}</p>
+          </>
+        )}
+      </Col>
+    </Container>
   )
 }
 

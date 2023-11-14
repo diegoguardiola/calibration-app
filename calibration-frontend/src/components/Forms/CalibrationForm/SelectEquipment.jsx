@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Row, Col, Dropdown } from 'react-bootstrap';
+import './Calibration.css'
 
 function SelectEquipment({ clientData, setClientData, equipmentInformation, setEquipmentInformation, onEquipmentSelect }) {
 
     // Display Equipment Based Information Based Off What  COmpany Is Selected
     const [companies, setCompanies] = useState([]);
     const [userID, setUserID] = useState(null);
-    const [fetchedData, setFetchedData] = useState([]);
+    const [fetchedData, setFetchedData] = useState({ equipmentList: [] });
+
 
 
     useEffect(() => {
@@ -20,11 +20,11 @@ function SelectEquipment({ clientData, setClientData, equipmentInformation, setE
     }, []);
     
 
-    const handleChange = (event) => {
-        const selectedUserID = event.target.value;
-        setUserID(selectedUserID);
+    const handleChange = (eventKey) => {
+        
+        setUserID(eventKey);
     
-        fetch(`http://localhost:5000/c1_1/user/${selectedUserID}/equipment`)
+        fetch(`http://localhost:5000/c1_1/user/${eventKey}/equipment`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -32,7 +32,7 @@ function SelectEquipment({ clientData, setClientData, equipmentInformation, setE
             
     
             // Make an additional fetch call
-            return fetch(`http://localhost:5000/c1_1/user/${selectedUserID}/client-info`);
+            return fetch(`http://localhost:5000/c1_1/user/${eventKey}/client-info`);
         })
         .then(response => response.json())
         .then(additionalData => {
@@ -45,8 +45,8 @@ function SelectEquipment({ clientData, setClientData, equipmentInformation, setE
     
 
 
-    const handleEquipmentChange = (event) => {
-        const selectedEquipment = fetchedData.equipmentList.find(item => item._id === event.target.value);
+    const handleEquipmentChange = (eventKey) => {
+        const selectedEquipment = fetchedData.equipmentList.find(item => item._id === eventKey);
         if (selectedEquipment) {
             setEquipmentInformation({
                 equipmentName: selectedEquipment.equipmentName,
@@ -60,43 +60,62 @@ function SelectEquipment({ clientData, setClientData, equipmentInformation, setE
                 equipmentLocation: selectedEquipment.equipmentLocation,
             });
         }
-        onEquipmentSelect(selectedEquipment._id);
+        onEquipmentSelect(selectedEquipment?._id);
     };
+
+    const selectedCompany = companies.find(c => c._id === userID);
 
   return (
     <Container>
         <Row>
-            <Col>
+            <Col xs={5}>
                 <h2>Select Company</h2>
-                <select onChange={handleChange}>
-                    <option value="" disabled selected>Select a company</option>
-                    {companies.map(company => (
-                    <option key={company._id} value={company._id}>
-                        {company.company}
-                    </option>
-                    ))}
-                </select>
-                {userID && <p>Selected User ID: {userID}</p>}
+                <Dropdown onSelect={handleChange}>
+                    <Dropdown.Toggle style={{ backgroundColor: '#000099', color: 'white' }} id="dropdown-basic">
+                        Select Company
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item value="" disabled>Select a Company</Dropdown.Item>
+                        {companies.map(company => (
+                        <Dropdown.Item eventKey={company._id}>
+                            {company.company}
+                        </Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
+                
+                {selectedCompany && (
+                    <p><span style={{ fontWeight: 'bold' }}>Company Name: </span> {selectedCompany.company}</p>
+                )}
+                
             </Col>
-            <Col>
+            <Col xs={6}>
                 <h2>Select Equipment</h2>
-                <select onChange={handleEquipmentChange}>
-                    <option value="" disabled selected>Select equipment</option>
-                    {fetchedData.equipmentList && fetchedData.equipmentList.map(item => (
-                        <option key={item._id} value={item._id}>
-                            {`${item.equipmentName}:${item.equipmentID}`}
-                        </option>
-                    ))}
-                </select>
-                <p>{equipmentInformation.equipmentName}</p>
-                <p>{equipmentInformation.equipmentID}</p>
-                <p>{equipmentInformation.equipmentManufacturer}</p>
-                <p>{equipmentInformation.equipmentModelNumber}</p>
-                <p>{equipmentInformation.equipmentSerialNumber}</p>
-                <p>{equipmentInformation.equipmentRange}</p>
-                <p>{equipmentInformation.equipmentUnits}</p>
-                <p>{equipmentInformation.equipmentDescription}</p>
-                <p>{equipmentInformation.equipmentLocation}</p>
+                <Dropdown onSelect={handleEquipmentChange}>
+                    <Dropdown.Toggle style={{ backgroundColor: '#000099', color: 'white' }} id="dropdown-basic">
+                        Select Equipment
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item value="" disabled>Select Equipment </Dropdown.Item>
+                        {fetchedData.equipmentList && fetchedData.equipmentList.map(item => (
+                        <Dropdown.Item eventKey={item._id} value={item._id}>
+                            {`${item.equipmentID}`}
+                        </Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
+                {equipmentInformation.equipmentID && (
+                    <>
+                        <p><span style={{ fontWeight: 'bold' }}>Name: </span>{equipmentInformation.equipmentName}</p>
+                        <p><span style={{ fontWeight: 'bold' }}>ID: </span>{equipmentInformation.equipmentID}</p>
+                        <p><span style={{ fontWeight: 'bold' }}>Manufacturer: </span>{equipmentInformation.equipmentManufacturer}</p>
+                        <p><span style={{ fontWeight: 'bold' }}>Model Number: </span>{equipmentInformation.equipmentModelNumber}</p>
+                        <p><span style={{ fontWeight: 'bold' }}>Serial Number: </span>{equipmentInformation.equipmentSerialNumber}</p>
+                        <p><span style={{ fontWeight: 'bold' }}>Range: </span>{equipmentInformation.equipmentRange} {equipmentInformation.equipmentUnits}</p>
+                        <p><span style={{ fontWeight: 'bold' }}>Description: </span>{equipmentInformation.equipmentDescription}</p>
+                        <p><span style={{ fontWeight: 'bold' }}>Loacation: </span>{equipmentInformation.equipmentLocation}</p>
+                    </>
+                )}
             </Col>
         </Row>
     </Container>

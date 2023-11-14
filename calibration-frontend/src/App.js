@@ -48,8 +48,8 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/equipment-regisrty" element={
-              <ProtectedRoute>
+            <Route path="/equipment-registry" element={
+              <ProtectedRoute allowedRoles={['admin', 'engineer']}>
                 <EquipmentRegistery />
               </ProtectedRoute>
             } />

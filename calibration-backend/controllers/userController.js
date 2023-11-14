@@ -85,11 +85,6 @@ const loginUser = async (req, res) => {
     }
   };
 
-module.exports = { 
-  // ... other controller functions,
-  updateUser
-};
-
   
   //select client by name and return client name and user_id
   const getClient = async (req, res) => {
@@ -122,17 +117,17 @@ module.exports = {
 
 
 //controller function getting id and company for CalibrationForm
-  const getUsersObjectIdAndCompany = async (req, res) => {
-    try {
-        // Find all users and select only their ObjectID and company name
-        const users = await User.find({}, '_id company');
+const getUsersObjectIdAndCompany = async (req, res) => {
+  try {
+      // Find users with role 'client' and select only their ObjectID and company name
+      const users = await User.find({ role: 'client' }, '_id company');
 
-        // Send the result as a response
-        res.status(200).json(users);
-    } catch (error) {
-        // Handle any errors that might occur
-        res.status(500).json({ message: 'Error fetching users', error: error.message });
-    }
+      // Send the result as a response
+      res.status(200).json(users);
+  } catch (error) {
+      // Handle any errors that might occur
+      res.status(500).json({ message: 'Error fetching users', error: error.message });
+  }
 };
 
 

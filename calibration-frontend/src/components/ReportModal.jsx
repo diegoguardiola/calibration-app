@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-import { Card,  Form, Container, Row, Col } from 'react-bootstrap';
+import { Card,  Form, Container, Row, Col, Table } from 'react-bootstrap';
 
 const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
 
@@ -108,7 +108,7 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                         {reportDetails.results.tests.map((test, index) => (
                             <div key={index}>
                                 <h5>{test.type} - {test.method} in {test.unit}</h5>
-                                <table>
+                                <Table size="sm">
                                     <thead>
                                         <tr>
                                             <th>Nominal</th>
@@ -131,12 +131,12 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                                             </tr>
                                         ))}
                                     </tbody>
-                                </table>
-                                <p>
-                                    <span style={{ fontWeight: 'bold' }}>Comments:</span> {reportDetails.results.comments}
-                                </p>
+                                </Table>
                             </div>
                         ))}
+                        <p>
+                            <span style={{ fontWeight: 'bold' }}>Comments:</span> {reportDetails.results.comments}
+                        </p>
                     </>
                 ) : (
                     <Container>
@@ -166,11 +166,11 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                                     </Col>
                                 </Form.Group>
                             </Row>
-                            
+
                             {editedResults.tests.map((test, index) => (
                                 <div key={index}>
                                     <h5>{test.type} - {test.method} in {test.unit}</h5>
-                                    <table>
+                                    <Table size="sm">
                                         {/* Render edit fields for test here */}
                                         <thead>
                                             <tr>
@@ -186,7 +186,7 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                                             {test.testPoints.map((testPoint, pointIndex) => (
                                                 <tr key={pointIndex}>
                                                 <td>
-                                                    <input
+                                                    <Form.Control
                                                     type="text"
                                                     value={testPoint.nominal}
                                                     onChange={(e) => {
@@ -200,7 +200,7 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                                                     />
                                                 </td>
                                                 <td>
-                                                    <input
+                                                    <Form.Control
                                                     type="text"
                                                     value={testPoint.asFound}
                                                     onChange={(e) => {
@@ -211,7 +211,7 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                                                     />
                                                 </td>
                                                 <td>
-                                                    <input
+                                                    <Form.Control
                                                     type="text"
                                                     value={testPoint.asLeft}
                                                     onChange={(e) => {
@@ -222,7 +222,7 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                                                     />
                                                 </td>
                                                 <td>
-                                                    <input
+                                                    <Form.Control
                                                     type="text"
                                                     value={testPoint.result}
                                                     onChange={(e) => {
@@ -233,7 +233,7 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                                                     />
                                                 </td>
                                                 <td>
-                                                    <input
+                                                    <Form.Control
                                                     type="text"
                                                     value={testPoint.min}
                                                     onChange={(e) => {
@@ -244,7 +244,7 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                                                     />
                                                 </td>
                                                 <td>
-                                                    <input
+                                                    <Form.Control
                                                     type="text"
                                                     value={testPoint.max}
                                                     onChange={(e) => {
@@ -257,17 +257,18 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
                                                 </tr>
                                             ))}
                                         </tbody>
-                                    </table>
+                                    </Table>
                                 </div>
                             ))}
-                            <p>
-                                <span style={{ fontWeight: 'bold' }}>Comments:</span>
-                                <input
+                            <Form.Group className="mb-3">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control
                                 type="text"
                                 value={editedResults.comments}
                                 onChange={(e) => setEditedResults({ ...editedResults, comments: e.target.value })}
                                 />
-                            </p>
+                            </Form.Group>
+                           
                             <Button onClick={() => handleSaveClick(reportDetails._id)}>Save</Button>
                             <Button onClick={handleCancelEditClick}>Cancel</Button>
                         </Form>

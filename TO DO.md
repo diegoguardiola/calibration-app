@@ -1,18 +1,34 @@
-- [ ] Fix dropdown in customer registry to that it only displays customers who are clients
-- [ ] Add a message on the browser so that when a instrument is successfully registered, is displays on the screen
-- [ ] Add a message on the browser so that when a user is successfully registered, is displays on the screen
+
 - [ ] look to create an automated testing program
-- [ ] assign authcontext to pages
-	- [ ] instrument registry
-	- [ ] calibration
-- [ ] Create get requests to view list of
-	- [ ] Equipment Registry
-	- [ ] User List
-	- [ ] Instrument Registry
-- [ ] Create Update Forms for 
-	- [ ] instrument registry
-	- [ ] calibrations
-	- [ ] equipment registry
-	- [ ] user registry
-- [ ] Add Manufacturer to instrumentID (backend + frontend)
 - [ ] Have way to prevent duplicates being entered to DB (all forms)
+- [ ] Create a splash page for when user is logged out
+	- [ ] remove my profile from navbar
+	- [ ] include description of services
+- [ ] Create a request form (from client to admin)
+	- [ ] Create a form which a client enters basig data of services needed
+	- [ ] Client can attach calibration list
+	- [ ] Once request is submitted, it emails admins/engineers
+- [ ] Calibration Entry
+	- [ ] Clean up form
+	- [ ] display preview of data before submitting?
+	- [ ] Display message if form is successfully submitted or not
+	- [x]  Fix dropdown in select company that it only displays customers who are clients
+- [ ] Admin Page
+	- [ ] Create GET to display all users
+	- [ ] Create GET to display Falco instruments
+	- [ ] Create Update for instrument
+	- [ ] Create Update for user
+	- [ ] Create modal to register new user
+	- [ ] Create modal register new instrument
+		**Future Features**
+		- [ ] See all calibrations associated with a user
+		- [ ] See all calibrations associated with an instrument
+	- [ ] Display success message when new user created
+	- [ ]  Display success message when instrument user created
+- [ ] Equipment Registry
+	- [ ] Create update for equipment registry
+	- [ ] View list of equipment based on the company selected
+		- [ ] can only select companies with a client role
+		- [ ] If calibration is due in 30 days, send a reminder every 5 days to calibration tech and client. Also highlight the due date in orange/red
+- [ ] Change tab header
+- [ ] Launch
