@@ -12,6 +12,7 @@
 	- [ ] Clean up form
 	- [ ] display preview of data before submitting?
 	- [ ] Display message if form is successfully submitted or not
+	- [x] remove extra submit button
 	- [x]  Fix dropdown in select company that it only displays customers who are clients
 - [ ] Admin Page
 	- [ ] Create GET to display all users

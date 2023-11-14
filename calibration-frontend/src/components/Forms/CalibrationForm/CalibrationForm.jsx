@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useCalibrationContext } from "../../../hooks/useCalibrationContext";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import Container from 'react-bootstrap/Container';
@@ -66,6 +66,7 @@ export const CalibrationForm = () => {
         humidity: ''
     })
 
+    const resultsRef = useRef();
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -82,6 +83,9 @@ export const CalibrationForm = () => {
         };
 
         console.log(user)
+        if (resultsRef.current) {
+            resultsRef.current.handleSubmit(e);
+        }
     
         const response = await fetch('http://localhost:5000/c1_1/report/create', {
             method: 'POST',
@@ -126,6 +130,7 @@ export const CalibrationForm = () => {
                 </Col>
             </Row>
             <Results 
+                    ref={resultsRef}
                     equipmentID={selectedEquipmentID}
                     resultInformation={resultInformation}
                     setResultInformation={setResultInformation}

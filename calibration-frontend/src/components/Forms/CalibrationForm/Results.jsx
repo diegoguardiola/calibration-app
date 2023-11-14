@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -100,7 +100,7 @@ const Test = ({ test, updateTest, deleteTestPoint, index }) => (
 </Container>
 );
 
-function Results({equipmentID, resultInformation, setResultInformation}) {
+const Results = forwardRef(({ equipmentID, resultInformation, setResultInformation }, ref) => {
     const {user} = useAuthContext()
 
     const updateTest = (index, field, ...rest) => {
@@ -133,16 +133,17 @@ function Results({equipmentID, resultInformation, setResultInformation}) {
                 calibrationTech: `${user.firstName} ${user.lastName}`
             }));
         }
-    }, [user]);
+    }, [user, setResultInformation]);
     
       
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        const data = resultInformation
-        console.log(equipmentID)
-    
+
+        // Your existing logic for handling submission in Results.jsx
+        const data = resultInformation;
+        console.log(equipmentID);
+
         try {
             const response = await fetch(`http://localhost:5000/c1_1/cal/${equipmentID}/add-calibration`, {
                 method: 'POST',
@@ -151,12 +152,11 @@ function Results({equipmentID, resultInformation, setResultInformation}) {
                 },
                 body: JSON.stringify(data)
             });
-    
+
             const responseData = await response.json();
-    
+
             if (response.ok) {
                 console.log('Data submitted successfully:', responseData);
-                // Here you can also reset the state or navigate the user to another page, etc.
             } else {
                 console.error('Failed to submit data:', responseData);
             }
@@ -164,6 +164,10 @@ function Results({equipmentID, resultInformation, setResultInformation}) {
             console.error('There was an error submitting the data:', error);
         }
     };
+    // Expose handleSubmit to parent components
+    useImperativeHandle(ref, () => ({
+        handleSubmit,
+    }));
 
   return (
     <div>
@@ -299,11 +303,10 @@ function Results({equipmentID, resultInformation, setResultInformation}) {
                             }))}>
                                 Add Test
                         </button>
-                <button type="submit" className="btn btn-primary mt-3">Submit</button>
             </Container>
         </form>
     </div>
   )
-}
+})
 
 export default Results
