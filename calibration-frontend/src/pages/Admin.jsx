@@ -1,6 +1,6 @@
 import { useState } from "react"
 import UserList from "../components/Admin/UserList"
-import InstrumentRegistryForm from "../components/Forms/InstrumentRegistryFrom"
+import InstrumentList from "../components/Admin/InstrumentList";
 import { Container, Row, Col, Dropdown } from 'react-bootstrap';
 
 function Admin() {
@@ -10,8 +10,9 @@ function Admin() {
         <Container>
             <h1>Users</h1>
             <UserList />
+            <br></br>
             <h1>Calibration Instruments/Standards</h1>
-            <InstrumentRegistryForm />
+            <InstrumentList />
         </Container>
     )
 }

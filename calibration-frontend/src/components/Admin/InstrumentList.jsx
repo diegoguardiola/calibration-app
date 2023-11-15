@@ -2,47 +2,48 @@ import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Dropdown, Button } from 'react-bootstrap';
 import { useTable, useSortBy } from 'react-table';
 import { useAuthContext } from '../../hooks/useAuthContext';
-import CreateNewUserModal from './CreateNewUserModal';
+import AddNewInstrumentModal from './AddNewInstrumentModal';
 
-function UserList() {
+function InstrumentList() {
 
     const {user} = useAuthContext()
-    const [users, setUsers] = useState([]);
+    const [instruments, setInstruments] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
 
-    const handleCreateUser = (userData) => {
+    const handleAddInstrument = (instrumentData) => {
         // Logic to submit new user data
         handleCloseModal();
     };
 
-    const fetchUsers = async () => {
-        const response = await fetch('http://localhost:5000/c1_1/user/get-all-users', {
+    const fetchInstruments = async () => {
+        const response = await fetch('http://localhost:5000/c1_1/instrument/get-all-instruments', {
             headers: {'Authorization': `Bearer ${user.token}`},
         });
         const json = await response.json();
 
         if (response.ok) {
             // Update your state or context with the fetched users
-            setUsers(json)
+            setInstruments(json)
+            
         }
     };
 
     useEffect(() => {    
-        fetchUsers();
+        fetchInstruments();
     }, []);
 
-    const deleteUser = async (userId) => {
+    const deleteInstrument = async (instrumentId) => {
         // Ask for confirmation before deleting
-        const isConfirmed = window.confirm("Are you sure you want to delete this user?");
+        const isConfirmed = window.confirm("Are you sure you want to delete this instrument?");
         if (!isConfirmed) {
-            return; // Stop the function if the user clicks 'Cancel'
+            return; // Stop the function if the instrument clicks 'Cancel'
         }
     
         try {
-            const response = await fetch(`http://localhost:5000/c1_1/user/${userId}/delete-user`, {
+            const response = await fetch(`http://localhost:5000/c1_1/instrument/${instrumentId}/delete-instrument`, {
                 method: 'DELETE',    
                 headers: { 'Authorization': `Bearer ${user.token}` },
             });
@@ -52,7 +53,7 @@ function UserList() {
             }
             if (response.ok) {
                 // Fetch the updated list of users after deletion
-                await fetchUsers();
+                await fetchInstruments();
             }
     
             const data = await response.json();
@@ -63,42 +64,47 @@ function UserList() {
             // Handle errors (e.g., show error message)
         }
     };
-    
-    
 
     const columns = React.useMemo(
         () => [
             {
-                Header: 'Name',
-                // No accessor is directly provided here
-                Cell: ({ row }) => {
-                    // Access the individual values from the row object
-                    return `${row.original.firstName} ${row.original.lastName}`;
-                },
+                Header: 'Description',
+                accessor: 'instrumentDescription', 
             },
             {
-                Header: 'Email',
-                accessor: 'email', 
+                Header: 'ID',
+                accessor: 'instrumentID', 
             },
             {
-                Header: 'Company',
-                accessor: 'company', 
+                Header: 'Manufacurer',
+                accessor: 'instrumentManufacturer', 
             },
             {
-                Header: 'Role',
-                accessor: 'role', 
+                Header: 'Model Number',
+                accessor: 'instrumentModelNumber', 
+            },
+            {
+                Header: 'Serial Number',
+                accessor: 'instrumentSerialNumber', 
+            },
+            {
+                Header: 'Cal Date',
+                accessor: 'instrumentCalDate', 
+            },
+            {
+                Header: 'Cal Interval (months)',
+                accessor: 'instrumentIntervalMonths', 
             },
             {
                 Header: 'Delete',
                 accessor: '_id', // assuming _id is the unique identifier for each report
                 Cell: ({ row }) => (
-                    <Button variant="outline-danger" onClick={() => deleteUser(row.original._id)}>Delete</Button>
+                    <Button variant="outline-danger" onClick={() => deleteInstrument(row.original._id)}>Delete</Button>
                 )
             },
         ],
         []
     );
-    
 
     const {
         getTableProps,
@@ -106,8 +112,8 @@ function UserList() {
         headerGroups,
         rows,
         prepareRow,
-    } = useTable({ columns, data: users }, useSortBy);
-    
+    } = useTable({ columns, data: instruments }, useSortBy);
+
     return (
         <Container>
             <table {...getTableProps()} className="table">
@@ -138,18 +144,17 @@ function UserList() {
                 </tbody>
             </table>
             <Button variant="primary" onClick={handleShowModal}>
-                Create New User
+                Add New Instrument
             </Button>
 
-            <CreateNewUserModal
+            <AddNewInstrumentModal
                 show={showModal}
                 handleClose={handleCloseModal}
-                handleSubmit={handleCreateUser}
-                onUserCreated={fetchUsers}
+                handleSubmit={handleAddInstrument}
+                onInstrumentAdded={fetchInstruments}
             />
         </Container>
-    );
-    
+  )
 }
 
-export default UserList
+export default InstrumentList

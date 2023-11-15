@@ -63,5 +63,38 @@ const getInstrumentByID = async (req, res) => {
     }
 };
 
+//retrieve all instruments
+const getAllinstruments = async (req, res) => {
+    try {
+        const instruments = await InstrumentID.find({});
+        res.status(200).json(instruments);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+  };
 
-module.exports = { addInstrumentID, getAllInstrumentDescriptions, getInstrumentByID }
+  //delete instrument by id
+const deleteInstrumentById = async (req, res) => {
+    try {
+        const { instrumentId } = req.params;
+        const instrument = await InstrumentID.findByIdAndDelete(instrumentId);
+  
+        if (!instrument) {
+            return res.status(404).json({ error: 'instrument not found' });
+        }
+  
+        res.status(200).json({ message: 'instrument deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+  };
+  
+
+
+module.exports = { 
+    addInstrumentID, 
+    getAllInstrumentDescriptions, 
+    getInstrumentByID,
+    getAllinstruments ,
+    deleteInstrumentById
+}

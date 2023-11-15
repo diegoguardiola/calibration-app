@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import { useNewUser } from '../../hooks/useNewUser'; // Adjust the import path as necessary
 
-function CreateUserModal({ show, handleClose }) {
+function CreateUserModal({ show, handleClose, onUserCreated }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [company, setCompany] = useState('');
@@ -18,6 +18,9 @@ function CreateUserModal({ show, handleClose }) {
         e.preventDefault();
         await newUser(firstName, lastName, company, address, phone, email, password, role);
         handleClose(); // Close the modal after submission
+        if (onUserCreated) {
+            onUserCreated(); // Call the callback function after user creation
+        }
     };
 
     return (
