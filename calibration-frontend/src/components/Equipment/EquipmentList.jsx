@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Dropdown, Button } from 'react-bootstrap';
-import { useTable, useSortBy } from 'react-table';
+import { useTable, useSortBy, usePagination } from 'react-table';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 function EquipmentList() {
@@ -9,6 +9,24 @@ function EquipmentList() {
     const [companies, setCompanies] = useState([]);
     const [userID, setUserID] = useState(null);
     const [equipment, setEquipment] = useState([]);
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        page, // Use 'page' instead of 'rows' for pagination
+        nextPage,
+        previousPage,
+        canNextPage,
+        canPreviousPage,
+        setPageSize,
+        state: { pageIndex, pageSize },
+        prepareRow,
+    } = useTable(
+        { columns, data, initialState: { pageIndex: 0, pageSize: 25 } }, // Set initial page size
+        useSortBy,
+        usePagination // Add usePagination hook
+    );
     
     useEffect(() => {
         // Fetch the data from the endpoint
@@ -19,7 +37,6 @@ function EquipmentList() {
     }, []);
 
     const handleChange = async  (eventKey) => {
-        
         setUserID(eventKey);
         console.log(eventKey);
     
@@ -27,10 +44,10 @@ function EquipmentList() {
             headers: {'Authorization': `Bearer ${user.token}`},
         });
         const json = await response.json();
-
-        if (response.ok) { 
-            
-            setEquipment(json);
+    
+        if (response.ok) {
+            // Assuming the data is nested under 'equipmentList'
+            setEquipment(json.equipmentList || []);
     
             /* Make an additional fetch call
             return fetch(`http://localhost:5000/c1_1/user/${eventKey}/client-info`);*/
@@ -43,7 +60,15 @@ function EquipmentList() {
         })
         .catch(error => console.error('Error fetching data:', error));*/
     };
+
+    useEffect(() => {
+        console.log("Equipment State Updated: ", equipment);
+    }, [equipment]);
     
+    const data = React.useMemo(
+        () => equipment || [],
+        [equipment]
+    );
 
     const columns = React.useMemo(
         () => [
@@ -86,15 +111,6 @@ function EquipmentList() {
         []
     );
 
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-    } = useTable({ columns, data: equipment }, useSortBy);
-
-
     return (
         <Container>
             <Dropdown onSelect={handleChange}>
@@ -110,6 +126,7 @@ function EquipmentList() {
                     ))}
                 </Dropdown.Menu>
             </Dropdown>
+            
             <table {...getTableProps()} className="table">
                 <thead>
                     {headerGroups.map(headerGroup => (
@@ -137,6 +154,33 @@ function EquipmentList() {
                     })}
                 </tbody>
             </table>
+            {/* Pagination Controls */}
+            <div>
+                <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    Previous
+                </Button>
+                <Button onClick={() => nextPage()} disabled={!canNextPage}>
+                    Next
+                </Button>
+                <span>
+                    Page{' '}
+                    <strong>
+                        {pageIndex + 1} of {Math.ceil(data.length / pageSize)}
+                    </strong>
+                </span>
+                <select
+                    value={pageSize}
+                    onChange={e => {
+                        setPageSize(Number(e.target.value));
+                    }}
+                >
+                    {[25, 50, 100].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </Container>
     )
 }
