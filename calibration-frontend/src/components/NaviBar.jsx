@@ -40,9 +40,12 @@ function Navigation() {
                         Equipment Registry
                     </Link>
                 )}
-                <Link className="navbar-brand" to="/profile-info">
-                    My Profile
-                </Link>
+                {user && (user.role === 'admin' || user.role === 'engineer' || user.role === 'client') && (
+                    <Link className="navbar-brand" to="/profile-info">
+                        My Profile
+                    </Link>
+                )}
+                
                 <nav>
                     {user && (
                         <div>

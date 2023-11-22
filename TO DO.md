@@ -29,8 +29,9 @@
 	- [ ]  Display success message when instrument user created
 - [ ] Equipment Registry
 	- [ ] Create update for equipment registry
-	- [ ] View list of equipment based on the company selected
-		- [ ] can only select companies with a client role
+	- [x] View list of equipment based on the company selected
+		- [x] can only select companies with a client role
 		- [ ] If calibration is due in 30 days, send a reminder every 5 days to calibration tech and client. Also highlight the due date in orange/red
+	- [x]  Create delete to delete equipment
 - [ ] Change tab header
 - [ ] Launch

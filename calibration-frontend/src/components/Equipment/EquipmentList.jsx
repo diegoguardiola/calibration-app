@@ -1,14 +1,124 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, Dropdown, Button } from 'react-bootstrap';
+import { Container, Row, Col, Dropdown, Button, Modal } from 'react-bootstrap';
 import { useTable, useSortBy, usePagination } from 'react-table';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import AddNewEquipmentModal from './AddNewEquipmentModal';
 
 function EquipmentList() {
 
     const {user} = useAuthContext()
     const [companies, setCompanies] = useState([]);
-    const [userID, setUserID] = useState(null);
+    const [userId, setUserId] = useState(null);
     const [equipment, setEquipment] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShowModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
+
+    const handleAddEquipment = (equipmentData) => {
+        // Logic to submit new user data
+        handleCloseModal();
+    };
+    
+    useEffect(() => {
+        // Fetch the data from the endpoint
+        fetch('http://localhost:5000/c1_1/user/get-user-company-id') // Replace with the actual endpoint path
+        .then(response => response.json())
+        .then(data => setCompanies(data))
+        .catch(error => console.error('Error fetching companies:', error));
+    }, []);
+
+    const handleChange = async  (eventKey) => {
+        setUserId(eventKey);
+        console.log(eventKey);
+    
+        const response = await fetch(`http://localhost:5000/c1_1/user/${eventKey}/equipment`, {
+            headers: {'Authorization': `Bearer ${user.token}`},
+        });
+        const json = await response.json();
+    
+        if (response.ok) {
+            // Assuming the data is nested under 'equipmentList'
+            setEquipment(json.equipmentList || []);
+
+        }
+
+    };
+
+    useEffect(() => {
+        console.log("Equipment State Updated: ", equipment);
+    }, [equipment]);
+    
+    const data = React.useMemo(
+        () => equipment || [],
+        [equipment]
+    );
+
+    const deleteEquipment = async (equipmentId) => {
+        // Ask for confirmation before deleting
+        const isConfirmed = window.confirm("Are you sure you want to delete this equipment?");
+        if (!isConfirmed) {
+            return; // Stop the function if the user clicks 'Cancel'
+        }
+    
+        try {
+            const response = await fetch(`http://localhost:5000/c1_1/equipment/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ equipmentId, userId }) // Pass the equipmentId and userId in the body
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            // Optionally, update the local state to reflect the deletion
+            setEquipment(currentEquipment => currentEquipment.filter(e => e._id !== equipmentId));
+    
+            console.log('Equipment deleted successfully');
+            // You might want to fetch the updated list of equipment here
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle errors (e.g., show error message)
+        }
+    };
+    
+
+    const columns = React.useMemo(
+        () => [
+            {
+                Header: 'Name',
+                accessor: 'equipmentName', 
+            },
+            {
+                Header: 'ID',
+                accessor: 'equipmentID', 
+            },
+            {
+                Header: 'Manufacurer',
+                accessor: 'equipmentManufacturer', 
+            },
+            {
+                Header: 'Model Number',
+                accessor: 'equipmentModelNumber', 
+            },
+            {
+                Header: 'Serial Number',
+                accessor: 'equipmentSerialNumber', 
+            },
+            {
+                Header: 'Delete',
+                accessor: '_id', // assuming _id is the unique identifier for each report
+                Cell: ({ row }) => (
+                    <Button variant="outline-danger" onClick={() => deleteEquipment(row.original._id)}>Delete</Button>
+                )
+            },
+        ],
+        []
+    );
 
     const {
         getTableProps,
@@ -26,89 +136,6 @@ function EquipmentList() {
         { columns, data, initialState: { pageIndex: 0, pageSize: 25 } }, // Set initial page size
         useSortBy,
         usePagination // Add usePagination hook
-    );
-    
-    useEffect(() => {
-        // Fetch the data from the endpoint
-        fetch('http://localhost:5000/c1_1/user/get-user-company-id') // Replace with the actual endpoint path
-        .then(response => response.json())
-        .then(data => setCompanies(data))
-        .catch(error => console.error('Error fetching companies:', error));
-    }, []);
-
-    const handleChange = async  (eventKey) => {
-        setUserID(eventKey);
-        console.log(eventKey);
-    
-        const response = await fetch(`http://localhost:5000/c1_1/user/${eventKey}/equipment`, {
-            headers: {'Authorization': `Bearer ${user.token}`},
-        });
-        const json = await response.json();
-    
-        if (response.ok) {
-            // Assuming the data is nested under 'equipmentList'
-            setEquipment(json.equipmentList || []);
-    
-            /* Make an additional fetch call
-            return fetch(`http://localhost:5000/c1_1/user/${eventKey}/client-info`);*/
-        }
-        /*.then(response => response.json())
-        .then(additionalData => {
-            console.log(additionalData)
-            setClientData(additionalData);
-            // Do something with the additional data
-        })
-        .catch(error => console.error('Error fetching data:', error));*/
-    };
-
-    useEffect(() => {
-        console.log("Equipment State Updated: ", equipment);
-    }, [equipment]);
-    
-    const data = React.useMemo(
-        () => equipment || [],
-        [equipment]
-    );
-
-    const columns = React.useMemo(
-        () => [
-            {
-                Header: 'Name',
-                accessor: 'equipmentName', 
-            },
-            {
-                Header: 'ID',
-                accessor: 'instrumentID', 
-            },
-            {
-                Header: 'Manufacurer',
-                accessor: 'instrumentManufacturer', 
-            },
-            {
-                Header: 'Model Number',
-                accessor: 'instrumentModelNumber', 
-            },
-            {
-                Header: 'Serial Number',
-                accessor: 'instrumentSerialNumber', 
-            },
-            {
-                Header: 'Cal Date',
-                accessor: 'instrumentCalDate', 
-            },
-            {
-                Header: 'Cal Interval (months)',
-                accessor: 'instrumentIntervalMonths', 
-            },
-            {
-                Header: 'Delete',
-                accessor: '_id', // assuming _id is the unique identifier for each report
-                Cell: ({ row }) => (
-                    <Button variant="outline-danger" onClick={() => console.log(row.original._id)}>Delete</Button>
-                )
-            },
-        ],
-        []
     );
 
     return (
@@ -140,7 +167,7 @@ function EquipmentList() {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map(row => {
+                    {page.map(row => {
                         prepareRow(row);
                         return (
                             <tr {...row.getRowProps()}>
@@ -181,6 +208,15 @@ function EquipmentList() {
                     ))}
                 </select>
             </div>
+            <Button variant="primary" onClick={handleShowModal}>
+                Add New Equipment
+            </Button>
+            <AddNewEquipmentModal
+                show={showModal}
+                handleClose={handleCloseModal}
+                handleSubmit={handleAddEquipment}
+                userId={userId}
+            />
         </Container>
     )
 }

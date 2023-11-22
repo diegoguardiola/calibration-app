@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useAuthContext } from './hooks/useAuthContext'
 // pages & components
 import Navibar from './components/NaviBar';
+import Splash from './pages/Splash';
 import CalibrationListEngineer from './pages/CalibrationListEngineer';
 import CalibrationListClient from './pages/CalibrationListClient';
 import Calibration from './pages/Calibration';
@@ -24,6 +25,12 @@ const App = () => {
         <div>
           <Navibar />
           <Routes>
+          <Route
+              path="/"
+              element={
+                  <Splash />
+              }
+            />
             <Route
               path="/calibration-list-engineer"
               element={
