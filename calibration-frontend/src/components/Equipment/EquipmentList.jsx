@@ -157,8 +157,8 @@ function EquipmentList() {
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>
-                <Col>
-                    <span>
+                <Col className='equipment-list-select-page'>
+                    <span className='equipment-list-select-page-span'>
                         Page{' '}
                         <strong>
                             {pageIndex + 1} of {Math.ceil(data.length / pageSize)}
@@ -207,18 +207,20 @@ function EquipmentList() {
                 </tbody>
             </table>
             {/* Pagination Controls */}
-            <div>
-                <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                    Previous
+            <Row className='equipment-list-page-footer'>
+                <div className='equipment-list-page-select'>
+                    <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                        Previous
+                    </Button>
+                    <Button onClick={() => nextPage()} disabled={!canNextPage}>
+                        Next
+                    </Button>
+                
+                </div>
+                <Button className='equipment-list-new-equipment' variant="primary" onClick={handleShowModal}>
+                    Add New Equipment
                 </Button>
-                <Button onClick={() => nextPage()} disabled={!canNextPage}>
-                    Next
-                </Button>
-            
-            </div>
-            <Button variant="primary" onClick={handleShowModal}>
-                Add New Equipment
-            </Button>
+            </Row>
             <AddNewEquipmentModal
                 show={showModal}
                 handleClose={handleCloseModal}

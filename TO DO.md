@@ -5,11 +5,11 @@
 	- [ ] remove my profile from navbar
 	- [ ] include description of services
 - [ ] Create a request form (from client to admin)
-	- [ ] Create a form which a client enters basig data of services needed
+	- [ ] Create a form which a client enters basic data of services needed
 	- [ ] Client can attach calibration list
 	- [ ] Once request is submitted, it emails admins/engineers
 - [ ] Calibration Entry
-	- [ ] Clean up form
+	- [x] Clean up form
 	- [ ] display preview of data before submitting?
 	- [ ] Display message if form is successfully submitted or not
 	- [x] remove extra submit button

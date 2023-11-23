@@ -1,8 +1,35 @@
 .equipment-container {
     margin-top: 75px;
 
+    .equipment-list-select{
+        justify-content: space-between;
+
+        .equipment-list-select-page{
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            .equipment-list-select-page-span {
+                padding-right: 10px;
+            }
+        }
+    }
+
+    .equipment-list-page-footer{
+        display: flex;
+        justify-content: center;
+
+        .equipment-list-page-select {
+            display: flex;
+            justify-content: space-between;
+        }
+    
+        .equipment-list-new-equipment{
+            margin: 75px;
+            width: 200px;
+        }
+    }
 }
 
-.equipment-list-select{
-    justify-content: space-around;
-}
+
+
