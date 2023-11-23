@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { useCalibrationContext } from "../../../hooks/useCalibrationContext";
-import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useCalibrationContext } from "../../hooks/useCalibrationContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import { Container, Row, Col, Dropdown, Button } from 'react-bootstrap';
 
 import SelectEquipment from "./SelectEquipment";
@@ -109,7 +109,7 @@ export const CalibrationForm = () => {
     
 
     return (
-        <Container >    
+        <Container className="calibration-container">    
             <Row className="select-row-container">
                 <Col className="select-row-container-instrument">
                     <SelectEquipment 

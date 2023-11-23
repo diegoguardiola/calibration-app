@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap'
+import './Equipment.css'
 
 function AddNewEquipmentModal({ show, handleClose, userId}) {
 

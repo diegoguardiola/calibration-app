@@ -12,9 +12,14 @@ function LoginForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+    
+        const loginSuccess = await login(email, password);
+        console.log('Login Success:', loginSuccess); // Debugging line
 
-        await login(email, password)
+            navigate('/profile-info');
+   
     }
+    
 
     return (
         <main>

@@ -3,6 +3,7 @@ import { Container, Row, Col, Dropdown, Button, Modal } from 'react-bootstrap';
 import { useTable, useSortBy, usePagination } from 'react-table';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import AddNewEquipmentModal from './AddNewEquipmentModal';
+import './Equipment.css'
 
 function EquipmentList() {
 
@@ -139,20 +140,44 @@ function EquipmentList() {
     );
 
     return (
-        <Container>
-            <Dropdown onSelect={handleChange}>
-                <Dropdown.Toggle style={{ backgroundColor: '#000099', color: 'white' }} id="dropdown-basic">
-                    Select Company
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                    <Dropdown.Item value="" disabled>Select a Company</Dropdown.Item>
-                    {companies.map(company => (
-                    <Dropdown.Item eventKey={company._id}>
-                        {company.company}
-                    </Dropdown.Item>
-                    ))}
-                </Dropdown.Menu>
-            </Dropdown>
+        <Container className='equipment-list'>
+            <Row className='equipment-list-select'>
+                <Col>
+                    <Dropdown onSelect={handleChange}>
+                        <Dropdown.Toggle style={{ backgroundColor: '#000099', color: 'white' }} id="dropdown-basic">
+                            Select Company
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item value="" disabled>Select a Company</Dropdown.Item>
+                            {companies.map(company => (
+                            <Dropdown.Item eventKey={company._id}>
+                                {company.company}
+                            </Dropdown.Item>
+                            ))}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Col>
+                <Col>
+                    <span>
+                        Page{' '}
+                        <strong>
+                            {pageIndex + 1} of {Math.ceil(data.length / pageSize)}
+                        </strong>
+                    </span>
+                    <select
+                        value={pageSize}
+                        onChange={e => {
+                            setPageSize(Number(e.target.value));
+                        }}
+                    >
+                        {[25, 50, 100].map(pageSize => (
+                            <option key={pageSize} value={pageSize}>
+                                Show {pageSize}
+                            </option>
+                        ))}
+                    </select>
+                </Col>
+            </Row>
             
             <table {...getTableProps()} className="table">
                 <thead>
@@ -189,24 +214,7 @@ function EquipmentList() {
                 <Button onClick={() => nextPage()} disabled={!canNextPage}>
                     Next
                 </Button>
-                <span>
-                    Page{' '}
-                    <strong>
-                        {pageIndex + 1} of {Math.ceil(data.length / pageSize)}
-                    </strong>
-                </span>
-                <select
-                    value={pageSize}
-                    onChange={e => {
-                        setPageSize(Number(e.target.value));
-                    }}
-                >
-                    {[25, 50, 100].map(pageSize => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
+            
             </div>
             <Button variant="primary" onClick={handleShowModal}>
                 Add New Equipment

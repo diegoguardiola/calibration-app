@@ -4,15 +4,27 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+.calibration-container {
+  margin-top: 100px;
+}
 .select-row-container {
   display: flex;
+  border: 1.5px solid black;
+  border-radius: 20px;
+  padding: 20px;
   
-
   .select-row-container-instrument {
     display: flex;
     width: 66vw;
     justify-content: space-around;
   }  
+}
+
+.results{
+  margin-top: 50px;
+  border: 1.5px solid black;
+  border-radius: 20px;
+  padding: 20px;
 }
 
 .test-point-row {

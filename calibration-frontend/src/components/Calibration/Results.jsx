@@ -1,5 +1,5 @@
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
-import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -170,7 +170,7 @@ const Results = forwardRef(({ equipmentID, resultInformation, setResultInformati
     }));
 
   return (
-    <div>
+    <div className="results">
         <form onSubmit={handleSubmit}>
             <Container>
             <h2>Calibration Results</h2>

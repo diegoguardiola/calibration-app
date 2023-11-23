@@ -4,7 +4,7 @@ import { Container, Row, Col, Dropdown, Button } from 'react-bootstrap';
 
 function EquipmentRegistery() {
   return (
-    <Container>
+    <Container className='equipment-container'>
       <EquipmentList />
     </Container>
   )
