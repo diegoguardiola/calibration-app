@@ -29,7 +29,7 @@ app.use(`${api}/cal`, calRouter)
 app.use(`${api}/report`, reportRouter)
 
 console.log('MongoDB URI:', process.env.PROFILE_CONNECTION);
-mongoose.connect(process.env.PROFILE_CONNECTION.toString())
+mongoose.connect(process.env.PROFILE_CONNECTION)
 .then(() => {
     console.log('data base connection successful')
 })
