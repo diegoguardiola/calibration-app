@@ -28,6 +28,7 @@ app.use(`${api}/instrument`, instrumentRouter)
 app.use(`${api}/cal`, calRouter)
 app.use(`${api}/report`, reportRouter)
 
+console.log('MongoDB URI:', process.env.PROFILE_CONNECTION);
 mongoose.connect(process.env.PROFILE_CONNECTION.toString())
 .then(() => {
     console.log('data base connection successful')
