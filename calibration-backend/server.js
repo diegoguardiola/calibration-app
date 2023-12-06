@@ -34,7 +34,6 @@ app.use('instrument', instrumentRouter)
 app.use('cal', calRouter)
 app.use('report', reportRouter)
 
-console.log('MongoDB URI:', process.env.PROFILE_CONNECTION);
 mongoose.connect(process.env.PROFILE_CONNECTION)
 .then(() => {
     console.log('data base connection successful')
@@ -45,6 +44,5 @@ mongoose.connect(process.env.PROFILE_CONNECTION)
 mongoose.set('strictQuery', false);
 
 app.listen(5000, () => {
-    console.log(api);
     console.log('server running');
 })
