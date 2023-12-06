@@ -1,8 +1,9 @@
 const { response, json } = require('express');
 const express = require('express');
 const app = express();
+
 require('dotenv/config');
-const api = process.env.API_URL;
+
 const userRouter = require('./routes/user')
 const calibrationRouter = require('./routes/calibration')
 const equiupmentRouter = require('./routes/equipment')
@@ -26,12 +27,12 @@ app.use(morgan('tiny'))             //displays local request
 
 //routers
 //calibrationRouter
-app.use(`${api}/user`, userRouter)
-app.use(`${api}/calibration`, calibrationRouter)
-app.use(`${api}/equipment`, equiupmentRouter)
-app.use(`${api}/instrument`, instrumentRouter)
-app.use(`${api}/cal`, calRouter)
-app.use(`${api}/report`, reportRouter)
+app.use('user', userRouter)
+app.use('calibration', calibrationRouter)
+app.use('equipment', equiupmentRouter)
+app.use('instrument', instrumentRouter)
+app.use('cal', calRouter)
+app.use('report', reportRouter)
 
 console.log('MongoDB URI:', process.env.PROFILE_CONNECTION);
 mongoose.connect(process.env.PROFILE_CONNECTION)
