@@ -14,12 +14,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 app.use(cors())
-const corsOptions = {
-    origin: 'http://calibrationwebsite.s3-website.us-east-2.amazonaws.com',
-    optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
-
+app.options('*', cors) 
 
 //Middleware
 app.use(express.json())
