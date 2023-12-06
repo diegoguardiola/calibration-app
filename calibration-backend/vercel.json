@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "builds": [
+      { "src": "*.html", "use": "@vercel/static" },
+      { "src": "*.py", "use": "@vercel/python" },
+      { "src": "*.js", "use": "@vercel/node" }
+    ],
+     "routes": [
+        { 
+        "src": "/.*", 
+        "dest": "https://my-old-site.com"
+    }
+    ]
+  }
