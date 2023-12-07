@@ -13,8 +13,13 @@ const reportRouter = require('./routes/report')
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
-app.use(cors())
-app.options('*', cors) 
+const corsOptions = {
+    origin: 'https://calibration-app-client.vercel.app', // or use an array of origins
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  };
+  
+  app.use(cors(corsOptions));
+  
 
 //Middleware
 app.use(express.json())
