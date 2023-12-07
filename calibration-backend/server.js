@@ -22,12 +22,12 @@ app.use(morgan('tiny'))             //displays local request
 
 //routers
 //calibrationRouter
-app.use('user', userRouter)
-app.use('calibration', calibrationRouter)
-app.use('equipment', equiupmentRouter)
-app.use('instrument', instrumentRouter)
-app.use('cal', calRouter)
-app.use('report', reportRouter)
+app.use('/user', userRouter)
+app.use('/calibration', calibrationRouter)
+app.use('/equipment', equiupmentRouter)
+app.use('/instrument', instrumentRouter)
+app.use('/cal', calRouter)
+app.use('/report', reportRouter)
 
 mongoose.connect(process.env.PROFILE_CONNECTION)
 .then(() => {
