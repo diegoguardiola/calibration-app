@@ -3,7 +3,13 @@ const express = require('express');
 const app = express();
 
 require('dotenv/config');
-
+const cors = require('cors');
+const corsOptions = {
+    origin: 'https://calibration-app-client.vercel.app', // or use an array of origins
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  };
+  
+app.use(cors(corsOptions));
 const userRouter = require('./routes/user')
 const calibrationRouter = require('./routes/calibration')
 const equiupmentRouter = require('./routes/equipment')
@@ -12,13 +18,7 @@ const calRouter = require('./routes/cal')
 const reportRouter = require('./routes/report')
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const cors = require('cors');
-const corsOptions = {
-    origin: 'https://calibration-app-client.vercel.app', // or use an array of origins
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  };
-  
-  app.use(cors(corsOptions));
+
   
 
 //Middleware
