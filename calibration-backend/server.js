@@ -10,6 +10,7 @@ const corsOptions = {
   };
   
 app.use(cors(corsOptions));
+
 const userRouter = require('./routes/user')
 const calibrationRouter = require('./routes/calibration')
 const equiupmentRouter = require('./routes/equipment')
