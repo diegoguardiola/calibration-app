@@ -19,7 +19,7 @@ function UserList() {
     };
 
     const fetchUsers = async () => {
-        const response = await fetch('http://localhost:5000/c1_1/user/get-all-users', {
+        const response = await fetch('http://localhost:5000/user/get-all-users', {
             headers: {'Authorization': `Bearer ${user.token}`},
         });
         const json = await response.json();
@@ -42,7 +42,7 @@ function UserList() {
         }
     
         try {
-            const response = await fetch(`http://localhost:5000/c1_1/user/${userId}/delete-user`, {
+            const response = await fetch(`http://localhost:5000/user/${userId}/delete-user`, {
                 method: 'DELETE',    
                 headers: { 'Authorization': `Bearer ${user.token}` },
             });

@@ -12,7 +12,7 @@ const CalibrationDetails = ({ calibration  }) => {
       return
     }
 
-    const response = await fetch('https://calibration-app.vercel.app/calibration' + calibration._id, {
+    const response = await fetch('http://localhost:5000/calibration' + calibration._id, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${user.token}`

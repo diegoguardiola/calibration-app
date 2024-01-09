@@ -19,7 +19,7 @@ function InstrumentList() {
     };
 
     const fetchInstruments = async () => {
-        const response = await fetch('http://localhost:5000/c1_1/instrument/get-all-instruments', {
+        const response = await fetch('http://localhost:5000/instrument/get-all-instruments', {
             headers: {'Authorization': `Bearer ${user.token}`},
         });
         const json = await response.json();
@@ -43,7 +43,7 @@ function InstrumentList() {
         }
     
         try {
-            const response = await fetch(`http://localhost:5000/c1_1/instrument/${instrumentId}/delete-instrument`, {
+            const response = await fetch(`http://localhost:5000/instrument/${instrumentId}/delete-instrument`, {
                 method: 'DELETE',    
                 headers: { 'Authorization': `Bearer ${user.token}` },
             });

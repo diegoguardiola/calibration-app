@@ -16,7 +16,7 @@ const CalibrationListEngineer = () => {
     useEffect(() => {
         console.log(user)
         const fetchCalibrations = async () => {
-            const response = await fetch('http://172.31.7.93/c1_1/report/find-all',{
+            const response = await fetch('http://localhost:5000/report/find-all',{
                 headers: {'Authorization': `Bearer ${user.token}`},
       })
       const json = await response.json()
@@ -34,7 +34,7 @@ const CalibrationListEngineer = () => {
 
     const fetchReportDetails = async (reportId) => {
         // Replace with the actual endpoint to fetch report details
-        const response = await fetch(`http://localhost:5000/c1_1/report/${reportId}`, {
+        const response = await fetch(`http://localhost:5000/report/${reportId}`, {
             headers: { 'Authorization': `Bearer ${user.token}` },
         });
         const json = await response.json();

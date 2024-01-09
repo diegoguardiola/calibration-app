@@ -37,7 +37,7 @@ function ProfileInfo() {
     if (!payload.password) {
       delete payload.password;
     }
-    const response = await fetch(`http://localhost:5000/c1_1/user/update/${user.id}`, { 
+    const response = await fetch(`http://localhost:5000/user/update/${user.id}`, { 
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

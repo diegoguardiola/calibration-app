@@ -19,7 +19,7 @@ function AddNewEquipmentModal({ show, handleClose, userId}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(userId)
-        const url = 'http://localhost:5000/c1_1/equipment/add'; 
+        const url = 'http://localhost:5000/equipment/add'; 
 
         const data = {
             //company: selectedClient, 

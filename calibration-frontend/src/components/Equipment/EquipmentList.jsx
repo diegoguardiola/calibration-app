@@ -63,7 +63,7 @@ function EquipmentList() {
         }
     
         try {
-            const response = await fetch(`http://localhost:5000/c1_1/equipment/delete`, {
+            const response = await fetch(`http://localhost:5000/equipment/delete`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,

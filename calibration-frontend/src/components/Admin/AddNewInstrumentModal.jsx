@@ -15,7 +15,7 @@ function AddNewInstrumentModal({ show, handleClose, onInstrumentAdded}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = 'http://localhost:5000/c1_1/instrument/add'; 
+        const url = 'http://localhost:5000/instrument/add'; 
     
         const data = {
           instrumentDescription,

@@ -145,7 +145,7 @@ const Results = forwardRef(({ equipmentID, resultInformation, setResultInformati
         console.log(equipmentID);
 
         try {
-            const response = await fetch(`http://localhost:5000/c1_1/cal/${equipmentID}/add-calibration`, {
+            const response = await fetch(`http://localhost:5000/cal/${equipmentID}/add-calibration`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

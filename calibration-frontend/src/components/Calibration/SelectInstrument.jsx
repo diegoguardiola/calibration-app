@@ -11,7 +11,7 @@ function SelectInstrument({ instrumentInformation, setInstrumentInformation }) {
     const [fetchedData, setFetchedData] = useState([]);    
 
     useEffect(() => {
-      fetch('http://localhost:5000/c1_1/instrument/get-descriptions')
+      fetch('http://localhost:5000/instrument/get-descriptions')
       .then(response => response.json())
         .then(data => setInstruments(data))
         .catch(error => console.error('Error fetching instruments:', error));
@@ -23,7 +23,7 @@ function SelectInstrument({ instrumentInformation, setInstrumentInformation }) {
       // Use 'eventKey' directly as it's the value passed by the Dropdown onSelect
       setInstrumentID(eventKey);
       
-      fetch(`http://localhost:5000/c1_1/instrument/${eventKey}/get-info`)
+      fetch(`http://localhost:5000/instrument/${eventKey}/get-info`)
       .then(response => response.json())
       .then(data => {
           console.log(data);

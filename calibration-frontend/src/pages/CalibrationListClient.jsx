@@ -16,7 +16,7 @@ const CalibrationListClient = () => {
             const companyName = user.company;
     
             // Update the request URL with the new endpoint and pass the company name as a query parameter
-            const response = await fetch(`http://localhost:5000/c1_1/report/${companyName}/find-all-by-company`, {
+            const response = await fetch(`http://localhost:5000/report/${companyName}/find-all-by-company`, {
                 headers: {'Authorization': `Bearer ${user.token}`},
             });
     

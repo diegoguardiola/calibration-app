@@ -3,13 +3,9 @@ const express = require('express');
 const app = express();
 
 require('dotenv/config');
-const cors = require('cors');
-const corsOptions = {
-    origin: 'https://calibration-app-client.vercel.app', // or use an array of origins
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  };
-  
-app.use(cors(corsOptions));
+const cors = require('cors')
+app.use(cors())
+app.options('*', cors) 
 
 const userRouter = require('./routes/user')
 const calibrationRouter = require('./routes/calibration')

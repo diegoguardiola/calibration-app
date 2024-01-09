@@ -13,7 +13,7 @@ function SelectEquipment({ clientData, setClientData, equipmentInformation, setE
 
     useEffect(() => {
         // Fetch the data from the endpoint
-        fetch('http://localhost:5000/c1_1/user/get-user-company-id') // Replace with the actual endpoint path
+        fetch('http://localhost:5000/user/get-user-company-id') // Replace with the actual endpoint path
         .then(response => response.json())
         .then(data => setCompanies(data))
         .catch(error => console.error('Error fetching companies:', error));
@@ -24,7 +24,7 @@ function SelectEquipment({ clientData, setClientData, equipmentInformation, setE
         
         setUserID(eventKey);
     
-        fetch(`http://localhost:5000/c1_1/user/${eventKey}/equipment`)
+        fetch(`http://localhost:5000/user/${eventKey}/equipment`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -32,7 +32,7 @@ function SelectEquipment({ clientData, setClientData, equipmentInformation, setE
             
     
             // Make an additional fetch call
-            return fetch(`http://localhost:5000/c1_1/user/${eventKey}/client-info`);
+            return fetch(`http://localhost:5000/user/${eventKey}/client-info`);
         })
         .then(response => response.json())
         .then(additionalData => {

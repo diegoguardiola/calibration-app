@@ -33,7 +33,7 @@ const ReportModal = React.memo(({ show, onHide, reportDetails, onEdit }) => {
         delete updatedReport._id;
         console.log(updatedReport)
         // Example fetch call:
-        const response = await fetch(`http://localhost:5000/c1_1/report/update/${reportId}`, {
+        const response = await fetch(`http://localhost:5000/report/update/${reportId}`, {
             method: 'PATCH',
             headers: { 
                 'Content-Type': 'application/json',

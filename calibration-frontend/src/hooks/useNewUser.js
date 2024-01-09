@@ -10,7 +10,7 @@ export const useNewUser = () => {
     setIsLoading(true)
     setError(null)
 
-    const response = await fetch('http://localhost:5000/c1_1/user/signup', {
+    const response = await fetch('http://localhost:5000/user/signup', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({firstName, lastName, company, address, phone, email, password, role })

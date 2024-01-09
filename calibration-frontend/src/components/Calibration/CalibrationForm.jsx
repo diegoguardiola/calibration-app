@@ -85,7 +85,7 @@ export const CalibrationForm = () => {
             resultsRef.current.handleSubmit(e);
         }
     
-        const response = await fetch('http://localhost:5000/c1_1/report/create', {
+        const response = await fetch('http://localhost:5000/report/create', {
             method: 'POST',
             body: JSON.stringify(combinedData),
             headers: {
